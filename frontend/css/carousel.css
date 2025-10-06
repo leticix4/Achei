@@ -1,0 +1,87 @@
+/* ============================================== */
+/* ESTILOS DOS CARROSSÉIS E BANNERS         */
+/* ============================================== */
+
+/* Banner principal */
+.banner-destaque {
+  background-color: #d9e6ff;
+  border-radius: 10px;
+  padding: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  text-align: center;
+}
+
+.banner-destaque i {
+  font-size: 5rem;
+  color: #495057;
+}
+
+/* Item de banner com imagem */
+.banner-item {
+  min-height: 200px;
+  border-radius: 15px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.banner-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Botão "Conferir" do banner */
+.btn-conferir {
+  background-color: #004C6E;
+  color: #fff;
+  font-weight: 600;
+  font-size: 1rem;
+  padding: 0.6rem 1.5rem;
+  border-radius: 8px;
+  display: inline-block;
+  transition: all 0.3s ease;
+}
+
+.btn-conferir:hover {
+  background-color: #0b5ed7;
+  transform: scale(1.05);
+}
+
+/* Estilos gerais para carrosséis */
+.carousel,
+.carousel-inner,
+.carousel-item {
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+/* Controles de navegação (setas) dos carrosséis de produtos */
+.carousel-control-prev {
+  left: -40px;
+  opacity: 0;
+  transition: opacity .2s ease;
+}
+
+.carousel-control-next {
+  right: -40px;
+  opacity: 0;
+  transition: opacity .2s ease;
+}
+
+.carousel:hover .carousel-control-prev,
+.carousel:hover .carousel-control-next {
+  opacity: 1;
+}
+
+.carousel-control-prev-icon {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23003147'%3E%3Cpath d='M11.354 1.646a.5.5 0 0 1 0 .708L6.707 7l4.647 4.646a.5.5 0 0 1-.708.708l-5-5a.5.5 0 0 1 0-.708l5-5a.5.5 0 0 1 .708 0z'/%3E%3C/svg%3E");
+}
+
+.carousel-control-next-icon {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23003147'%3E%3Cpath d='M4.646 1.646a.5.5 0 0 1 .708 0l5 5a.5.5 0 0 1 0 .708l-5 5a.5.5 0 0 1-.708-.708L9.293 7 4.646 2.354a.5.5 0 0 1 0-.708z'/%3E%3C/svg%3E");
+}
