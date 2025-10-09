@@ -19,6 +19,8 @@
 </head>
 
 <body>
+  <!-- CABEÇALHO -->
+
   <!-- NAVBAR -->
   <nav class="navbar navbar-expand-lg navbar-light">
     <div class="container d-flex justify-content-between align-items-center">
@@ -28,7 +30,7 @@
         <i class="bi bi-list" style="font-size: 1.8rem;"></i>
       </button>
       <!-- LOGO -->
-      <a class="navbar-brand logo" href="#"><img src="imgteste/logo.png" alt="Logo"></a>
+      <a class="navbar-brand logo" href="index2.html"><img src="imgteste/logo.png" alt="Logo"></a>
       <div class="location-tag d-none d-md-block">
         <i class="bi bi-geo-alt-fill me-1"></i> Almenara-MG
       </div>
@@ -36,7 +38,7 @@
       <div class="mx-auto search-bar d-none d-lg-block">
         <div class="input-group">
           <input type="text" class="form-control" placeholder="Buscar produtos">
-          <button class="btn btn-search" type="button">
+          <button class="btn btn-search" type="button" onclick="window.location.href= 'busca.html'">
             <i class="bi bi-search"></i>
           </button>
         </div>
@@ -64,7 +66,7 @@
                 <i class="bi bi-bell" style="font-size: 1.5rem; color: white;"></i>
                 <!-- Badge da quantidade -->
                 <span id="notifBadge"
-                  class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">3</span>
+                  class="position-absolute top-0 start-100 translate-middle badge rounded-pill notif">3</span>
               </button>
               <!-- Dropdown -->
               <ul class="dropdown-menu dropdown-menu-end p-2 shadow" aria-labelledby="notifDropdown"
@@ -162,7 +164,7 @@
             </div>
           </div>
           <!-- Botão de entrar -->
-          <button class="btn btn-entrar ms-3 d-flex align-items-center" data-bs-toggle="modal"
+          <button id="btnEntrar" class="btn btn-entrar ms-3 d-flex align-items-center" data-bs-toggle="modal"
             data-bs-target="#modalLogin">
             <i class="bi bi-person-circle me-2"></i> Entrar
             <i class="bi bi-box-arrow-in-right ms-2"></i>
@@ -310,7 +312,7 @@
         </div>
       </div>
       <!-- Login -->
-      <a href="#" class="d-flex align-items-center mb-3">
+      <a href="#btnEntrar" class="d-flex align-items-center mb-3">
         <i class="bi bi-person-circle me-2"></i> Entrar / Criar conta
       </a>
       <!-- Notificações -->
@@ -336,7 +338,7 @@
     <div class="container">
       <ul class="nav">
         <li class="nav-item">
-          <a class="nav-link" href="#">Início</a>
+          <a class="nav-link" href="index2.html">Início</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="#">Destaque</a>
@@ -347,28 +349,30 @@
             aria-expanded="false">Categorias</a>
 
           <ul class="dropdown-menu custom-dropdown" aria-labelledby="categoriasDropdown">
-            <li><a class="dropdown-item" href="#">Supermercado</a></li>
-            <li><a class="dropdown-item" href="#">Tecnologia</a></li>
-            <li><a class="dropdown-item" href="#">Casa e Móveis</a></li>
-            <li><a class="dropdown-item" href="#">Eletrodomésticos</a></li>
-            <li><a class="dropdown-item" href="#">Esportes e Fitness</a></li>
-            <li><a class="dropdown-item" href="#">Ferramentas</a></li>
-            <li><a class="dropdown-item" href="#">Construção</a></li>
-            <li><a class="dropdown-item" href="#">Autopeças</a></li>
-            <li><a class="dropdown-item" href="#">Papelaria</a></li>
-            <li><a class="dropdown-item" href="#">Pet Shop</a></li>
-            <li><a class="dropdown-item" href="#">Saúde</a></li>
-            <li><a class="dropdown-item" href="#">Acessórios para Veículos</a></li>
-            <li><a class="dropdown-item" href="#">Beleza e Cuidado Pessoal</a></li>
-            <li><a class="dropdown-item" href="#">Moda</a></li>
-            <li><a class="dropdown-item" href="#">Bebês</a></li>
-            <li><a class="dropdown-item" href="#">Brinquedos</a></li>
+            <li><a class="dropdown-item" href="supermercado.html">Supermercado</a></li>
+            <li><a class="dropdown-item" href="tecnologia.html">Tecnologia</a></li>
+            <li><a class="dropdown-item" href="casaMoveis.html">Casa e Móveis</a></li>
+            <li><a class="dropdown-item" href="eletrodomesticos.html">Eletrodomésticos</a></li>
+            <li><a class="dropdown-item" href="esportes.html">Esportes e Fitness</a></li>
+            <li><a class="dropdown-item" href="ferramentas.html">Ferramentas</a></li>
+            <li><a class="dropdown-item" href="construcao.html">Construção</a></li>
+            <li><a class="dropdown-item" href="autopecas.html">Autopeças</a></li>
+            <li><a class="dropdown-item" href="papelaria.html">Papelaria</a></li>
+            <li><a class="dropdown-item" href="petshop.html">Pet Shop</a></li>
+            <li><a class="dropdown-item" href="saude.html">Saúde</a></li>
+            <li><a class="dropdown-item" href="veiculos.html">Acessórios para Veículos</a></li>
+            <li><a class="dropdown-item" href="beleza.html">Beleza e Cuidado Pessoal</a></li>
+            <li><a class="dropdown-item" href="moda.html">Moda</a></li>
+            <li><a class="dropdown-item" href="bebes.html">Bebês</a></li>
+            <li><a class="dropdown-item" href="briquedos.html">Brinquedos</a></li>
           </ul>
         </li>
       </ul>
     </div>
   </div>
   <!-- FIM DA NAVBAR -->
+
+  <!--FIM CABEÇALHO-->
 
   <!-- BANNER -->
   <main class="container my-5">
@@ -554,90 +558,108 @@
           <div id="page-1" class="category-page active">
             <div class="row g-4">
               <div class="col-lg-4 col-md-6">
-                <a href="#" class="category-card-link">
+                <a href="supermercado.html" class="category-card-link">
                   <div class="category-card">
                     <div class="row g-0 h-100">
-                      <div class="col-4 icon-part"><i class="bi bi-cart3"></i></div>
+                      <div class="col-4 icon-part">
+                        <img src="imgcards/carrinho.png" alt="Mercearia" class="icon-img">
+                      </div>
                       <div class="col-8 text-part"><span>Supermercado</span></div>
                     </div>
                   </div>
                 </a>
               </div>
               <div class="col-lg-4 col-md-6">
-                <a href="#" class="category-card-link">
+                <a href="tecnologia.html" class="category-card-link">
                   <div class="category-card">
                     <div class="row g-0 h-100">
-                      <div class="col-4 icon-part"><i class="bi bi-laptop"></i></div>
+                      <div class="col-4 icon-part">
+                        <img src="imgcards/note.png" alt="Tecnologia" class="icon-img">
+                      </div>
                       <div class="col-8 text-part"><span>Tecnologia</span></div>
                     </div>
                   </div>
                 </a>
               </div>
               <div class="col-lg-4 col-md-6">
-                <a href="#" class="category-card-link">
+                <a href="casaMoveis.html" class="category-card-link">
                   <div class="category-card">
                     <div class="row g-0 h-100">
-                      <div class="col-4 icon-part"><i class="bi bi-lamp"></i></div>
+                      <div class="col-4 icon-part">
+                        <img src="imgcards/abaju.png" alt="Casa e Móveis" class="icon-img">
+                      </div>
                       <div class="col-8 text-part"><span>Casa e Móveis</span></div>
                     </div>
                   </div>
                 </a>
               </div>
               <div class="col-lg-4 col-md-6">
-                <a href="#" class="category-card-link">
+                <a href="eletrodomesticos.html" class="category-card-link">
                   <div class="category-card">
                     <div class="row g-0 h-100">
-                      <div class="col-4 icon-part"><i class="bi bi-outlet"></i></div>
+                      <div class="col-4 icon-part">
+                        <img src="imgcards/tomada.png" alt="Eletrodomésticos" class="icon-img">
+                      </div>
                       <div class="col-8 text-part"><span>Eletrodomésticos</span></div>
                     </div>
                   </div>
                 </a>
               </div>
               <div class="col-lg-4 col-md-6">
-                <a href="#" class="category-card-link">
+                <a href="esportes.html" class="category-card-link">
                   <div class="category-card">
                     <div class="row g-0 h-100">
-                      <div class="col-4 icon-part"><i class="bi bi-bicycle"></i></div>
+                      <div class="col-4 icon-part">
+                        <img src="imgcards/bike.png" alt="Esportes e Fitness" class="icon-img">
+                      </div>
                       <div class="col-8 text-part"><span>Esportes e Fitness</span></div>
                     </div>
                   </div>
                 </a>
               </div>
               <div class="col-lg-4 col-md-6">
-                <a href="#" class="category-card-link">
+                <a href="ferramentas.html" class="category-card-link">
                   <div class="category-card">
                     <div class="row g-0 h-100">
-                      <div class="col-4 icon-part"><i class="bi bi-wrench"></i></div>
+                      <div class="col-4 icon-part">
+                        <img src="imgcards/chave.png" alt="Ferramentas" class="icon-img">
+                      </div>
                       <div class="col-8 text-part"><span>Ferramentas</span></div>
                     </div>
                   </div>
                 </a>
               </div>
               <div class="col-lg-4 col-md-6">
-                <a href="#" class="category-card-link">
+                <a href="construcao.html" class="category-card-link">
                   <div class="category-card">
                     <div class="row g-0 h-100">
-                      <div class="col-4 icon-part"><i class="bi bi-bricks"></i></div>
+                      <div class="col-4 icon-part">
+                        <img src="imgcards/tijolo.png" alt="Construção" class="icon-img">
+                      </div>
                       <div class="col-8 text-part"><span>Construção</span></div>
                     </div>
                   </div>
                 </a>
               </div>
               <div class="col-lg-4 col-md-6">
-                <a href="#" class="category-card-link">
+                <a href="autopecas.html" class="category-card-link">
                   <div class="category-card">
                     <div class="row g-0 h-100">
-                      <div class="col-4 icon-part"><i class="bi bi-gear-wide-connected"></i></div>
+                      <div class="col-4 icon-part">
+                        <img src="imgcards/engrenagem.png" alt="Autopeças" class="icon-img">
+                      </div>
                       <div class="col-8 text-part"><span>Autopeças</span></div>
                     </div>
                   </div>
                 </a>
               </div>
               <div class="col-lg-4 col-md-6">
-                <a href="#" class="category-card-link">
+                <a href="papelaria.html" class="category-card-link">
                   <div class="category-card">
                     <div class="row g-0 h-100">
-                      <div class="col-4 icon-part"><i class="bi bi-journal-bookmark"></i></div>
+                      <div class="col-4 icon-part">
+                        <img src="imgcards/caderno.png" alt="Papelaria" class="icon-img">
+                      </div>
                       <div class="col-8 text-part"><span>Papelaria</span></div>
                     </div>
                   </div>
@@ -649,70 +671,84 @@
           <div id="page-2" class="category-page inactive">
             <div class="row g-4">
               <div class="col-lg-4 col-md-6">
-                <a href="#" class="category-card-link">
+                <a href="petshop.html" class="category-card-link">
                   <div class="category-card">
                     <div class="row g-0 h-100">
-                      <div class="col-4 icon-part"><i class="bi bi-paw"></i></div>
+                      <div class="col-4 icon-part">
+                        <img src="imgcards/pata.png" alt="Pet Shop" class="icon-img">
+                      </div>
                       <div class="col-8 text-part"><span>Pet Shop</span></div>
                     </div>
                   </div>
                 </a>
               </div>
               <div class="col-lg-4 col-md-6">
-                <a href="#" class="category-card-link">
+                <a href="saude.html" class="category-card-link">
                   <div class="category-card">
                     <div class="row g-0 h-100">
-                      <div class="col-4 icon-part"><i class="bi bi-heart-pulse"></i></div>
+                      <div class="col-4 icon-part">
+                        <img src="imgcards/saude.png" alt="Saúde" class="icon-img">
+                      </div>
                       <div class="col-8 text-part"><span>Saúde</span></div>
                     </div>
                   </div>
                 </a>
               </div>
               <div class="col-lg-4 col-md-6">
-                <a href="#" class="category-card-link">
+                <a href="veiculos.html" class="category-card-link">
                   <div class="category-card">
                     <div class="row g-0 h-100">
-                      <div class="col-4 icon-part"><i class="bi bi-car-front-fill"></i></div>
+                      <div class="col-4 icon-part">
+                        <img src="imgcards/carro.png" alt="Acessórios para Veículos" class="icon-img">
+                      </div>
                       <div class="col-8 text-part"><span>Acessórios para Veículos</span></div>
                     </div>
                   </div>
                 </a>
               </div>
               <div class="col-lg-4 col-md-6">
-                <a href="#" class="category-card-link">
+                <a href="beleza.html" class="category-card-link">
                   <div class="category-card">
                     <div class="row g-0 h-100">
-                      <div class="col-4 icon-part"><i class="bi bi-universal-access"></i></div>
+                      <div class="col-4 icon-part">
+                        <img src="imgcards/locao.png" alt="Beleza e Cuidado Pessoal" class="icon-img">
+                      </div>
                       <div class="col-8 text-part"><span>Beleza e Cuidado Pessoal</span></div>
                     </div>
                   </div>
                 </a>
               </div>
               <div class="col-lg-4 col-md-6">
-                <a href="#" class="category-card-link">
+                <a href="moda.html" class="category-card-link">
                   <div class="category-card">
                     <div class="row g-0 h-100">
-                      <div class="col-4 icon-part"><i class="bi bi-person-standing-dress"></i></div>
+                      <div class="col-4 icon-part">
+                        <img src="imgcards/menina.png" alt="Moda" class="icon-img">
+                      </div>
                       <div class="col-8 text-part"><span>Moda</span></div>
                     </div>
                   </div>
                 </a>
               </div>
               <div class="col-lg-4 col-md-6">
-                <a href="#" class="category-card-link">
+                <a href="bebes.html" class="category-card-link">
                   <div class="category-card">
                     <div class="row g-0 h-100">
-                      <div class="col-4 icon-part"><i class="bi bi-safe"></i></div>
+                      <div class="col-4 icon-part">
+                        <img src="imgcards/bebe.png" alt="Bebês" class="icon-img">
+                      </div>
                       <div class="col-8 text-part"><span>Bebês</span></div>
                     </div>
                   </div>
                 </a>
               </div>
               <div class="col-lg-4 col-md-6">
-                <a href="#" class="category-card-link">
+                <a href="briquedos.html" class="category-card-link">
                   <div class="category-card">
                     <div class="row g-0 h-100">
-                      <div class="col-4 icon-part"><i class="bi bi-controller"></i></div>
+                      <div class="col-4 icon-part">
+                        <img src="imgcards/controle.png" alt="Brinquedos" class="icon-img">
+                      </div>
                       <div class="col-8 text-part"><span>Brinquedos</span></div>
                     </div>
                   </div>
@@ -732,6 +768,7 @@
     </section>
   </main>
 
+  <!-- FOOTER -->
   <!-- FOOTER -->
   <footer class="custom-footer mt-5">
     <div class="container">
@@ -754,7 +791,7 @@
 
       <!-- Links -->
       <div class="footer-links mb-3">
-        <a href="#" class="text-decoration-none text-light mx-2">Início</a>
+        <a href="index2.html" class="text-decoration-none text-light mx-2">Início</a>
         <a href="#" class="text-decoration-none text-light mx-2">Sobre Nós</a>
         <a href="#" class="text-decoration-none text-light mx-2">Contato</a>
       </div>
@@ -762,10 +799,8 @@
       <p class="text-muted small mb-0 footer-copy">&copy; 2025 achei! | Todos os direitos reservados</p>
     </div>
   </footer>
-
   <!-- Bootstrap JS e dependências -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-
   <script src="javaScript/index.js"></script>
 </body>
 
