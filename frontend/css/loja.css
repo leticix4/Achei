@@ -1,0 +1,45 @@
+/* Banner */
+.banner-loja {
+  background-color: #004a74;
+  height: 200px;
+  text-align: center;
+  position: relative;
+  margin-top: 0; /* Removemos o margin-top anterior */
+  z-index: 1;
+  max-height: 100px;
+}
+
+.banner-loja h1 {
+  font-size: 2.2rem;
+  line-height: 1.4;
+}
+
+
+/* Mapa */
+.mapa img {
+  width: 100%;
+  max-width: 380px;
+  border-radius: 10px;
+  border: 1px solid #ccc;
+}
+
+/* Avaliações */
+.avaliacoes {
+  background-color: #f4f5f6;
+  border-top: 1px solid #ddd;
+}
+
+.avaliacoes h4 {
+  color: #000;
+}
+
+.avaliacoes .card {
+  border: none;
+  border-radius: 12px;
+  background-color: #fff;
+  transition: transform 0.2s ease;
+}
+
+.avaliacoes .card:hover {
+  transform: scale(1.03);
+}
