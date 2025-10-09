@@ -4,18 +4,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tela Busca</title>
+    <title>Bebês</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-    <link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.css" />
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+
     <!-- Link para o arquivo CSS personalizado -->
     <link rel="stylesheet" href="css/global.css">
+    <link rel="stylesheet" href="css/carousel.css">
+    <link rel="stylesheet" href="css/cards.css">
     <link rel="stylesheet" href="css/navbar.css">
     <link rel="stylesheet" href="css/footer.css">
-    <link rel="stylesheet" href="css/busca.css">
-
 </head>
 
 <body>
@@ -392,41 +391,88 @@
         </div>
     </div>
     <!-- FIM DA NAVBAR -->
+
     <!--FIM CABEÇALHO-->
 
-    <!-- RESULTADOS DE BUSCA -->
-    <main class="container my-4">
-        <div class="row">
-
-            <div class="col-lg-7 col-md-12">
-                <div class="d-flex justify-content-between align-items-center mb-3">
-                    <h2 class="h5 text-muted" id="product-count">Carregando produtos...</h2>
-                    <div class="dropdown">
-                        <button class="btn btn-light border dropdown-toggle" type="button" id="filterMenu"
-                            data-bs-toggle="dropdown" aria-expanded="false">
-                            <i class="bi bi-filter me-2"></i> Filtros
-                        </button>
-                        <ul class="dropdown-menu" aria-labelledby="filterMenu">
-                            <li><a class="dropdown-item" href="#" data-filter="menor-preco">Menor preço</a></li>
-                            <li><a class="dropdown-item" href="#" data-filter="maior-preco">Maior preço</a></li>
-                            <li><a class="dropdown-item" href="#" data-filter="melhor-avaliacao">Melhor avaliação</a>
-                            <li><a class="dropdown-item" href="#" data-filter="mais-proximo">Mais próximo</a></li>
-                            </li>
-                        </ul>
-                    </div>
-
+    <!-- CATEGORIAS -->
+    <section id="categorias" class="section-box py-5">
+        <div class="container">
+            <h2 class="section-title">BEBÊS</h2>
+            <div class="row g-4">
+                <div class="col-lg-4 col-md-6">
+                    <a href="#" class="category-card-link">
+                        <div class="category-card">
+                            <div class="row g-0 h-100">
+                                <div class="col-4 icon-part"><i class="bi bi-cart3"></i></div>
+                                <div class="col-8 text-part"><span>Fraldas e Higiene</span></div>
+                            </div>
+                        </div>
+                    </a>
                 </div>
-
-                <div id="product-grid" class="row row-cols-2 row-cols-md-3 g-3">
+                <div class="col-lg-4 col-md-6">
+                    <a href="#" class="category-card-link">
+                        <div class="category-card">
+                            <div class="row g-0 h-100">
+                                <div class="col-4 icon-part"><i class="bi bi-laptop"></i></div>
+                                <div class="col-8 text-part"><span>Alimentação</span></div>
+                            </div>
+                        </div>
+                    </a>
                 </div>
-            </div>
-
-            <div class="col-lg-5 d-none d-lg-block">
-                <div id="map"></div>
+                <div class="col-lg-4 col-md-6">
+                    <a href="#" class="category-card-link">
+                        <div class="category-card">
+                            <div class="row g-0 h-100">
+                                <div class="col-4 icon-part"><i class="bi bi-lamp"></i></div>
+                                <div class="col-8 text-part"><span>Carrinhos e Bebê Conforto</span></div>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <a href="#" class="category-card-link">
+                        <div class="category-card">
+                            <div class="row g-0 h-100">
+                                <div class="col-4 icon-part"><i class="bi bi-bicycle"></i></div>
+                                <div class="col-8 text-part"><span>Berços e Móveis</span></div>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <a href="#" class="category-card-link">
+                        <div class="category-card">
+                            <div class="row g-0 h-100">
+                                <div class="col-4 icon-part"><i class="bi bi-wrench"></i></div>
+                                <div class="col-8 text-part"><span>Roupas de Bebê</span></div>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <a href="#" class="category-card-link">
+                        <div class="category-card">
+                            <div class="row g-0 h-100">
+                                <div class="col-4 icon-part"><i class="bi bi-bricks"></i></div>
+                                <div class="col-8 text-part"><span>Brinquedos para Bebês</span></div>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <a href="#" class="category-card-link">
+                        <div class="category-card">
+                            <div class="row g-0 h-100">
+                                <div class="col-4 icon-part"><i class="bi bi-bricks"></i></div>
+                                <div class="col-8 text-part"><span>Segurança do Bebê</span></div>
+                            </div>
+                        </div>
+                    </a>
+                </div>
             </div>
         </div>
-    </main>
-    <!-- FOOTER -->
+
+    </section>
     <!-- FOOTER -->
     <footer class="custom-footer mt-5">
         <div class="container">
@@ -458,245 +504,10 @@
             <p class="text-muted small mb-0 footer-copy">&copy; 2025 achei! | Todos os direitos reservados</p>
         </div>
     </footer>
+
     <!-- Bootstrap JS e dependências -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-    <script src="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.min.js"></script>
-
-    <script>
-        L.Routing.Localization = L.extend({}, L.Routing.Localization || {}, {
-            'pt-BR': {
-                directions: {
-                    N: 'norte',
-                    NE: 'nordeste',
-                    E: 'leste',
-                    SE: 'sudeste',
-                    S: 'sul',
-                    SW: 'sudoeste',
-                    W: 'oeste',
-                    NW: 'noroeste',
-                    SlightRight: 'Vire levemente à direita',
-                    Right: 'Vire à direita',
-                    SharpRight: 'Vire acentuadamente à direita',
-                    SlightLeft: 'Vire levemente à esquerda',
-                    Left: 'Vire à esquerda',
-                    SharpLeft: 'Vire acentuadamente à esquerda',
-                    Uturn: 'Faça o retorno',
-                },
-                instructions: {
-                    Head: ['Siga para {dir}', ' na {road}'],
-                    Continue: ['Continue por {road}', ''],
-                    SlightRight: ['Vire levemente à direita na {road}', ''],
-                    Right: ['Vire à direita na {road}', ''],
-                    SharpRight: ['Vire acentuadamente à direita na {road}', ''],
-                    SlightLeft: ['Vire levemente à esquerda na {road}', ''],
-                    Left: ['Vire à esquerda na {road}', ''],
-                    SharpLeft: ['Vire acentuadamente à esquerda na {road}', ''],
-                    Destination: ['Você chegou ao seu destino', ''],
-                    Roundabout: ['Pegue a {exitStr} saída na rotatória', ' para {road}'],
-                    StartAt: ['Comece em {road}', ''],
-                    ViaPoint: ['Ponto intermediário', ''],
-                },
-                formatOrder: function (n) {
-                    return n + 'ª';
-                }
-            }
-        });
-    </script>
-
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-
-            // --- Exemplo para o mapa ---
-            const products = [
-                { name: "Supermercado Boa Compra", rating: 4.6, address: "Av. Olindo de Miranda, 864 - Centro", price: "18,90", lat: -16.173729968765606, lng: -40.69215221307278 },
-                { name: "Xereta Supermercados", rating: 4.5, address: "R. Severiano Coutinho, 275 - Centro", price: "19,50", lat: -16.179000, lng: -40.694054 },
-                { name: "Hiper Farol Supermercado", rating: 4.4, address: "Av. Olindo de Miranda, 940", price: "18,75", lat: -16.172851, lng: -40.691678 },
-                { name: "Sacola Cheia Supermercados", rating: 4.3, address: "R. Hermano Souza, 246 - Centro", price: "19,50", lat: -16.181014969063334, lng: -40.69540145839323 },
-                { name: "SUPERMERCADO VANVEP", rating: 4.2, address: "R. João Cabacinha, 687", price: "20,80", lat: -16.176125638492657, lng: -40.69848680220568 },
-                { name: "Mercearia do Mandim", rating: 4.1, address: "R. Cel. Pedro Antônio da Fonseca, 681", price: "19,90", lat: -16.16903630436966, lng: -40.693143841697854 }
-            ];
-
-            // --- INICIALIZAÇÃO DO MAPA ---
-            const map = L.map('map').setView([-16.175, -40.694], 14);
-            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                attribution: '&copy; OpenStreetMap'
-            }).addTo(map);
-
-            let userLocation = null;
-            let routingControl = null;
-
-            // --- GERAÇÃO DOS CARDS DE PRODUTO ---
-            const productGrid = document.getElementById('product-grid');
-            const productCount = document.getElementById('product-count');
-            productCount.textContent = `${products.length} produtos encontrados próximo a você`;
-
-            // Função para mostrar os produtos
-            function renderProducts(prodList) {
-                productGrid.innerHTML = '';
-                prodList.forEach(product => {
-                    const cardHtml = `
-                <div class="col">
-                    <div class="product-card">
-                        <img src="imgteste/arroz.png" alt="Produto">
-                        <div class="product-name">${product.name}</div>
-                        <div class="product-rating small">${product.rating} <i class="bi bi-star-fill"></i></div>
-                        <div class="product-address">${product.address}</div>
-                        <div class="product-price">R$${product.price}</div>
-                    </div>
-                </div>
-            `;
-                    productGrid.innerHTML += cardHtml;
-
-                    // Adiciona marcador no mapa
-                    const popupContent = `
-                <b>${product.name}</b><br>
-                R$${product.price}<br><br>
-                <button class="btn btn-primary btn-sm w-100 mb-1" onclick="window.getRoute('car', ${product.lat}, ${product.lng})">
-                    <i class="bi bi-car-front-fill"></i> Rota de Carro
-                </button>
-                <button class="btn btn-info btn-sm w-100 text-white" onclick="window.getRoute('walk', ${product.lat}, ${product.lng})">
-                    <i class="bi bi-person-walking"></i> Rota a Pé
-                </button>
-            `;
-                    L.marker([product.lat, product.lng]).addTo(map).bindPopup(popupContent);
-                });
-            }
-
-            renderProducts(products);
-
-            // --- FILTRO (menor preço, maior preço, melhor avaliação,mais proximo) ---
-            document.querySelectorAll('[data-filter]').forEach(btn => {
-                btn.addEventListener('click', e => {
-                    e.preventDefault();
-                    const tipo = e.target.getAttribute('data-filter');
-                    let ordenados = [...products];
-
-                    if (tipo === 'menor-preco') {
-                        ordenados.sort((a, b) => parseFloat(a.price.replace(',', '.')) - parseFloat(b.price.replace(',', '.')));
-                    }
-                    else if (tipo === 'maior-preco') {
-                        ordenados.sort((a, b) => parseFloat(b.price.replace(',', '.')) - parseFloat(a.price.replace(',', '.')));
-                    }
-                    else if (tipo === 'melhor-avaliacao') {
-                        ordenados.sort((a, b) => b.rating - a.rating);
-                    }
-                    else if (tipo === 'mais-proximo') {
-                        if (!userLocation) {
-                            alert("Sua localização ainda não foi determinada.");
-                            return;
-                        }
-
-                        // Calcula distância entre dois pontos (em km)
-                        const calcDistancia = (lat1, lon1, lat2, lon2) => {
-                            const R = 6371;
-                            const dLat = (lat2 - lat1) * Math.PI / 180;
-                            const dLon = (lon2 - lon1) * Math.PI / 180;
-                            const a = Math.sin(dLat / 2) ** 2 +
-                                Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
-                                Math.sin(dLon / 2) ** 2;
-                            const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-                            return R * c;
-                        };
-
-                        // Ordena e pega o mais próximo
-                        ordenados.sort((a, b) => {
-                            const distA = calcDistancia(userLocation.lat, userLocation.lng, a.lat, a.lng);
-                            const distB = calcDistancia(userLocation.lat, userLocation.lng, b.lat, b.lng);
-                            return distA - distB;
-                        });
-                        ordenados = [ordenados[0]];
-
-                        // Remove marcadores anteriores (sem apagar o mapa)
-                        map.eachLayer(layer => {
-                            if (layer instanceof L.Marker && !layer._icon.classList.contains("leaflet-user-marker")) {
-                                map.removeLayer(layer);
-                            }
-                        });
-
-                        // Adiciona apenas o marcador do produto mais próximo
-                        const p = ordenados[0];
-                        const distanciaKm = calcDistancia(userLocation.lat, userLocation.lng, p.lat, p.lng).toFixed(2);
-                        const popupContent = `
-                            <b>${p.name}</b><br>
-                            R$${p.price}<br><br>
-                            <small>📍 Distância: ${distanciaKm} km</small><br><br>
-                            `;
-                        L.marker([p.lat, p.lng]).addTo(map).bindPopup(popupContent).openPopup();
-                        map.setView([p.lat, p.lng], 16);
-                    }
-
-                    renderProducts(ordenados);
-                });
-            });
-
-
-
-
-            // --- LOCALIZAÇÃO DO USUÁRIO ---
-            if ('geolocation' in navigator) {
-                navigator.geolocation.getCurrentPosition(
-                    (position) => {
-                        userLocation = L.latLng(position.coords.latitude, position.coords.longitude);
-                        const userMarker = L.circleMarker(userLocation, { radius: 8, color: 'blue', fillColor: '#3498db', fillOpacity: 0.8 }).addTo(map);
-                        userMarker.bindPopup("<b>Você está aqui</b>").openPopup();
-                    },
-                    (error) => {
-                        console.error("Erro ao obter a localização: ", error);
-                        alert("Não foi possível obter sua localização.");
-                    }
-                );
-            }
-
-            // --- FUNÇÃO DE ROTAS ---
-            window.getRoute = function (profile, productLat, productLng) {
-                if (!userLocation) {
-                    alert("Sua localização ainda não foi determinada.");
-                    return;
-                }
-
-                if (routingControl) map.removeControl(routingControl);
-
-                let profileUrl = (profile === 'walk') ? 'foot' : 'car';
-
-                routingControl = L.Routing.control({
-                    waypoints: [userLocation, L.latLng(productLat, productLng)],
-                    router: new L.Routing.OSRMv1({
-                        serviceUrl: `https://routing.openstreetmap.de/routed-${profileUrl}/route/v1/`
-                    }),
-                    routeWhileDragging: false,
-                    addWaypoints: false,
-                    draggableWaypoints: false,
-                    showAlternatives: false,
-                    formatter: new L.Routing.FormatterPtBR()
-                }).addTo(map);
-            };
-        });
-        L.Routing.FormatterPtBR = L.Routing.Formatter.extend({
-            formatInstruction: function (instr) {
-                const road = instr.road ? ` na ${instr.road}` : '';
-                const instrucoes = {
-                    'Head': `Siga${road}`,
-                    'Continue': `Continue${road}`,
-                    'Right': `Vire à direita${road}`,
-                    'Left': `Vire à esquerda${road}`,
-                    'Destination': 'Você chegou ao seu destino'
-                };
-                return instrucoes[instr.type] || '';
-            },
-            formatDistance: function (d) {
-                if (d < 1000) return Math.round(d) + ' m';
-                return (d / 1000).toFixed(1) + ' km';
-            },
-            formatTime: function (t) {
-                if (t > 3600) return Math.floor(t / 3600) + ' h ' + Math.floor((t % 3600) / 60) + ' min';
-                if (t > 60) return Math.floor(t / 60) + ' min';
-                return Math.round(t) + ' s';
-            }
-        });
-    </script>
     <script src="javaScript/index.js"></script>
-
 </body>
 
 </html>

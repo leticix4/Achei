@@ -173,3 +173,16 @@
   position: relative;
   min-height: 500px;
 }
+
+.icon-part {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+
+.icon-part .icon-img {
+  width: 100px;
+  height: 100px;
+  object-fit: contain;
+}
