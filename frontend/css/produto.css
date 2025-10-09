@@ -38,6 +38,8 @@ div[style*="border: 2px solid #000"] {
   height: 100%;
   object-fit: cover;
   border-radius: 10px;
+  max-width: 400px;
+  height: 350px; 
 }
         
 .info-produto {
