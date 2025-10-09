@@ -111,3 +111,8 @@
   background-color: #E4CC5A;
   color : #003147;
 }
+.bg-lupa {
+  background-image: url('../imgteste/fundoazul.png');
+  background-size: cover;
+  background-position: center;
+}
