@@ -349,18 +349,18 @@
     </div>
     
   <!-- nav da loja -->
-  <nav class="navbar navbar-expand-lg bg-body-tertiary" style="background-color: white;">    
+  <nav class="navbar navbar-expand-lg bg-body-tertiary" style="background-color: #D9D9D9 !important;">    
     <div >
       <div>
         <ul class="navbar-nav">
           <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="#" style="color: white;">Inicio</a>
+            <a class="nav-link active" aria-current="page" href="#" style="color: #004C6E;">Inicio</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="#" style="color: white;">Produtos</a>
+            <a class="nav-link active" aria-current="page" href="#" style="color: #004C6E;">Produtos</a>
           </li>         
           <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="#" style="color: white;">Categorias</a>
+            <a class="nav-link active" aria-current="page" href="#" style="color: #004C6E;">Categorias</a>
           </li>
         </ul>
       </div>
@@ -368,6 +368,11 @@
   </nav>
 
   
+  <div class="col-lg-5 d-none d-lg-block" style="max-width: 200px; max-height: 200px;">
+    <div id="map"></div>
+  </div>
+
+
 
   <!-- Avaliações -->
   <section class="avaliacoes py-5">
@@ -435,8 +440,149 @@
 
   <!-- Bootstrap JS e dependências -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-
+ <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.min.js"></script>
   <script src="javaScript/index.js"></script>
+
+  <script>
+        document.addEventListener('DOMContentLoaded', function () {
+
+            // --- Exemplo para o mapa ---
+            const products = [
+                { name: "Supermercado Boa Compra", rating: 4.6, address: "Av. Olindo de Miranda, 864 - Centro", price: "18,90", lat: -16.173729968765606, lng: -40.69215221307278 },
+                { name: "Xereta Supermercados", rating: 4.5, address: "R. Severiano Coutinho, 275 - Centro", price: "19,50", lat: -16.179000, lng: -40.694054 },
+                { name: "Hiper Farol Supermercado", rating: 4.4, address: "Av. Olindo de Miranda, 940", price: "18,75", lat: -16.172851, lng: -40.691678 },
+                { name: "Sacola Cheia Supermercados", rating: 4.3, address: "R. Hermano Souza, 246 - Centro", price: "19,50", lat: -16.181014969063334, lng: -40.69540145839323 },
+                { name: "SUPERMERCADO VANVEP", rating: 4.2, address: "R. João Cabacinha, 687", price: "20,80", lat: -16.176125638492657, lng: -40.69848680220568 },
+                { name: "Mercearia do Mandim", rating: 4.1, address: "R. Cel. Pedro Antônio da Fonseca, 681", price: "19,90", lat: -16.16903630436966, lng: -40.693143841697854 }
+            ];
+
+            // --- INICIALIZAÇÃO DO MAPA ---
+            const map = L.map('map').setView([-16.175, -40.694], 14);
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '&copy; OpenStreetMap'
+            }).addTo(map);
+
+            let userLocation = null;
+            let routingControl = null;
+
+            // --- GERAÇÃO DOS CARDS DE PRODUTO ---
+            const productGrid = document.getElementById('product-grid');
+
+            // Função para mostrar os produtos
+            function renderProducts(prodList) {
+                productGrid.innerHTML = '';
+                prodList.forEach(product => {
+                    const cardHtml = `
+                <div class="col">
+                    <div class="product-card">
+                        <img src="imgteste/arroz.png" alt="Produto">
+                        <div class="product-name">${product.name}</div>
+                        <div class="product-rating small">${product.rating} <i class="bi bi-star-fill"></i></div>
+                        <div class="product-address">${product.address}</div>
+                        <div class="product-price">R$${product.price}</div>
+                    </div>
+                </div>
+            `;
+                    productGrid.innerHTML += cardHtml;
+
+                    // Adiciona marcador no mapa
+                    const popupContent = `
+                <b>${product.name}</b><br>
+                R$${product.price}<br><br>
+                <button class="btn btn-primary btn-sm w-100 mb-1" onclick="window.getRoute('car', ${product.lat}, ${product.lng})">
+                    <i class="bi bi-car-front-fill"></i> Rota de Carro
+                </button>
+                <button class="btn btn-info btn-sm w-100 text-white" onclick="window.getRoute('walk', ${product.lat}, ${product.lng})">
+                    <i class="bi bi-person-walking"></i> Rota a Pé
+                </button>
+            `;
+                    L.marker([product.lat, product.lng]).addTo(map).bindPopup(popupContent);
+                });
+            }
+
+            renderProducts(products);
+
+            // --- FILTRO (menor preço, maior preço, melhor avaliação) ---
+            document.querySelectorAll('[data-filter]').forEach(btn => {
+                btn.addEventListener('click', e => {
+                    e.preventDefault();
+                    const tipo = e.target.getAttribute('data-filter');
+                    let ordenados = [...products];
+
+                    if (tipo === 'menor-preco')
+                        ordenados.sort((a, b) => parseFloat(a.price.replace(',', '.')) - parseFloat(b.price.replace(',', '.')));
+                    else if (tipo === 'maior-preco')
+                        ordenados.sort((a, b) => parseFloat(b.price.replace(',', '.')) - parseFloat(a.price.replace(',', '.')));
+                    else if (tipo === 'melhor-avaliacao')
+                        ordenados.sort((a, b) => b.rating - a.rating);
+
+                    renderProducts(ordenados);
+                });
+            });
+
+            // --- LOCALIZAÇÃO DO USUÁRIO ---
+            if ('geolocation' in navigator) {
+                navigator.geolocation.getCurrentPosition(
+                    (position) => {
+                        userLocation = L.latLng(position.coords.latitude, position.coords.longitude);
+                        const userMarker = L.circleMarker(userLocation, { radius: 8, color: 'blue', fillColor: '#3498db', fillOpacity: 0.8 }).addTo(map);
+                        userMarker.bindPopup("<b>Você está aqui</b>").openPopup();
+                    },
+                    (error) => {
+                        console.error("Erro ao obter a localização: ", error);
+                        alert("Não foi possível obter sua localização.");
+                    }
+                );
+            }
+
+            // --- FUNÇÃO DE ROTAS ---
+            window.getRoute = function (profile, productLat, productLng) {
+                if (!userLocation) {
+                    alert("Sua localização ainda não foi determinada.");
+                    return;
+                }
+
+                if (routingControl) map.removeControl(routingControl);
+
+                let profileUrl = (profile === 'walk') ? 'foot' : 'car';
+
+                routingControl = L.Routing.control({
+                    waypoints: [userLocation, L.latLng(productLat, productLng)],
+                    router: new L.Routing.OSRMv1({
+                        serviceUrl: `https://routing.openstreetmap.de/routed-${profileUrl}/route/v1/`
+                    }),
+                    routeWhileDragging: false,
+                    addWaypoints: false,
+                    draggableWaypoints: false,
+                    showAlternatives: false,
+                    formatter: new L.Routing.FormatterPtBR()
+                }).addTo(map);
+            };
+        });
+        L.Routing.FormatterPtBR = L.Routing.Formatter.extend({
+            formatInstruction: function (instr) {
+                const road = instr.road ? ` na ${instr.road}` : '';
+                const instrucoes = {
+                    'Head': `Siga${road}`,
+                    'Continue': `Continue${road}`,
+                    'Right': `Vire à direita${road}`,
+                    'Left': `Vire à esquerda${road}`,
+                    'Destination': 'Você chegou ao seu destino'
+                };
+                return instrucoes[instr.type] || '';
+            },
+            formatDistance: function (d) {
+                if (d < 1000) return Math.round(d) + ' m';
+                return (d / 1000).toFixed(1) + ' km';
+            },
+            formatTime: function (t) {
+                if (t > 3600) return Math.floor(t / 3600) + ' h ' + Math.floor((t % 3600) / 60) + ' min';
+                if (t > 60) return Math.floor(t / 60) + ' min';
+                return Math.round(t) + ' s';
+            }
+        });
+    </script>
 </body>
 
 </html>

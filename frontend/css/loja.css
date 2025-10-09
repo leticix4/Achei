@@ -14,31 +14,6 @@
   line-height: 1.4;
 }
 
-/* Info da loja */
-.logo-loja {
-  width: 45px;
-  height: 45px;
-  border-radius: 50%;
-  object-fit: cover;
-  border: 2px solid #ccc;
-}
-
-/* Tabs */
-.nav-tabs {
-  border-bottom: 1px solid #ddd;
-}
-
-.nav-tabs .nav-link {
-  color: #003147;
-  font-weight: 500;
-}
-
-.nav-tabs .nav-link.active {
-  border: none;
-  border-bottom: 3px solid #003147;
-  color: #003147;
-  font-weight: 600;
-}
 
 /* Mapa */
 .mapa img {
@@ -67,9 +42,4 @@
 
 .avaliacoes .card:hover {
   transform: scale(1.03);
-}
-.banner-container {
-  position: relative;
-  margin-top: 0; /* Removemos o margin-top anterior */
-  z-index: 1;
 }
