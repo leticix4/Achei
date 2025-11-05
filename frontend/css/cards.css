@@ -15,6 +15,13 @@
   transition: transform 0.3s ease;
 }
 
+#produtos-destaque {
+  margin-top: -80px;
+  padding-top: 100px;
+  position: relative;
+  z-index: 2;
+}
+
 /* Estilo padrão para os títulos das seções */
 .section-title {
   font-size: 1.5rem;
@@ -185,4 +192,43 @@
   width: 100px;
   height: 100px;
   object-fit: contain;
+}
+
+.card-imagem {
+  position: absolute;
+  bottom: 10px;
+  right: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.card-imagem img {
+  width: 250px;
+  height: auto;
+  opacity: 0.90;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+
+}
+
+.card-imagem1 {
+  position: absolute;
+  bottom: 10px;
+  right: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.card-imagem1 img {
+  width: 150px;
+  height: auto;
+  opacity: 0.90;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+
+}
+
+.card-produto:hover .card-imagem img .card-imagem1 img {
+  transform: scale(1.1);
+  opacity: 1;
 }

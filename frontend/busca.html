@@ -509,7 +509,7 @@
 
             // --- Exemplo para o mapa ---
             const products = [
-                { name: "Supermercado Boa Compra", rating: 4.6, address: "Av. Olindo de Miranda, 864 - Centro", price: "18,90", lat: -16.173729968765606, lng: -40.69215221307278 },
+                { name: "Larana Supermercado", rating: 4.6, address: "Av. Olindo de Miranda, 864 - Centro", price: "18,90", lat: -16.173729968765606, lng: -40.69215221307278 },
                 { name: "Xereta Supermercados", rating: 4.5, address: "R. Severiano Coutinho, 275 - Centro", price: "19,50", lat: -16.179000, lng: -40.694054 },
                 { name: "Hiper Farol Supermercado", rating: 4.4, address: "Av. Olindo de Miranda, 940", price: "18,75", lat: -16.172851, lng: -40.691678 },
                 { name: "Sacola Cheia Supermercados", rating: 4.3, address: "R. Hermano Souza, 246 - Centro", price: "19,50", lat: -16.181014969063334, lng: -40.69540145839323 },
@@ -538,8 +538,8 @@
                     const cardHtml = `
                 <div class="col">
                     <div class="product-card">
-                        <img src="imgteste/arroz.png" alt="Produto">
-                        <div class="product-name">${product.name}</div>
+                       <a href="produto.html"><img src="imgteste/arroz.png" alt="Produto"></a>
+                        <div class="product-name"><a style="color: #003147;"href="loja1.html">${product.name}</a></div>
                         <div class="product-rating small">${product.rating} <i class="bi bi-star-fill"></i></div>
                         <div class="product-address">${product.address}</div>
                         <div class="product-price">R$${product.price}</div>
