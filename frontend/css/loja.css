@@ -43,3 +43,8 @@
 .avaliacoes .card:hover {
   transform: scale(1.03);
 }
+#map {
+  height: 600px;
+  border-radius: 8px;
+  border: 1px solid #dee2e6;
+}
