@@ -16,7 +16,6 @@
   <link rel="stylesheet" href="css/navbar.css">
   <link rel="stylesheet" href="css/footer.css">
   <link rel="stylesheet" href="css/produto.css">
-
 </head>
 
 <body>
@@ -218,7 +217,7 @@
                         <div class="tab-content">
                           <!-- FORM PF -->
                           <div class="tab-pane fade show active" id="cadastroPF">
-                            <form id="formPF">
+                            <div>
                               <div class="mb-3">
                                 <label class="form-label">E-mail*</label>
                                 <input type="email" id="emailPF" class="form-control" required>
@@ -240,11 +239,11 @@
                                 <input type="password" id="senhaPF" class="form-control" required>
                               </div>
                               <button type="button" id="btnSalvarPF" class="btn btn-success w-100">Continuar</button>
-                            </form>
+                            </div>
                           </div>
                           <!-- FORM PJ -->
                           <div class="tab-pane fade" id="cadastroPJ">
-                            <form id="formPJ">
+                            <div id="formPJ">
                               <div class="mb-3">
                                 <label class="form-label">E-mail*</label>
                                 <input type="email" id="emailPJ" class="form-control" required>
@@ -270,7 +269,7 @@
                                 <input type="password" id="senhaPJ" class="form-control" required>
                               </div>
                               <button type="button" id="btnSalvarPJ" class="btn btn-success w-100">Continuar</button>
-                            </form>
+                            </div>
                           </div>
                         </div>
                         <p class="small text-center mt-3">
@@ -461,7 +460,7 @@
   </div>
   <div class="chat-input">
     <input type="text" id="userMessage" placeholder="Digite sua mensagem...">
-    <button id="sendMessage">Enviar</button>
+    <button type="button" id="sendMessage">Enviar</button>
   </div>
 </div>
 
@@ -472,7 +471,46 @@
   const sendMessage = document.getElementById('sendMessage');
   const userMessage = document.getElementById('userMessage');
   const chatBody = document.getElementById('chatBody');
+  const apiUrl = 'http://localhost:8000/api';
+  const productId = 1;
 
+  const fetchMessages = async () => {
+      try {
+          const response = await fetch(`${apiUrl}/products/${productId}/messages`, {
+              method: 'GET'
+          });
+          const data = await response.json();
+          chatBody.innerHTML = '';
+          for (const message of data.data) {
+              handleCreateMessageCard(message.user, message.content);
+          }
+      } catch (error) {
+          console.error('Erro ao buscar mensagens:', error);
+      }
+  }
+
+  const fetchSendMessage = async (content, userId) => {
+      try {
+          const response = await fetch(`${apiUrl}/products/${productId}/messages`, {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+            },
+              body: JSON.stringify({
+                  content: content,
+                  product_id: productId,
+                  user_id: userId
+              })
+          });
+      } catch (error) {
+          console.error('Erro ao enviar mensagem:', error);
+      }
+  }
+
+  fetchMessages();
+  setInterval(fetchMessages, 5000);
+  
   chatButton.onclick = () => {
     chatWindow.style.display = 'flex';
     chatButton.style.display = 'none';
@@ -483,14 +521,18 @@
     chatButton.style.display = 'flex';
   };
 
+  const handleCreateMessageCard = (username, message) => {
+    const p = document.createElement('p');
+    p.innerHTML = `<strong>${username}:</strong> ${message}`;
+    chatBody.appendChild(p);
+    chatBody.scrollTop = chatBody.scrollHeight;
+  }
+
   sendMessage.onclick = () => {
     const message = userMessage.value.trim();
     if (message) {
-      const p = document.createElement('p');
-      p.innerHTML = `<strong>Você:</strong> ${message}`;
-      chatBody.appendChild(p);
+      fetchSendMessage(message, 1);
       userMessage.value = '';
-      chatBody.scrollTop = chatBody.scrollHeight;
     }
   };
 </script>
