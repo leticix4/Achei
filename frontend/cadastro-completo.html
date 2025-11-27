@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-BR" data-bs-theme="light">
 
 <head>
   <meta charset="UTF-8">
@@ -13,13 +13,8 @@
   <link rel="stylesheet" href="css/navbar.css">
   <link rel="stylesheet" href="css/footer.css">
   <style>
-    body {
-      background-color: #f0f2f5;
-      font-family: 'Roboto', sans-serif;
-    }
-
     .form-section {
-      background: #fff;
+      background: var(--bs-body-bg);
       padding: 2rem;
       border-radius: 12px;
       box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
@@ -29,52 +24,21 @@
     .section-title {
       font-size: 1.5rem;
       font-weight: 700;
-      color: #003147;
-      border-left: 4px solid #003147;
+      color: var(--bs-primary);
+      border-left: 4px solid var(--bs-primary);
       padding-left: 10px;
       margin-bottom: 1.5rem;
     }
 
-    .btn-success {
-      background-color: #003147;
-      border: none;
-    }
-
-    .btn-success:hover {
-      background-color: #002233;
-    }
-
-
-    .custom-footer {
-      background-color: #003147;
-      padding: 2rem 0;
-      text-align: center;
-      color: #ffffff;
-      margin-top: 3rem;
-    }
-
-    .custom-footer .logo {
-      font-weight: bold;
-      font-size: 1.5rem;
-      color: #ffffff;
-    }
-
-    .custom-footer .social-icons a {
-      font-size: 1.5rem;
-      color: #E4CC5A;
-      margin: 0 0.5rem;
-    }
-
-    .footer-copy {
-      color: #E4CC5A !important;
-      font-size: 0.9rem;
+    .bg-lupa {
+      background-color: var(--bs-primary);
     }
   </style>
 </head>
 
-<body>
+<body class="bg-body">
   <!-- NAVBAR -->
-  <nav class="navbar navbar-expand-lg navbar-light">
+  <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
     <div class="container d-flex justify-content-between align-items-center">
       <!-- Botão do menu hamburguer (visível apenas no mobile) -->
       <button class="btn d-lg-none text-white me-2" type="button" data-bs-toggle="offcanvas"
@@ -83,14 +47,14 @@
       </button>
       <!-- LOGO -->
       <a class="navbar-brand logo" href="index2.html"><img src="imgteste/logo.png" alt="Logo"></a>
-      <div class="location-tag d-none d-md-block">
+      <div class="location-tag d-none d-md-block text-white">
         <i class="bi bi-geo-alt-fill me-1"></i> Almenara-MG
       </div>
       <!-- Barra de busca -->
       <div class="mx-auto search-bar d-none d-lg-block">
         <div class="input-group">
           <input type="text" class="form-control" placeholder="Buscar produtos">
-          <button class="btn btn-search" type="button" onclick="window.location.href= 'busca.html'">
+          <button class="btn btn-outline-light" type="button" onclick="window.location.href= 'busca.html'">
             <i class="bi bi-search"></i>
           </button>
         </div>
@@ -118,43 +82,43 @@
                 <i class="bi bi-bell" style="font-size: 1.5rem; color: white;"></i>
                 <!-- Badge da quantidade -->
                 <span id="notifBadge"
-                  class="position-absolute top-0 start-100 translate-middle badge rounded-pill notif">3</span>
+                  class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-warning">3</span>
               </button>
               <!-- Dropdown -->
               <ul class="dropdown-menu dropdown-menu-end p-2 shadow" aria-labelledby="notifDropdown"
                 style="width: 320px; max-height: 300px; overflow-y: auto;">
 
                 <li class="mb-2">
-                  <a href="#" class="d-flex text-decoration-none notif-item">
+                  <a href="#" class="d-flex text-decoration-none text-body">
                     <i class="bi bi-chat-dots me-2 text-primary fs-5"></i>
                     <div>
                       <strong>Lojista respondeu:</strong><br>
                       Sua pergunta sobre "Impressora HP".<br>
-                      <small class="text-muted">Hoje, 15:09</small>
+                      <small class="text-body-secondary">Hoje, 15:09</small>
                     </div>
                   </a>
                 </li>
                 <hr class="dropdown-divider">
 
                 <li class="mb-2">
-                  <a href="#" class="d-flex text-decoration-none notif-item">
+                  <a href="#" class="d-flex text-decoration-none text-body">
                     <i class="bi bi-tag-fill me-2 text-success fs-5"></i>
                     <div>
                       <strong>Promoção especial!</strong><br>
                       O produto que você favoritou caiu 20%.<br>
-                      <small class="text-muted">Ontem</small>
+                      <small class="text-body-secondary">Ontem</small>
                     </div>
                   </a>
                 </li>
                 <hr class="dropdown-divider">
 
                 <li class="mb-2">
-                  <a href="#" class="d-flex text-decoration-none notif-item">
+                  <a href="#" class="d-flex text-decoration-none text-body">
                     <i class="bi bi-bag-check-fill me-2 text-warning fs-5"></i>
                     <div>
                       <strong>Novo produto</strong><br>
                       Categoria que você acompanha tem novidade.<br>
-                      <small class="text-muted">26/09</small>
+                      <small class="text-body-secondary">26/09</small>
                     </div>
                   </a>
                 </li>
@@ -181,42 +145,42 @@
                 <div class="modal-body" style="max-height: 400px; overflow-y: auto;">
                   <ul class="list-group list-group-flush">
                     <li class="list-group-item">
-                      <a href="#" class="text-decoration-none d-flex align-items-start">
+                      <a href="#" class="text-decoration-none d-flex align-items-start text-body">
                         <i class="bi bi-chat-dots text-primary me-2"></i>
                         <div>
                           Lojista respondeu sua mensagem sobre "Impressora HP".
-                          <br><small class="text-muted">Hoje, 15:09</small>
+                          <br><small class="text-body-secondary">Hoje, 15:09</small>
                         </div>
                       </a>
                     </li>
                     <li class="list-group-item">
-                      <a href="#" class="text-decoration-none d-flex align-items-start">
+                      <a href="#" class="text-decoration-none d-flex align-items-start text-body">
                         <i class="bi bi-tag-fill text-success me-2"></i>
                         <div>
                           O preço do produto que você favoritou caiu 20%.
-                          <br><small class="text-muted">Ontem</small>
+                          <br><small class="text-body-secondary">Ontem</small>
                         </div>
                       </a>
                     </li>
                     <li class="list-group-item">
-                      <a href="#" class="text-decoration-none d-flex align-items-start">
+                      <a href="#" class="text-decoration-none d-flex align-items-start text-body">
                         <i class="bi bi-bag-check-fill text-warning me-2"></i>
                         <div>
                           Novo produto disponível na categoria que você acompanha.
-                          <br><small class="text-muted">26/09</small>
+                          <br><small class="text-body-secondary">26/09</small>
                         </div>
                       </a>
                     </li>
                   </ul>
                 </div>
                 <div class="modal-footer">
-                  <buttaon type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
                 </div>
               </div>
             </div>
           </div>
           <!-- Botão de entrar -->
-          <button id="btnEntrar" class="btn btn-entrar ms-3 d-flex align-items-center" data-bs-toggle="modal"
+          <button id="btnEntrar" class="btn btn-outline-light ms-3 d-flex align-items-center" data-bs-toggle="modal"
             data-bs-target="#modalLogin">
             <i class="bi bi-person-circle me-2"></i> Entrar
             <i class="bi bi-box-arrow-in-right ms-2"></i>
@@ -292,7 +256,7 @@
                                 <label class="form-label">Criar senha*</label>
                                 <input type="password" id="senhaPF" class="form-control" required>
                               </div>
-                              <button type="button" id="btnSalvarPF" class="btn btn-success w-100">Continuar</button>
+                              <button type="button" id="btnSalvarPF" class="btn btn-primary w-100">Continuar</button>
                             </form>
                           </div>
                           <!-- FORM PJ -->
@@ -322,7 +286,7 @@
                                 <label class="form-label">Criar senha*</label>
                                 <input type="password" id="senhaPJ" class="form-control" required>
                               </div>
-                              <button type="button" id="btnSalvarPJ" class="btn btn-success w-100">Continuar</button>
+                              <button type="button" id="btnSalvarPJ" class="btn btn-primary w-100">Continuar</button>
                             </form>
                           </div>
                         </div>
@@ -358,46 +322,46 @@
       <div class="mb-4">
         <div class="input-group">
           <input type="text" class="form-control" placeholder="Buscar produtos...">
-          <button class="btn btn-search" type="button">
+          <button class="btn btn-outline-primary" type="button">
             <i class="bi bi-search"></i>
           </button>
         </div>
       </div>
       <!-- Login -->
-      <a href="#btnEntrar" class="d-flex align-items-center mb-3">
+      <a href="#btnEntrar" class="d-flex align-items-center mb-3 text-body text-decoration-none">
         <i class="bi bi-person-circle me-2"></i> Entrar / Criar conta
       </a>
       <!-- Notificações -->
-      <a href="#" class="d-flex align-items-center mb-3">
+      <a href="#" class="d-flex align-items-center mb-3 text-body text-decoration-none">
         <i class="bi bi-bell me-2"></i> Notificações
       </a>
       <hr>
       <!-- Menu principal -->
-      <a href="#" class="d-flex align-items-center mb-2">
+      <a href="#" class="d-flex align-items-center mb-2 text-body text-decoration-none">
         <i class="bi bi-house me-2"></i> Início
       </a>
-      <a href="#produtos-destaque" class="d-flex align-items-center mb-2">
+      <a href="#produtos-destaque" class="d-flex align-items-center mb-2 text-body text-decoration-none">
         <i class="bi bi-star me-2"></i> Destaque
       </a>
-      <a href="#" class="d-flex align-items-center mb-2">
+      <a href="#" class="d-flex align-items-center mb-2 text-body text-decoration-none">
         <i class="bi bi-grid me-2"></i> Categorias
       </a>
     </div>
   </div>
 
 
-  <div class="sub-nav d-none d-lg-block">
+  <div class="sub-nav d-none d-lg-block bg-light">
     <div class="container">
       <ul class="nav">
         <li class="nav-item">
-          <a class="nav-link" href="index2.html">Início</a>
+          <a class="nav-link text-body" href="index2.html">Início</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#produtos-destaque">Destaque</a>
+          <a class="nav-link text-body" href="#produtos-destaque">Destaque</a>
         </li>
         <!-- Dropdown de Categorias -->
         <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" id="categoriasDropdown" role="button" data-bs-toggle="dropdown"
+          <a class="nav-link dropdown-toggle text-body" href="#" id="categoriasDropdown" role="button" data-bs-toggle="dropdown"
             aria-expanded="false">Categorias</a>
 
           <ul class="dropdown-menu custom-dropdown" aria-labelledby="categoriasDropdown">
@@ -508,7 +472,7 @@
           </div>
         </div>
         <div class="d-flex justify-content-end mt-3">
-          <button class="btn btn-success px-4">Finalizar Cadastro</button>
+          <button class="btn btn-primary px-4">Finalizar Cadastro</button>
         </div>
 
       </form>
@@ -578,7 +542,7 @@
           </div>
         </div>
         <div class="d-flex justify-content-end mt-3">
-          <button class="btn btn-success px-4">Finalizar Cadastro</button>
+          <button class="btn btn-primary px-4">Finalizar Cadastro</button>
         </div>
       </form>
     </div>
@@ -670,7 +634,20 @@
       }
       localStorage.clear();
     });
+
+    // Sistema de tema
+    document.querySelectorAll('.theme-option').forEach(item => {
+      item.addEventListener('click', function() {
+        const theme = this.getAttribute('data-theme');
+        
+        if (theme === 'system') {
+          // Remove o tema forçado e usa a preferência do sistema
+          document.documentElement.removeAttribute('data-bs-theme');
+        } else {
+          document.documentElement.setAttribute('data-bs-theme', theme);
+        }
+      });
+    });
   </script>
 </body>
-
 </html>
