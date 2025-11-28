@@ -173,7 +173,6 @@
   <script src="javaScript/index.js"></script>
   <script type="module" src="components.js"></script>
   <script>
-    // Chat functionality
     const chatButton = document.getElementById('chatButton');
     const chatWindow = document.getElementById('chatWindow');
     const closeChat = document.getElementById('closeChat');
@@ -188,9 +187,14 @@
             const response = await fetch(`${apiUrl}/products/${productId}/messages`, {
                 method: 'GET'
             });
-            const data = await response.json();
+            const res = await response.json();
+
+            const mensagens = res.data
+
+            if (!mensagens || mensagens.length === 0) return;
+
             chatBody.innerHTML = '';
-            for (const message of data.data) {
+            for (const message of mensagens) {
                 handleCreateMessageCard(message.user, message.content);
             }
         } catch (error) {
