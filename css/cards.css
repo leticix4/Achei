@@ -1,0 +1,234 @@
+/* ============================================== */
+/* ESTILOS DOS CARDS (PRODUTO E CATEGORIA)    */
+/* ============================================== */
+
+/* Estilos gerais para cards de produto */
+.card-produto {
+  border-radius: 10px;
+  color: white;
+  padding: 1.5rem;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  position: relative;
+  transition: transform 0.3s ease;
+}
+
+#produtos-destaque {
+  margin-top: -80px;
+  padding-top: 100px;
+  position: relative;
+  z-index: 2;
+}
+
+/* Estilo padrão para os títulos das seções */
+.section-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 1.5rem;
+  text-align: left;
+  padding-left: 15px;
+  border-left: 4px solid var(--section-title-color);
+}
+
+.section-box {
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  padding: 2rem;
+  margin-bottom: 2rem;
+}
+
+/* Estilo para cards de produto que são clicáveis */
+.card-produto.clicavel {
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer;
+}
+
+.card-produto:hover {
+  transform: scale(1.03);
+}
+
+/* Tamanhos mínimos para alinhamento */
+.col-lg-6 .card-produto {
+  min-height: 320px;
+}
+
+.col-lg-3 .card-produto {
+  min-height: 320px;
+}
+
+/* Conteúdo interno dos cards de produto */
+.card-produto .badge {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  font-size: 0.75rem;
+}
+
+.card-produto .categoria-tag {
+  font-size: 0.8rem;
+  font-weight: 500;
+  margin-bottom: 0.5rem;
+}
+
+.card-produto h3 {
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
+.card-produto .card-icon {
+  font-size: 3.5rem;
+  text-align: right;
+  margin-top: 1rem;
+}
+
+.card-icon img {
+  width: 90px;
+  height: auto;
+}
+
+/* Cores de fundo para os cards de produto */
+.card-produto.bg-yellow {
+  background-color: #E4CC5A;
+  color: #0D1B2A;
+}
+
+.card-produto.bg-blue {
+  background-color: #003147;
+  color: #fff;
+}
+
+.card-produto.bg-white {
+  background-color: #fff;
+  border: 1px solid #ddd;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+  border-radius: 10px;
+  color: #0D1B2A;
+}
+
+.card-produto.bg-light-gray {
+  background-color: #fff;
+  color: #333;
+  border: 1px solid #ddd;
+}
+
+/* Estilos para os cards da seção de Categorias */
+.category-card-link {
+  text-decoration: none;
+  color: inherit;
+  display: block;
+  height: 100%;
+}
+
+.category-card {
+  border: 1px solid #e0e0e0;
+  border-radius: 10px;
+  overflow: hidden;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  height: 100%;
+  min-height: 120px;
+}
+
+.category-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.category-card .icon-part {
+  background-color: #f0f2f5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+}
+
+.category-card .icon-part i {
+  font-size: 2.5rem;
+  color: #003147;
+}
+
+.category-card .text-part {
+  background-color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+}
+
+.category-card .text-part span {
+  font-weight: 500;
+  color: #343a40;
+  text-align: center;
+}
+
+.category-page {
+  transition: transform 2s ease, opacity 0.5s ease;
+  position: absolute;
+  width: 100%;
+  top: 0;
+  left: 0;
+}
+
+.category-page.inactive {
+  opacity: 0;
+  pointer-events: none;
+}
+
+#categorias .pages-wrapper {
+  position: relative;
+  min-height: 500px;
+}
+
+.icon-part {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+
+.icon-part .icon-img {
+  width: 100px;
+  height: 100px;
+  object-fit: contain;
+}
+
+.card-imagem {
+  position: absolute;
+  bottom: 10px;
+  right: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.card-imagem img {
+  width: 250px;
+  height: auto;
+  opacity: 0.90;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+
+}
+
+.card-imagem1 {
+  position: absolute;
+  bottom: 10px;
+  right: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.card-imagem1 img {
+  width: 150px;
+  height: auto;
+  opacity: 0.90;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+
+}
+
+.card-produto:hover .card-imagem img .card-imagem1 img {
+  transform: scale(1.1);
+  opacity: 1;
+}

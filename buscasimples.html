@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-bs-theme="light">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resultados da Busca</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/global.css">
+    <link rel="stylesheet" href="css/navbar.css">
+    <link rel="stylesheet" href="css/footer.css">
+    <style>
+        /* Layout padrão em grade */
+        #product-grid.grid-view .product-card {
+            flex: 0 0 calc(33.333% - 1rem);
+            max-width: calc(33.333% - 1rem);
+        }
+
+        /* Layout em lista */
+        #product-grid.list-view {
+            flex-direction: column;
+        }
+
+        #product-grid.list-view .product-card {
+            flex: 0 0 100%;
+            display: flex;
+            align-items: center;
+            padding: 10px;
+        }
+
+        #product-grid.list-view .product-card img {
+            width: 120px;
+            margin-right: 15px;
+        }
+
+        #product-grid.list-view .product-info {
+            flex: 1;
+        }
+
+        .product-card {
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+            padding: 15px;
+            text-align: center;
+            transition: transform 0.2s ease;
+        }
+
+        .product-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .view-toggle button {
+            border: none;
+            background: transparent;
+            color: #003147;
+            font-size: 1.3rem;
+            margin-left: 10px;
+        }
+
+        .view-toggle button.active {
+            color: #0d6efd;
+        }
+
+        #no-results {
+            text-align: center;
+            color: #6c757d;
+            font-size: 1.1rem;
+            margin-top: 2rem;
+        }
+    </style>
+</head>
+
+<body>
+    <app-header></app-header>
+
+    <!-- RESULTADOS -->
+    <main class="container my-4">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h2 class="h5 text-muted" id="product-count">6 produtos encontrados</h2>
+            <div class="view-toggle">
+                <button id="gridViewBtn" class="active"><i class="bi bi-grid-3x3-gap-fill"></i></button>
+                <button id="listViewBtn"><i class="bi bi-list-ul"></i></button>
+            </div>
+        </div>
+
+        <div id="product-grid" class="d-flex flex-wrap gap-3 grid-view"></div>
+        <p id="no-results" class="d-none">❌ Nenhum produto encontrado.</p>
+    </main>
+
+    <app-footer></app-footer>
+
+    <script>
+        const products = [
+            { name: "Arroz Tio João", price: "18,90", rating: 4.6, image: "imgteste/arroz.png" },
+            { name: "Feijão Carioca", price: "7,50", rating: 4.7, image: "imgteste/feijao.png" },
+            { name: "Leite Integral", price: "5,90", rating: 4.8, image: "imgteste/leite.png" },
+            { name: "Café Pilão", price: "14,90", rating: 4.5, image: "imgteste/cafe.png" },
+            { name: "Açúcar União", price: "4,80", rating: 4.6, image: "imgteste/acucar.png" },
+            { name: "Óleo de Soja", price: "6,50", rating: 4.7, image: "imgteste/oleo.png" }
+        ];
+
+        const grid = document.getElementById("product-grid");
+        const count = document.getElementById("product-count");
+        const noResults = document.getElementById("no-results");
+
+        function renderProducts(list) {
+            grid.innerHTML = "";
+            if (list.length === 0) {
+                noResults.classList.remove("d-none");
+                count.textContent = "Nenhum produto encontrado";
+                return;
+            }
+            noResults.classList.add("d-none");
+            list.forEach(p => {
+                const card = `
+          <div class="product-card">
+            <img src="${p.image}" class="img-fluid rounded mb-2" alt="${p.name}">
+            <div class="product-info">
+              <h6 class="fw-bold">${p.name}</h6>
+              <div class="text-muted small">Avaliação: ${p.rating} ★</div>
+              <div class="text-success fw-bold">R$ ${p.price}</div>
+            </div>
+          </div>`;
+                grid.innerHTML += card;
+            });
+            count.textContent = `${list.length} produto(s) encontrado(s)`;
+        }
+
+        // render inicial
+        renderProducts(products);
+
+        // busca
+        const searchForm = document.getElementById("searchForm");
+        const searchInput = document.getElementById("searchInput");
+
+        searchForm.addEventListener("submit", e => {
+            e.preventDefault();
+            const query = searchInput.value.trim().toLowerCase();
+            const filtered = products.filter(p => p.name.toLowerCase().includes(query));
+            renderProducts(filtered);
+        });
+
+        // alternar visualização
+        const gridBtn = document.getElementById("gridViewBtn");
+        const listBtn = document.getElementById("listViewBtn");
+
+        gridBtn.addEventListener("click", () => {
+            grid.classList.add("grid-view");
+            grid.classList.remove("list-view");
+            gridBtn.classList.add("active");
+            listBtn.classList.remove("active");
+        });
+
+        listBtn.addEventListener("click", () => {
+            grid.classList.add("list-view");
+            grid.classList.remove("grid-view");
+            listBtn.classList.add("active");
+            gridBtn.classList.remove("active");
+        });
+    </script>
+     <script type="module" src="components.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
