@@ -173,20 +173,6 @@
   <script src="javaScript/index.js"></script>
   <script type="module" src="components.js"></script>
   <script>
-    // Sistema de tema
-    document.querySelectorAll('.theme-option').forEach(item => {
-      item.addEventListener('click', function() {
-        const theme = this.getAttribute('data-theme');
-        
-        if (theme === 'system') {
-          // Remove o tema forçado e usa a preferência do sistema
-          document.documentElement.removeAttribute('data-bs-theme');
-        } else {
-          document.documentElement.setAttribute('data-bs-theme', theme);
-        }
-      });
-    });
-
     // Chat functionality
     const chatButton = document.getElementById('chatButton');
     const chatWindow = document.getElementById('chatWindow');
@@ -205,7 +191,7 @@
             const data = await response.json();
             chatBody.innerHTML = '';
             for (const message of data.data) {
-                handleCreateMessageCard(message.user, message.content, message.user === 'Você');
+                handleCreateMessageCard(message.user, message.content);
             }
         } catch (error) {
             console.error('Erro ao buscar mensagens:', error);
@@ -244,7 +230,7 @@
       chatButton.style.display = 'flex';
     };
 
-    const handleCreateMessageCard = (username, message, isUser = false) => {
+    const handleCreateMessageCard = (username, message, isUser = true) => {
       const messageDiv = document.createElement('div');
       messageDiv.className = `d-flex mb-2 ${isUser ? 'justify-content-end' : 'justify-content-start'}`;
       
@@ -261,16 +247,13 @@
     sendMessage.onclick = () => {
       const message = userMessage.value.trim();
       if (message) {
-        // Adiciona mensagem do usuário instantaneamente
         handleCreateMessageCard("Você", message, true);
         
-        // Envia para a API
         fetchSendMessage(message, 1);
         userMessage.value = '';
       }
     };
 
-    // Enter para enviar mensagem
     userMessage.addEventListener('keypress', function(e) {
       if (e.key === 'Enter') {
         sendMessage.click();
