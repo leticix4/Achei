@@ -12,17 +12,6 @@ class AppFooter extends HTMLElement {
     const tpl = document.getElementById("footer-template");
     this.appendChild(tpl.content.cloneNode(true));
   }
-
-  // connectedCallback() {
-  //   const themeOptions = this.querySelectorAll(".theme-option");
-
-  //   themeOptions.forEach(opt => {
-  //     opt.addEventListener("click", () => {
-  //       const selectedTheme = opt.getAttribute("data-theme");
-  //       document.documentElement.setAttribute("data-bs-theme", selectedTheme);
-  //     });
-  //   });
-  // }
 }
 
 customElements.define("app-footer", AppFooter);

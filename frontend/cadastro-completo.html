@@ -258,19 +258,6 @@
       localStorage.clear();
     });
 
-    // Sistema de tema
-    document.querySelectorAll('.theme-option').forEach(item => {
-      item.addEventListener('click', function() {
-        const theme = this.getAttribute('data-theme');
-        
-        if (theme === 'system') {
-          // Remove o tema forçado e usa a preferência do sistema
-          document.documentElement.removeAttribute('data-bs-theme');
-        } else {
-          document.documentElement.setAttribute('data-bs-theme', theme);
-        }
-      });
-    });
   </script>
 </body>
 </html>

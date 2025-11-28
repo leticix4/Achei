@@ -14,14 +14,29 @@ class AppHeader extends HTMLElement {
   }
 
   connectedCallback() {
-    const themeOptions = this.querySelectorAll(".theme-option");
+    this.themeConfig();
+  }
 
-    themeOptions.forEach(opt => {
-      opt.addEventListener("click", () => {
-        const selectedTheme = opt.getAttribute("data-theme");
+  themeConfig() {
+    const btnTema = this.querySelectorAll(".theme-option");
+
+    btnTema.forEach(bt => {
+      bt.addEventListener("click", () => {
+        const theme = bt.dataset.theme;
+
+        if (theme === "system") {
+          document.documentElement.removeAttribute("data-bs-theme");
+          location.reload();
+          return;
+        }
+
+        const selectedTheme = bt.getAttribute("data-theme");
         document.documentElement.setAttribute("data-bs-theme", selectedTheme);
       });
     });
+    
+    const saved = localStorage.getItem("theme");
+    if (saved) document.documentElement.setAttribute("data-bs-theme", saved);
   }
 }
 

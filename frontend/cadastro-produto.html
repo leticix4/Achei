@@ -157,30 +157,6 @@
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
   <script type="module" src="components.js"></script>
-  <!-- Script Dark Mode -->
-  <script>
-    const html = document.documentElement;
-
-    document.querySelectorAll(".theme-option").forEach(btn => {
-      btn.addEventListener("click", () => {
-        const theme = btn.dataset.theme;
-
-        if (theme === "system") {
-          html.removeAttribute("data-bs-theme");
-          location.reload();
-          return;
-        }
-
-        html.setAttribute("data-bs-theme", theme);
-
-        localStorage.setItem("theme", theme);
-      });
-    });
-
-    const saved = localStorage.getItem("theme");
-    if (saved) html.setAttribute("data-bs-theme", saved);
-  </script>
-
 </body>
 
 </html>
