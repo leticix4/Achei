@@ -4,6 +4,9 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\StoreController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\SearchController;
+use App\Http\Controllers\MessageController;
+use App\Http\Controllers\SSEController;
+
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -18,17 +21,22 @@ Route::get('/products', [ProductController::class, 'index']);
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
 
+Route::get('/sse/messages/{product}', [SSEController::class, 'stream']);
+
+Route::get('/products/{id}/messages', [MessageController::class, 'index']);
+Route::post('/products/{id}/messages', [MessageController::class, 'create']);
+
 Route::middleware('auth:sanctum')->group(function () {
     Route::get('/user', function (Request $request) {
         return $request->user();
     });
-    
+
     Route::post('/logout', [AuthController::class, 'logout']);
-    
+
     Route::post('/stores', [StoreController::class, 'store']);
     Route::put('/stores/{id}', [StoreController::class, 'update']);
     Route::delete('/stores/{id}', [StoreController::class, 'destroy']);
-    
+
     Route::post('/products', [ProductController::class, 'store']);
     Route::put('/products/{id}', [ProductController::class, 'update']);
 });
