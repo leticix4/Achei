@@ -1,0 +1,233 @@
+/* ============================================================ */
+/* ESTILOS ESPECÍFICOS PARA TABLET E MOBILE (Telas < 992px)     */
+/* ============================================================ */
+
+@media (max-width: 991px) {
+
+    /* --- 1. AJUSTE GERAL DE ESPAÇAMENTOS --- */
+    .container {
+        padding-left: 20px;
+        padding-right: 20px;
+    }
+
+    .section-title {
+        font-size: 1.3rem;
+        /* Títulos um pouco menores */
+    }
+
+    /* --- 2. CORREÇÃO DO HEADER (NAVBAR) --- */
+    /* Força o cabeçalho a não quebrar linha */
+    .navbar .container {
+        flex-wrap: nowrap !important;
+        justify-content: space-between;
+        padding: 0 15px;
+        /* Espaçamento lateral seguro */
+    }
+
+    /* Diminui o Logo para caber */
+    .navbar .logo img {
+        height: 28px !important;
+        /* Altura menor */
+        width: auto;
+    }
+
+    /* Transforma o botão "Entrar" em apenas um ícone limpo */
+    .btn-entrar {
+        background-color: transparent !important;
+        /* Tira o fundo cinza */
+        border: none !important;
+        padding: 0 5px !important;
+        color: white !important;
+        width: auto !important;
+        font-size: 0 !important;
+        /* Esconde o texto "Entrar" */
+    }
+
+    /* Aumenta o ícone do bonequinho para ficar fácil de clicar */
+    .btn-entrar i {
+        font-size: 1.6rem !important;
+        margin: 0 !important;
+    }
+
+    /* Ajusta o espaçamento dos ícones (Sino, Sol/Lua) */
+    .nav-icons .dropdown button,
+    #themeToggle {
+        padding: 0 8px !important;
+        /* Menos espaço entre eles */
+    }
+
+    /* Esconde a localização no mobile para ganhar espaço */
+    .location-tag {
+        display: none !important;
+    }
+}
+
+/* ============================================================ */
+/* AJUSTES PARA CELULAR (Telas < 768px)                         */
+/* ============================================================ */
+
+@media (max-width: 767px) {
+
+    /* --- 1. BANNER (VISÃO COMPLETA) --- */
+    /* Remove qualquer altura fixa dos containers do carrossel */
+    #banner-section,
+    #mainBanner,
+    #mainBanner .carousel-inner,
+    #mainBanner .carousel-item {
+        height: auto !important;
+        /* Altura automática */
+        min-height: unset !important;
+        /* Remove altura mínima */
+        padding-bottom: 0 !important;
+        /* Remove espaços extras */
+    }
+
+    /* A imagem manda no tamanho: 100% da largura, altura proporcional */
+    #mainBanner img {
+        width: 100% !important;
+        height: auto !important;
+        /* A altura se ajusta sozinha */
+        object-fit: contain !important;
+        /* Garante que NADA seja cortado */
+        border-radius: 0 !important;
+        display: block !important;
+        /* Remove espaços fantasmas abaixo da imagem */
+    }
+
+    /* Ajusta as setas para o novo tamanho */
+    #mainBanner .carousel-control-prev,
+    #mainBanner .carousel-control-next {
+        width: 30px !important;
+        height: 30px !important;
+        top: 50% !important;
+        transform: translateY(-50%) !important;
+    }
+
+    #mainBanner .carousel-control-prev-icon,
+    #mainBanner .carousel-control-next-icon {
+        width: 0.8rem !important;
+        height: 0.8rem !important;
+    }
+
+    /* Remove margens excessivas do container do banner */
+    #banner-section {
+        margin-bottom: 1rem !important;
+        margin-top: 0 !important;
+    }
+
+    /* Remove o padding lateral do container principal */
+    .container-fluid.px-0 {
+        padding-left: 0 !important;
+        padding-right: 0 !important;
+        overflow: hidden;
+        /* Garante que nada vaze */
+    }
+
+    /* Remove a margem da navbar */
+    .navbar {
+        margin-bottom: 0 !important;
+    }
+
+    /* --- 2. CARDS DE CATEGORIA (VERTICAL) --- */
+    .category-card {
+        min-height: 110px;
+        height: 100%;
+        padding: 0 !important;
+    }
+
+    .category-card .row {
+        flex-direction: column;
+        margin: 0;
+        height: 100%;
+    }
+
+    .category-card .icon-part {
+        width: 100%;
+        height: 65%;
+        padding: 0.5rem;
+        background-color: #f0f2f5;
+        border-bottom: 1px solid #eee;
+        border-radius: 10px 10px 0 0;
+    }
+
+    .category-card .icon-part .icon-img {
+        width: 45px;
+        height: 45px;
+        object-fit: contain;
+    }
+
+    .category-card .text-part {
+        width: 100%;
+        height: 35%;
+        padding: 2px 5px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: white;
+        border-radius: 0 0 10px 10px;
+    }
+
+    .category-card .text-part span {
+        font-size: 0.75rem;
+        line-height: 1.1;
+        text-align: center;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    /* --- 3. CARDS DE PRODUTO (MENORES) --- */
+    .col-lg-3 .card-produto,
+    .col-lg-6 .card-produto,
+    .card-produto {
+        min-height: 190px !important;
+        padding: 1rem !important;
+    }
+
+    .card-produto h3 {
+        font-size: 1rem;
+        margin-bottom: 0.5rem;
+    }
+
+    .card-produto .categoria-tag {
+        font-size: 0.7rem;
+        margin-bottom: 0.2rem;
+    }
+
+    .card-imagem img,
+    .card-imagem1 img {
+        width: 90px !important;
+        height: auto;
+    }
+
+    .card-imagem1,
+    .card-imagem {
+        bottom: 10px;
+        right: 10px;
+    }
+
+    .card-produto .badge {
+        font-size: 0.65rem;
+        top: 10px;
+        right: 10px;
+    }
+    
+
+    #banner-section {
+        margin-bottom: 0 !important;
+    }
+
+    .container.my-5 {
+        margin-top: 0 !important;
+    }
+}
+
+@media (max-width: 576px) {
+    .category-card {
+        min-height: 110px;
+    }
+
+    .category-card .text-part span {
+        font-size: 0.75rem;
+    }
+}

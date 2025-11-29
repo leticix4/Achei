@@ -1,0 +1,80 @@
+body {
+    background-color: #f0f2f5;
+    font-family: 'Roboto', sans-serif;
+}
+
+.form-section {
+    background: #fff;
+    padding: 2rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    margin-top: 2rem;
+}
+
+.section-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #003147;
+    border-left: 4px solid #003147;
+    padding-left: 10px;
+    margin-bottom: 1.5rem;
+}
+
+.btn-success {
+    background-color: #003147;
+    border: none;
+}
+
+.btn-success:hover {
+    background-color: #002233;
+}
+
+/* Input fields com fundo cinza e cantos arredondados */
+.form-control,
+.form-select {
+    background-color: #f2f2f2 !important;
+    /* O cinza clarinho da imagem */
+    border-radius: 8px;
+    padding: 10px 15px;
+}
+
+/* Títulos das seções */
+h3 {
+    font-size: 1.75rem;
+    color: #000;
+    /* Preto forte */
+}
+
+/* Labels */
+.form-label {
+    font-size: 0.9rem;
+    margin-bottom: 0.3rem;
+    color: #333;
+}
+
+/* Linha divisória vertical (apenas em telas médias para cima) */
+@media (min-width: 768px) {
+    .border-end-md {
+        border-right: 1px solid #dee2e6;
+        padding-right: 3rem;
+        /* Espaço antes da linha */
+    }
+
+    /* Espaço depois da linha para a segunda coluna */
+    .col-md-6:last-child {
+        padding-left: 3rem;
+    }
+}
+
+/* Botão cadastrar verde */
+.btn-success {
+    background-color: #5cb85c;
+    /* Verde parecido com o da imagem */
+    border: none;
+    width: auto;
+    /* Não ocupa a largura toda */
+}
+
+.btn-success:hover {
+    background-color: #4cae4c;
+}
