@@ -58,70 +58,81 @@
       </div>
 
       <!-- FORM PF -->
-      <form id="formPF">
-        <div class="row g-3">
+      <form id="formPF" onsubmit="handleSubmitPF(event)">
+         <div class="row g-3">
+    <!-- Informações Pessoais -->
           <div class="col-md-6">
             <label class="form-label">Nome Completo *</label>
-            <input type="text" id="nomeCompleto" class="form-control" required>
-          </div>
-          <div class="col-md-6">
-            <label class="form-label">CEP *</label>
-            <input type="text" class="form-control" required>
+            <input type="text" name="name" class="form-control" required>
           </div>
           <div class="col-md-6">
             <label class="form-label">Email *</label>
-            <input type="email" id="emailCompleto" class="form-control" required>
-          </div>
-          <div class="col-md-6">
-            <label class="form-label">Endereço *</label>
-            <input type="text" class="form-control" required>
-          </div>
-          <div class="col-md-3">
-            <label class="form-label">Nº *</label>
-            <input type="text" class="form-control" required>
-          </div>
-          <div class="col-md-3">
-            <label class="form-label">Complemento</label>
-            <input type="text" class="form-control">
+            <input type="email" name="email" class="form-control" required>
           </div>
           <div class="col-md-6">
             <label class="form-label">CPF *</label>
-            <input type="text" id="cpfCompleto" class="form-control" required>
+            <input type="text" name="cpf" class="form-control" required>
           </div>
           <div class="col-md-6">
             <label class="form-label">Nascimento *</label>
-            <input type="date" class="form-control" required>
+            <input type="date" name="birth_date" class="form-control" required>
           </div>
           <div class="col-md-6">
             <label class="form-label">Gênero *</label>
-            <select class="form-select" required>
+            <select name="gender" class="form-select" required>
               <option value="">Selecione...</option>
-              <option>Masculino</option>
-              <option>Feminino</option>
-              <option>Outro</option>
+              <option value="male">Masculino</option>
+              <option value="female">Feminino</option>
+              <option value="other">Outro</option>
             </select>
           </div>
           <div class="col-md-6">
-            <label class="form-label">Bairro *</label>
-            <input type="text" class="form-control" required>
+            <label class="form-label">Celular *</label>
+            <input type="tel" name="phone" class="form-control" required>
           </div>
           <div class="col-md-6">
             <label class="form-label">Senha *</label>
-            <input type="password" class="form-control" required minlength="8">
+            <input type="password" name="password" class="form-control" required minlength="8">
           </div>
           <div class="col-md-6">
             <label class="form-label">Confirmar Senha *</label>
-            <input type="password" class="form-control" required minlength="8">
+            <input type="password" name="password_confirmation" class="form-control" required minlength="8">
           </div>
-          <div class="col-md-6">
-            <label class="form-label">Celular *</label>
-            <input type="tel" id="celularCompleto" class="form-control" required>
-          </div>
-          <div class="col-md-6">
-            <label class="form-label">Cidade *</label>
-            <input type="text" class="form-control" required>
-          </div>
-        </div>
+
+    <!-- Endereço (objeto address) -->
+    <div class="col-md-6">
+      <label class="form-label">CEP *</label>
+      <input type="text" name="address[zip_code]" class="form-control" required>
+    </div>
+    <div class="col-md-6">
+      <label class="form-label">Rua *</label>
+      <input type="text" name="address[street]" class="form-control" required>
+    </div>
+    <div class="col-md-3">
+      <label class="form-label">Nº *</label>
+      <input type="text" name="address[number]" class="form-control" required>
+    </div>
+    <div class="col-md-3">
+      <label class="form-label">Complemento</label>
+      <input type="text" name="address[complement]" class="form-control">
+    </div>
+    <div class="col-md-6">
+      <label class="form-label">Ponto de Referência</label>
+      <input type="text" name="address[landmark]" class="form-control">
+    </div>
+    <div class="col-md-6">
+      <label class="form-label">Bairro *</label>
+      <input type="text" name="address[neighborhood]" class="form-control" required>
+    </div>
+    <div class="col-md-6">
+      <label class="form-label">Cidade *</label>
+      <input type="text" name="address[city]" class="form-control" required>
+    </div>
+    <div class="col-md-6">
+      <label class="form-label">Estado *</label>
+      <input type="text" name="address[state]" class="form-control" maxlength="2" required>
+    </div>
+  </div>
         <div class="d-flex justify-content-end mt-3">
           <button class="btn btn-primary px-4">Finalizar Cadastro</button>
         </div>
@@ -129,71 +140,84 @@
       </form>
 
       <!-- FORM PJ -->
-      <form id="formPJ" style="display:none;">
+      <form id="formPJ" style="display:none;" onsubmit="handleSubmitPJ(event)">
         <div class="row g-3">
           <div class="col-md-6">
             <label class="form-label">Razão Social *</label>
-            <input type="text" id="razaoPJ" class="form-control" required>
+            <input type="text" id="razaoPJ" name="name" class="form-control" required>
           </div>
           <div class="col-md-6">
             <label class="form-label">Nome Fantasia *</label>
-            <input type="text" id="fantasiaPJ" class="form-control" required>
+            <input type="text" id="fantasiaPJ" name="trade_name" class="form-control" required>
           </div>
           <div class="col-md-6">
             <label class="form-label">Inscrição Estadual *</label>
-            <input type="text" id="iePJ" class="form-control" required>
+            <input type="text" id="iePJ" name="state_registration" class="form-control" required>
           </div>
           <div class="col-md-6">
             <label class="form-label">CNPJ *</label>
-            <input type="text" id="cnpjPJ" class="form-control" required>
+            <input type="text" id="cnpjPJ" name="cnpj" class="form-control" required>
           </div>
           <div class="col-md-6">
             <label class="form-label">Email *</label>
-            <input type="email" id="emailPJ" class="form-control" required>
+            <input type="email" id="emailPJ" name="email" class="form-control" required>
           </div>
           <div class="col-md-6">
             <label class="form-label">CEP *</label>
-            <input type="text" class="form-control" required>
+            <input type="text" name="address[zip_code]" class="form-control" required>
           </div>
           <div class="col-md-6">
-            <label class="form-label">Endereço *</label>
-            <input type="text" class="form-control" required>
+            <label class="form-label">Rua *</label>
+            <input type="text" name="address[street]" class="form-control" required>
           </div>
           <div class="col-md-3">
             <label class="form-label">Nº *</label>
-            <input type="text" class="form-control" required>
+            <input type="text" name="address[number]" class="form-control" required>
           </div>
           <div class="col-md-3">
             <label class="form-label">Complemento</label>
-            <input type="text" class="form-control">
+            <input type="text" name="address[complement]" class="form-control">
           </div>
           <div class="col-md-6">
             <label class="form-label">Referência</label>
-            <input type="text" class="form-control">
-          </div>
-          <div class="col-md-6">
-            <label class="form-label">Senha *</label>
-            <input type="password" class="form-control" required minlength="8">
-          </div>
-          <div class="col-md-6">
-            <label class="form-label">Confirmar Senha *</label>
-            <input type="password" class="form-control" required minlength="8">
-          </div>
-          <div class="col-md-6">
-            <label class="form-label">Celular *</label>
-            <input type="tel" class="form-control" required>
-          </div>
-          <div class="col-md-6">
-            <label class="form-label">Telefone Adicional</label>
-            <input type="tel" class="form-control">
+            <input type="text" name="address[landmark]" class="form-control">
           </div>
           <div class="col-md-6">
             <label class="form-label">Cidade *</label>
-            <input type="text" class="form-control" required>
+            <input type="text" name="address[city]" class="form-control" required>
+          </div>
+          <div class="col-md-6">
+            <label class="form-label">Estado *</label>
+            <input type="text" name="address[state]" class="form-control" required>
+          </div>
+          <div class="col-md-6">
+            <label class="form-label">Bairro *</label>
+            <input type="text" name="address[neighborhood]" class="form-control" required>
+          </div>
+          <div class="col-md-12">
+            <label class="form-label">Categoria *</label>
+            <input type="text" name="category" class="form-control" required>
+          </div>
+          <div class="col-md-6">
+            <label class="form-label">Senha *</label>
+            <input type="password" name="password" class="form-control" required minlength="8">
+          </div>
+          <div class="col-md-6">
+            <label class="form-label">Confirmar Senha *</label>
+            <input type="password" name="password_confirmation" class="form-control" required minlength="8">
+          </div>
+          <div class="col-md-6">
+            <label class="form-label">Celular *</label>
+            <input type="tel" name="phone" class="form-control" required>
+          </div>
+          <div class="col-md-6">
+            <label class="form-label">Telefone Adicional</label>
+            <input type="tel" name="additional_phone" class="form-control">
           </div>
         </div>
+
         <div class="d-flex justify-content-end mt-3">
-          <button class="btn btn-primary px-4">Finalizar Cadastro</button>
+          <button type="submit" class="btn btn-primary px-4">Finalizar Cadastro</button>
         </div>
       </form>
     </div>
@@ -203,7 +227,8 @@
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
   <script src="javaScript/index.js"></script>
-   <script type="module" src="components.js"></script>
+  <script type="module" src="components.js"></script>
+
   <script>
     // --- LÓGICA PARA ALTERNAR ENTRE FORMULÁRIOS PF E PJ ---
     const pfRadio = document.getElementById("pf");
@@ -255,8 +280,64 @@
         document.getElementById("iePJ").value = localStorage.getItem("cadastroIe") || "";
 
       }
-      localStorage.clear();
     });
+    
+    const handleSubmitPF = async(event) => {
+      event.preventDefault();
+      event.stopPropagation();
+
+      const form = event.target;
+      const formData = new FormData(form);
+      const data = Object.fromEntries(formData.entries());
+
+      try{
+        const response = await fetch(
+          `http://localhost:8000/api/register`, {
+            method: 'POST',
+            headers: {
+              'Accept': 'application/json',
+            },
+              body: formData
+          })
+          .then(response => response.json())
+          .then(data => {
+            const token = data.data.access_token;
+            localStorage.setItem('access_token', token);
+            window.location.reload()
+          })
+      }catch(err){
+        console.log(err);
+      }
+      
+    };
+
+    const handleSubmitPJ = async(event) => {
+      event.preventDefault();
+      event.stopPropagation();
+
+      const form = event.target;
+      const formData = new FormData(form);
+      const data = Object.fromEntries(formData.entries());
+
+      try{
+        const response = await fetch(
+          `http://localhost:8000/api/stores`, {
+            method: 'POST',
+            headers: {
+              'Accept': 'application/json',
+            },
+              body: formData
+          })
+          .then(response => response.json())
+          .then(data => {
+            const token = data.data.access_token;
+            localStorage.setItem('access_token', token);
+            window.location.reload()
+          })
+      }catch(err){
+        console.log(err);
+      }
+    };
 
   </script>
 </body>
