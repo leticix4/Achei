@@ -1,8 +1,14 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\API;
 
+use App\Http\Controllers\Controller;
 use App\Models\User;
+use App\Http\Requests\API\CreateUserRequest;
+use App\Services\ResponseService;
+use App\Services\UserService;
+use App\Http\Resources\UserResource;
+
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Hash;
@@ -10,32 +16,31 @@ use Illuminate\Validation\ValidationException;
 
 class AuthController extends Controller
 {
-    public function register(Request $request): JsonResponse
+    public function __construct(protected UserService $userService) {}
+
+    public function register(CreateUserRequest $request): JsonResponse
     {
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users',
-            'password' => 'required|string|min:8|confirmed',
-        ]);
+        $user = $this->userService->create($request->validated());
 
-        $user = User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
-        ]);
+        return ResponseService::success(UserResource::make($user), 'Registro de usuário desativado temporariamente', 200);
+        // $user = User::create([
+        //     'name' => $request->name,
+        //     'email' => $request->email,
+        //     'password' => Hash::make($request->password),
+        // ]);
 
-        $token = $user->createToken('auth_token')->plainTextToken;
+        // $token = $user->createToken('auth_token')->plainTextToken;
 
-        return response()->json([
-            'message' => 'Usuário registrado com sucesso',
-            'user' => [
-                'id' => $user->id,
-                'name' => $user->name,
-                'email' => $user->email,
-            ],
-            'access_token' => $token,
-            'token_type' => 'Bearer'
-        ], 201);
+        // return response()->json([
+        //     'message' => 'Usuário registrado com sucesso',
+        //     'user' => [
+        //         'id' => $user->id,
+        //         'name' => $user->name,
+        //         'email' => $user->email,
+        //     ],
+        //     'access_token' => $token,
+        //     'token_type' => 'Bearer'
+        // ], 201);
     }
 
     public function login(Request $request): JsonResponse

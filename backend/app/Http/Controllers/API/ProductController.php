@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\API;
 
+use App\Http\Controllers\Controller;
 use App\Models\Product;
 use App\Models\Store;
 use App\Http\Resources\ProductResource;
@@ -13,17 +14,17 @@ class ProductController extends Controller
     public function index(Request $request): JsonResponse
     {
         $query = Product::available()->with('store');
-        
+
         if ($request->has('store_id')) {
             $query->where('store_id', $request->store_id);
         }
-        
+
         if ($request->has('category')) {
             $query->where('category', $request->category);
         }
-        
+
         $products = $query->paginate(20);
-        
+
         return response()->json([
             'data' => ProductResource::collection($products),
             'meta' => [
@@ -59,7 +60,7 @@ class ProductController extends Controller
     public function update(Request $request, $id): JsonResponse
     {
         $product = Product::findOrFail($id);
-        
+
         $validated = $request->validate([
             'name' => 'sometimes|string|max:255',
             'description' => 'sometimes|nullable|string',

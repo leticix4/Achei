@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\API;
 
+use App\Http\Controllers\Controller;
 use App\Models\Product;
 use App\Models\Store;
 use App\Http\Resources\ProductResource;
@@ -25,13 +26,17 @@ class SearchController extends Controller
 
         $searchTerm = $request->q;
         $filters = $request->only([
-            'category', 'brand', 'max_price', 'min_price', 
-            'store_id', 'sort_by'
+            'category',
+            'brand',
+            'max_price',
+            'min_price',
+            'store_id',
+            'sort_by'
         ]);
 
         $cacheKey = 'search_' . md5($searchTerm . serialize($filters));
-        
-        $products = Cache::remember($cacheKey, 300, function() use ($searchTerm, $filters) {
+
+        $products = Cache::remember($cacheKey, 300, function () use ($searchTerm, $filters) {
             return $this->performSearch($searchTerm, $filters);
         });
 
@@ -48,31 +53,31 @@ class SearchController extends Controller
     private function performSearch($searchTerm, $filters)
     {
         $query = Product::available()
-            ->with(['store' => function($query) {
+            ->with(['store' => function ($query) {
                 $query->active();
             }])
-            ->where(function($q) use ($searchTerm) {
+            ->where(function ($q) use ($searchTerm) {
                 $q->where('name', 'LIKE', "%{$searchTerm}%")
-                  ->orWhere('description', 'LIKE', "%{$searchTerm}%")
-                  ->orWhere('brand', 'LIKE', "%{$searchTerm}%");
+                    ->orWhere('description', 'LIKE', "%{$searchTerm}%")
+                    ->orWhere('brand', 'LIKE', "%{$searchTerm}%");
             });
 
         if (isset($filters['max_price'])) {
             $query->where('price', '<=', $filters['max_price']);
         }
-        
+
         if (isset($filters['min_price'])) {
             $query->where('price', '>=', $filters['min_price']);
         }
-        
+
         if (isset($filters['category'])) {
             $query->where('category', $filters['category']);
         }
-        
+
         if (isset($filters['brand'])) {
             $query->where('brand', $filters['brand']);
         }
-        
+
         if (isset($filters['store_id'])) {
             $query->where('store_id', $filters['store_id']);
         }
@@ -97,8 +102,8 @@ class SearchController extends Controller
                 break;
             case 'store':
                 $query->join('stores', 'products.store_id', '=', 'stores.id')
-                      ->orderBy('stores.name', 'asc')
-                      ->select('products.*');
+                    ->orderBy('stores.name', 'asc')
+                    ->select('products.*');
                 break;
             default:
                 $query->orderBy('price', 'asc');
@@ -138,22 +143,22 @@ class SearchController extends Controller
 
     private function performNearbySearch($searchTerm, $userLat, $userLng, $radiusKm)
     {
-        $haversine = "(6371 * acos(cos(radians($userLat)) 
-                       * cos(radians(latitude)) 
-                       * cos(radians(longitude) - radians($userLng)) 
-                       + sin(radians($userLat)) 
+        $haversine = "(6371 * acos(cos(radians($userLat))
+                       * cos(radians(latitude))
+                       * cos(radians(longitude) - radians($userLng))
+                       + sin(radians($userLat))
                        * sin(radians(latitude))))";
-        
+
         return Product::available()
             ->join('stores', 'products.store_id', '=', 'stores.id')
             ->select('products.*')
             ->selectRaw("$haversine AS distance")
             ->whereRaw("$haversine < ?", [$radiusKm])
             ->with(['store'])
-            ->where(function($q) use ($searchTerm) {
+            ->where(function ($q) use ($searchTerm) {
                 $q->where('products.name', 'LIKE', "%{$searchTerm}%")
-                  ->orWhere('products.description', 'LIKE', "%{$searchTerm}%")
-                  ->orWhere('products.brand', 'LIKE', "%{$searchTerm}%");
+                    ->orWhere('products.description', 'LIKE', "%{$searchTerm}%")
+                    ->orWhere('products.brand', 'LIKE', "%{$searchTerm}%");
             })
             ->orderBy('distance')
             ->get();

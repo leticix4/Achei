@@ -15,6 +15,12 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'cpf',
+        'birth_date',
+        'gender',
+        'phone',
+        'address_id',
+        'role',
     ];
 
     protected $hidden = [
@@ -25,5 +31,11 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
+        'birth_date' => 'date',
     ];
+
+    public function address()
+    {
+        return $this->belongsTo(Address::class);
+    }
 }
