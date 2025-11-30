@@ -11,18 +11,16 @@ class StoreResource extends JsonResource
         return [
             'id' => $this->id,
             'name' => $this->name,
-            'address' => $this->address,
+            'trade_name' => $this->trade_name,
+            'state_registration' => $this->state_registration,
+            'cnpj' => $this->cnpj,
             'phone' => $this->phone,
-            'responsible' => $this->responsible,
-            'category' => $this->category,
-            'image_url' => $this->image_url,
-            'location' => [
-                'latitude' => (float) $this->latitude,
-                'longitude' => (float) $this->longitude,
-            ],
+            'additional_phone' => $this->additional_phone,
+            'latitude' => (float) $this->latitude,
+            'longitude' => (float) $this->longitude,
             'is_active' => $this->is_active,
-            'created_at' => $this->created_at,
-            'updated_at' => $this->updated_at,
+            'category' => $this->category,
+            'image_url' => $this->image_url
         ];
     }
 }

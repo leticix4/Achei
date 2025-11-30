@@ -13,8 +13,11 @@ Route::get('/search', [SearchController::class, 'searchProducts']);
 Route::get('/search/nearby', [SearchController::class, 'searchNearby']);
 Route::get('/categories', [SearchController::class, 'getCategories']);
 Route::get('/brands', [SearchController::class, 'getBrands']);
+
+Route::post('/stores', [StoreController::class, 'create']);
 Route::get('/stores', [StoreController::class, 'index']);
 Route::get('/stores/{id}', [StoreController::class, 'show']);
+
 Route::get('/products', [ProductController::class, 'index']);
 
 Route::post('/register', [AuthController::class, 'register']);
@@ -28,7 +31,6 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::post('/logout', [AuthController::class, 'logout']);
 
-    Route::post('/stores', [StoreController::class, 'store']);
     Route::put('/stores/{id}', [StoreController::class, 'update']);
     Route::delete('/stores/{id}', [StoreController::class, 'destroy']);
 

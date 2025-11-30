@@ -2,10 +2,7 @@
 
 namespace App\Http\Requests\API;
 
-use Illuminate\Validation\Rule;
-use App\Http\Requests\API\Request;
-
-class CreateUserRequest extends Request
+class CreateStoreRequest extends Request
 {
     public function authorize(): bool
     {
@@ -16,12 +13,18 @@ class CreateUserRequest extends Request
     {
         return [
             'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'email', 'unique:users,email'],
+            'trade_name' => ['required', 'string', 'max:255'],
+
             'password' => ['required', 'string', 'min:6', 'confirmed'],
-            'cpf' => ['required', 'string', 'size:14', 'unique:users,cpf'],
-            'birth_date' => ['nullable', 'date'],
-            'gender' => ['required', Rule::in(['male', 'female', 'other'])],
+            'email' => ['required', 'email', 'unique:users,email'],
+
+            'state_registration' => ['required', 'string', 'max:50'],
+            'cnpj' => ['required', 'string', 'size:18', 'unique:stores,cnpj'],
             'phone' => ['required', 'string', 'max:20'],
+            'additional_phone' => ['nullable', 'string', 'max:20'],
+            'category' => ['required', 'string', 'max:100'],
+            'image_url' => ['nullable', 'string', 'max:255'],
+
             'address' => ['required', 'array'],
             'address.street' => ['required', 'string', 'max:255'],
             'address.zip_code' => ['required', 'string', 'max:9'],
@@ -37,17 +40,19 @@ class CreateUserRequest extends Request
     public function messages(): array
     {
         return [
-            'name.required' => 'O nome é obrigatório.',
+            'name.required' => 'O nome interno da loja é obrigatório.',
             'email.required' => 'O e-mail é obrigatório.',
             'email.email' => 'O e-mail deve ser válido.',
             'email.unique' => 'Este e-mail já está cadastrado.',
             'password.required' => 'A senha é obrigatória.',
             'password.confirmed' => 'A confirmação da senha não confere.',
-            'cpf.required' => 'O CPF é obrigatório.',
-            'cpf.size' => 'O CPF deve ter exatamente 14 caracteres.',
-            'cpf.unique' => 'Este CPF já está cadastrado.',
-            'gender.in' => 'O gênero informado é inválido.',
-            'phone.required' => 'O telefone celular é obrigatório.',
+            'trade_name.required' => 'O nome fantasia da loja é obrigatório.',
+            'cnpj.required' => 'O CNPJ é obrigatório.',
+            'category.required' => 'A categoria é obrigatória.',
+            'state_registration.required' => 'A inscrição estadual é obrigatória.',
+            'cnpj.size' => 'O CNPJ deve ter exatamente 18 caracteres.',
+            'cnpj.unique' => 'Este CNPJ já está cadastrado.',
+            'phone.required' => 'O telefone principal é obrigatório.',
 
             'address.required' => 'O endereço é obrigatório.',
             'address.street.required' => 'O campo rua é obrigatório.',

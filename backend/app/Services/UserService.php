@@ -5,7 +5,8 @@ namespace App\Services;
 use App\Models\User;
 use App\Models\Address;
 use App\Enums\UserRoleEnum;
-
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\ValidationException;
 
 class UserService
 {
@@ -20,5 +21,18 @@ class UserService
         $data['password'] = bcrypt($data['password']);
 
         return User::create($data);
+    }
+
+    public function getUserByCredentials(array $data): User
+    {
+        $user = User::where('email', $data['email'])->firstOrFail();
+
+        if (!$user || !Hash::check($data['password'], $user->password)) {
+            throw ValidationException::withMessages([
+                'email' => ['As credenciais fornecidas estão incorretas.'],
+            ]);
+        }
+
+        return $user;
     }
 }

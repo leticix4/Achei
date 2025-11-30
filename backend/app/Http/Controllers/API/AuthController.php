@@ -5,9 +5,10 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Http\Requests\API\CreateUserRequest;
+use App\Http\Requests\API\LoginRequest;
 use App\Services\ResponseService;
 use App\Services\UserService;
-use App\Http\Resources\UserResource;
+use App\Http\Resources\UserWithTokenResource;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
@@ -22,54 +23,22 @@ class AuthController extends Controller
     {
         $user = $this->userService->create($request->validated());
 
-        return ResponseService::success(UserResource::make($user), 'Registro de usuário desativado temporariamente', 200);
-        // $user = User::create([
-        //     'name' => $request->name,
-        //     'email' => $request->email,
-        //     'password' => Hash::make($request->password),
-        // ]);
-
-        // $token = $user->createToken('auth_token')->plainTextToken;
-
-        // return response()->json([
-        //     'message' => 'Usuário registrado com sucesso',
-        //     'user' => [
-        //         'id' => $user->id,
-        //         'name' => $user->name,
-        //         'email' => $user->email,
-        //     ],
-        //     'access_token' => $token,
-        //     'token_type' => 'Bearer'
-        // ], 201);
+        return ResponseService::success(
+            UserWithTokenResource::make($user),
+            'Usuário registrado com sucesso',
+            201
+        );
     }
 
-    public function login(Request $request): JsonResponse
+    public function login(LoginRequest $request): JsonResponse
     {
-        $request->validate([
-            'email' => 'required|email',
-            'password' => 'required',
-        ]);
+        $user = $this->userService->getUserByCredentials($request->validated());
 
-        $user = User::where('email', $request->email)->first();
-
-        if (!$user || !Hash::check($request->password, $user->password)) {
-            throw ValidationException::withMessages([
-                'email' => ['As credenciais fornecidas estão incorretas.'],
-            ]);
-        }
-
-        $token = $user->createToken('auth_token')->plainTextToken;
-
-        return response()->json([
-            'message' => 'Login realizado com sucesso',
-            'user' => [
-                'id' => $user->id,
-                'name' => $user->name,
-                'email' => $user->email,
-            ],
-            'access_token' => $token,
-            'token_type' => 'Bearer'
-        ]);
+        return ResponseService::success(
+            UserWithTokenResource::make($user),
+            'Sessão iniciada com sucesso',
+            201
+        );
     }
 
     public function logout(Request $request): JsonResponse
