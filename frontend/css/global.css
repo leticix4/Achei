@@ -25,6 +25,7 @@ body {
   --product-name-color: #212529;
   --product-address-color: #6c757d;
   --product-price-color: #003147;
+  
 }
 
 [data-bs-theme="dark"] {
