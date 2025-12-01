@@ -1,0 +1,118 @@
+/* ============================================== */
+/* ESTILOS DA NAVBAR (NAVEGAÇÃO PRINCIPAL)    */
+/* ============================================== */
+
+.navbar {
+ 
+  padding: 1rem 0;
+}
+
+.navbar .logo img {
+  height: 50px;
+  width: auto;
+}
+
+.location-tag {
+  background-color: rgba(255, 255, 255, 0.1);
+  padding: 0.3rem 0.8rem;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  color: white;
+}
+
+.search-bar {
+  width: 50%;
+  max-width: 800px;
+}
+
+.btn-search {
+  background-color: white;
+  border: 1px solid #ced4da;
+  border-left: none;
+  border-radius: 0 25px 25px 0;
+  padding: 0 1rem;
+}
+
+.btn-search:hover {
+  background-color: #e9ecef;
+}
+
+.form-control {
+  border-radius: 25px 0 0 25px;
+}
+
+#themeToggle {
+  background: transparent;
+  border: none;
+  color: white;
+  padding: 0.4rem 0.6rem;
+  transition: color 0.3s;
+}
+
+#themeToggle:hover {
+  color: #ffc107;
+}
+
+.dropdown-menu {
+  background-color: var(--bs-body-bg);
+  border-radius: 10px;
+  min-width: 150px;
+}
+
+.dropdown-item {
+  color: var(--bs-body-color);
+}
+
+.dropdown-item:hover {
+  background-color: var(--bs-secondary-bg);
+}
+
+
+.btn-entrar {
+  background-color: #4a5568;
+  color: white;
+  border-radius: 10px;
+  padding: 0.4rem 1rem;
+}
+
+.btn-entrar:hover {
+  background-color: #5d6a7e;
+  color: white;
+}
+
+/* Navegação Secundária (Sub-nav) */
+.sub-nav {
+  border-bottom: 1px solid #dee2e6;
+}
+
+.sub-nav .nav-link {
+  color: white;
+  font-weight: 500;
+}
+
+/* Dropdown de Categorias */
+.custom-dropdown {
+  border-radius: 6px;
+  padding: 0.5rem 0;
+  min-width: 250px;
+}
+
+.custom-dropdown .dropdown-item {
+  padding: 0.7rem 1rem;
+  font-size: 0.95rem;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.custom-dropdown .dropdown-item:hover {
+  background-color: #031939;
+  color: #fff;
+}
+.notif {
+  background-color: #E4CC5A;
+  color : #003147;
+}
+.bg-lupa {
+  background-image: url('../imgteste/fundoazul.png');
+  background-size: cover;
+  background-position: center;
+}
