@@ -43,9 +43,9 @@ Route::get('/tecnologia', function () {
 })->name('tecnologia');
 
 // Casa e Móveis
-Route::get('/casa-moveis', function () {
+Route::get('/casaMoveis', function () {
     return view('casaMoveis');
-})->name('casa-moveis');
+})->name('casaMoveis');
 
 // Eletrodomésticos
 Route::get('/eletrodomesticos', function () {

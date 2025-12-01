@@ -143,7 +143,7 @@ document.addEventListener("click", function (event) {
         // Limpa campos
         nomeInput.value = ""; emailInput.value = ""; telefoneInput.value = ""; cpfInput.value = "";
         
-        window.location.href = "cadastro-completo.html";
+        window.location.href = "/cadastro-completo";
     }
 
     // --- SALVAR E LIMPAR (PESSOA JURÍDICA) ---
@@ -164,6 +164,6 @@ document.addEventListener("click", function (event) {
         // Limpa campos
         emailInput.value = ""; cnpjInput.value = ""; fantasiaInput.value = ""; razaoInput.value = ""; ieInput.value = "";
 
-        window.location.href = "cadastro-completo.html";
+        window.location.href = "/cadastro-completo";
     }
 });

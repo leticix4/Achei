@@ -43,7 +43,7 @@
             </ul>
         </div>
 
-        <!-- Ícones e botão entrar + criar conta -->
+        <!-- Ícones e botão entrar -->
         <div class="d-flex align-items-center">
             <div class="nav-icons d-flex">
                 <!-- ÍCONE DO SINO -->
@@ -189,85 +189,6 @@
                                             <button type="button" class="btn btn-outline-secondary w-100 mb-2">
                                                 <i class="bi bi-google me-2"></i> Entrar com o Google
                                             </button>
-                                            <p class="small text-center mt-3">
-                                                Não tem uma conta?
-                                                <a href="#" id="abrirCadastro">Criar conta</a>
-                                            </p>
-                                        </div>
-
-                                        <!-- CADASTRO PF / PJ -->
-                                        <div id="cadastroForm" style="display: none;">
-                                            <h4 class="fw-bold text-center mb-4">Criar Conta</h4>
-                                            <ul class="nav nav-tabs mb-3" id="cadastroTabs">
-                                                <li class="nav-item">
-                                                    <a class="nav-link active" data-bs-toggle="tab"
-                                                        href="#cadastroPF">Cadastrar CPF</a>
-                                                </li>
-                                                <li class="nav-item">
-                                                    <a class="nav-link" data-bs-toggle="tab"
-                                                        href="#cadastroPJ">Cadastrar CNPJ</a>
-                                                </li>
-                                            </ul>
-                                            <div class="tab-content">
-                                                <!-- FORM PF -->
-                                                <div class="tab-pane fade show active" id="cadastroPF">
-                                                    <form id="formPF">
-                                                        <div class="mb-3">
-                                                            <label class="form-label">E-mail*</label>
-                                                            <input type="email" id="emailPF" class="form-control"
-                                                                required>
-                                                        </div>
-                                                        <div class="mb-3">
-                                                            <label class="form-label">CPF*</label>
-                                                            <input type="text" id="cpfPF" class="form-control"
-                                                                required>
-                                                        </div>
-                                                        <div class="mb-3">
-                                                            <label class="form-label">Nome completo*</label>
-                                                            <input type="text" id="nomePF" class="form-control"
-                                                                required>
-                                                        </div>
-                                                        <div class="mb-3">
-                                                            <label class="form-label">Telefone celular*</label>
-                                                            <input type="tel" id="telefonePF"
-                                                                class="form-control" required>
-                                                        </div>
-                                                        <button type="button" id="btnSalvarPF"
-                                                            class="btn btn-success w-100">Continuar</button>
-                                                    </form>
-                                                </div>
-                                                <!-- FORM PJ -->
-                                                <div class="tab-pane fade" id="cadastroPJ">
-                                                    <form id="formPJ">
-                                                        <div class="mb-3">
-                                                            <label class="form-label">E-mail*</label>
-                                                            <input type="email" id="emailPJ" class="form-control"
-                                                                required>
-                                                        </div>
-                                                        <div class="mb-3">
-                                                            <label class="form-label">CNPJ*</label>
-                                                            <input type="text" id="cnpjPJ" class="form-control"
-                                                                required>
-                                                        </div>
-                                                        <div class="mb-3">
-                                                            <label class="form-label">Razão social*</label>
-                                                            <input type="text" id="razaoPJ" class="form-control"
-                                                                required>
-                                                        </div>
-                                                        <div class="mb-3">
-                                                            <label class="form-label">Inscrição Estadual*</label>
-                                                            <input type="text" id="iePJ" class="form-control"
-                                                                required>
-                                                        </div>
-                                                        <button type="button" id="btnSalvarPJ"
-                                                            class="btn btn-success w-100">Continuar</button>
-                                                    </form>
-                                                </div>
-                                            </div>
-                                            <p class="small text-center mt-3">
-                                                Já tem uma conta?
-                                                <a href="#" id="abrirLogin">Voltar para login</a>
-                                            </p>
                                         </div>
                                     </div>
 
@@ -303,7 +224,7 @@
             </div>
         </div>
         <a href="#btnEntrar" class="d-flex align-items-center mb-3">
-            <i class="bi bi-person-circle me-2"></i> Entrar / Criar conta
+            <i class="bi bi-person-circle me-2"></i> Entrar
         </a>
         <a href="#" class="d-flex align-items-center mb-3">
             <i class="bi bi-bell me-2"></i> Notificações
