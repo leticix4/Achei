@@ -21,11 +21,11 @@ return new class extends Migration
             $table->string('sku')->unique()->nullable();
             $table->boolean('is_available')->default(true);
             $table->timestamps();
-            
+
             $table->index(['name', 'brand', 'category']);
             $table->index(['price']);
             $table->index(['is_available']);
-            $table->fullText(['name', 'description', 'brand']);
+            // $table->fullText(['name', 'description', 'brand']);
         });
     }
 
