@@ -1,194 +1,169 @@
-// 1. ATIVAR TOOLTIPS BOOTSTRAP
-var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
-var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
-  return new bootstrap.Tooltip(tooltipTriggerEl);
-});
-
-// 2. LÓGICA DO BOTÃO "VER TODAS NOTIFICAÇÕES"
-document.getElementById("btnVerTodas").addEventListener("click", function () {
-  var dropdownEl = document.getElementById("notifDropdown");
-  var dropdown = bootstrap.Dropdown.getInstance(dropdownEl);
-  if (dropdown) dropdown.hide();
-
-  var modalEl = document.getElementById("modalNotificacoes");
-  var modal = bootstrap.Modal.getOrCreateInstance(modalEl);
-  modal.show();
-});
-
-document.addEventListener("DOMContentLoaded", () => {
-
-  // --- LÓGICA DO CONTADOR DE NOTIFICAÇÕES ---
-  const notifBadge = document.getElementById("notifBadge");
-  const notifItems = document.querySelectorAll(".dropdown-menu .notif-item, #modalNotificacoes .list-group-item a");
-
-  notifItems.forEach(item => {
-    item.addEventListener("click", (e) => {
-      let count = parseInt(notifBadge.textContent);
-      if (count > 0) {
-        count--;
-        notifBadge.textContent = count;
-        if (count === 0) {
-          notifBadge.style.display = "none";
-        }
-      }
-    });
-  });
-  // --- LÓGICA PARA ALTERNAR LOGIN/CADASTRO E SALVAR DADOS ---
-  const loginForm = document.getElementById("loginForm");
-  const cadastroForm = document.getElementById("cadastroForm");
-  const abrirCadastro = document.getElementById("abrirCadastro");
-  const abrirLogin = document.getElementById("abrirLogin");
-
-  if (abrirCadastro) {
-    abrirCadastro.addEventListener("click", (e) => {
-      e.preventDefault();
-      loginForm.style.display = "none";
-      cadastroForm.style.display = "block";
-    });
-  }
-
-  if (abrirLogin) {
-    abrirLogin.addEventListener("click", (e) => {
-      e.preventDefault();
-      cadastroForm.style.display = "none";
-      loginForm.style.display = "block";
-    });
-  }
-  // Salvar e limpar dados do formulário PF
-  const btnSalvarPF = document.getElementById("btnSalvarPF");
-  if (btnSalvarPF) {
-    btnSalvarPF.addEventListener("click", () => {
-      // Pega os inputs do formulário PF
-      const nomeInput = document.getElementById("nomePF");
-      const emailInput = document.getElementById("emailPF");
-      const telefoneInput = document.getElementById("telefonePF");
-      const cpfInput = document.getElementById("cpfPF");
-      // Salva os valores no localStorage
-      localStorage.setItem("cadastroNome", nomeInput.value);
-      localStorage.setItem("cadastroEmail", emailInput.value);
-      localStorage.setItem("cadastroTelefone", telefoneInput.value);
-      localStorage.setItem("cadastroCpf", cpfInput.value);
-      localStorage.setItem("tipoPessoa", "pf");
-      // Limpa os campos
-      nomeInput.value = "";
-      emailInput.value = "";
-      telefoneInput.value = "";
-      cpfInput.value = "";
-      // Redireciona
-      window.location.href = "cadastro-completo.html";
-    });
-  }
-  // Salvar e limpar dados do formulário PJ
-  const btnSalvarPJ = document.getElementById("btnSalvarPJ");
-  if (btnSalvarPJ) {
-    btnSalvarPJ.addEventListener("click", () => {
-      // Pega os inputs do formulário PJ
-      const emailInputPJ = document.getElementById("emailPJ");
-      const cnpjInputPJ = document.getElementById("cnpjPJ");
-      const fantasiaInputPJ = document.getElementById("fantasiaPJ");
-      const razaoInputPJ = document.getElementById("razaoPJ");
-      const ieInputPJ = document.getElementById("iePJ");
-      // Salva os valores no localStorage
-      localStorage.setItem("cadastroEmail", emailInputPJ.value);
-      localStorage.setItem("cadastroCnpj", cnpjInputPJ.value);
-      localStorage.setItem("cadastroFantasia", fantasiaInputPJ.value);
-      localStorage.setItem("cadastroRazao", razaoInputPJ.value);
-      localStorage.setItem("cadastroIe", ieInputPJ.value);
-      localStorage.setItem("tipoPessoa", "pj");
-      // Limpa os campos
-      emailInputPJ.value = "";
-      cnpjInputPJ.value = "";
-      fantasiaInputPJ.value = "";
-      razaoInputPJ.value = "";
-      ieInputPJ.value = "";
-      // Redireciona
-      window.location.href = "cadastro-completo.html";
-    });
-  }
-  const paginationLinks = document.querySelectorAll('.pagination .page-link');
-  const categoryPages = document.querySelectorAll('.category-page');
-
-  paginationLinks.forEach(link => {
-    link.addEventListener('click', function (event) {
-      event.preventDefault(); // Impede que o link recarregue a página
-
-      // Pega o número da página do atributo data-page
-      const pageToShow = this.getAttribute('data-page');
-
-      // Esconde todas as páginas de categorias
-      categoryPages.forEach(page => {
-        page.style.display = 'none';
-      });
-
-      // Mostra a página correta
-      const targetPage = document.getElementById('page-' + pageToShow);
-      if (targetPage) {
-        targetPage.style.display = 'block';
-      }
-
-      // Atualiza a classe 'active' na paginação
-      paginationLinks.forEach(item => {
-        item.parentElement.classList.remove('active');
-      });
-      this.parentElement.classList.add('active');
-    });
-  });
-});
-// 3. LÓGICA DA PAGINAÇÃO COM ANIMAÇÃO DE DESLIZAR
-document.querySelectorAll('.pagination .page-link').forEach(link => {
-  link.addEventListener('click', e => {
-    e.preventDefault();
-
-    const page = e.target.getAttribute('data-page');
-    const activePage = document.querySelector('.category-page.active');
-    const newPage = document.getElementById('page-' + page);
-
-    if (activePage === newPage) return;
-
-    // sair a página atual (desliza para esquerda)
-    activePage.classList.remove('active');
-    activePage.classList.add('inactive');
-    activePage.style.transform = "translateX(-100%)";
-
-    // entrar a nova página (desliza da direita)
-    newPage.classList.remove('inactive');
-    newPage.classList.add('active');
-    newPage.style.transform = "translateX(100%)";
-
-    setTimeout(() => {
-      newPage.style.transform = "translateX(0)";
-    }, 50);
-
-    // atualizar paginação ativa
-    document.querySelectorAll('.pagination .page-item').forEach(li => li.classList.remove('active'));
-    e.target.parentElement.classList.add('active');
-  });
-});
-
-// 4. LÓGICA DE TROCA DE TEMA (CLARO/ESCURO/SISTEMA)
-const themeButtons = document.querySelectorAll('.theme-option');
-const themeIcon = document.querySelector('#themeToggle i');
-
+// ================================================================== //
+// 1. LÓGICA DE TEMA (Executa imediatamente para evitar piscar)
+// ================================================================== //
 function applyTheme(theme) {
-  if (theme === 'system') {
-    theme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-  }
-
-  document.documentElement.setAttribute('data-bs-theme', theme);
-  localStorage.setItem('theme', theme);
-
-  // Troca o ícone
-  themeIcon.className = theme === 'dark' ? 'bi bi-moon' : 'bi bi-brightness-high';
+    if (theme === 'system') {
+        theme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    }
+    document.documentElement.setAttribute('data-bs-theme', theme);
+    localStorage.setItem('theme', theme);
+    
+    // Tenta atualizar o ícone caso o header já esteja carregado
+    const themeIcon = document.querySelector('#themeToggle i');
+    if (themeIcon) {
+        themeIcon.className = theme === 'dark' ? 'bi bi-moon' : 'bi bi-brightness-high';
+    }
 }
-
-// Evento de clique no menu
-themeButtons.forEach(btn => {
-  btn.addEventListener('click', () => {
-    const selectedTheme = btn.dataset.theme;
-    applyTheme(selectedTheme);
-  });
-});
-
-// Aplica o tema salvo ou o sistema
+// Aplica o tema salvo ao carregar
 applyTheme(localStorage.getItem('theme') || 'system');
 
+
+document.addEventListener("DOMContentLoaded", () => {
+    // ================================================================== //
+    // 2. INICIALIZAÇÃO DE TOOLTIPS
+    // ================================================================== //
+    var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+    var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+        return new bootstrap.Tooltip(tooltipTriggerEl);
+    });
+
+    // ================================================================== //
+    // 3. PAGINAÇÃO DE CATEGORIAS (COM CORREÇÃO DE ALTURA E ANIMAÇÃO)
+    // ================================================================== //
+    const paginationContainer = document.querySelector('#categorias');
+
+    if (paginationContainer) {
+        const paginationLinks = paginationContainer.querySelectorAll('.pagination .page-link');
+        const categoryPages = paginationContainer.querySelectorAll('.category-page');
+        const pagesWrapper = paginationContainer.querySelector('.pages-wrapper');
+
+        // Função para atualizar a altura do container (Corrige o footer no mobile)
+        function updateContainerHeight() {
+            const activePage = paginationContainer.querySelector('.category-page.active');
+            if (activePage && pagesWrapper) {
+                const height = activePage.scrollHeight;
+                pagesWrapper.style.height = (height + 20) + 'px';
+            }
+        }
+
+        // Atualiza ao carregar e ao redimensionar a tela
+        setTimeout(updateContainerHeight, 500); // Pequeno delay para garantir carregamento
+        window.addEventListener('resize', updateContainerHeight);
+
+        paginationLinks.forEach(link => {
+            link.addEventListener('click', function (event) {
+                event.preventDefault();
+                const pageToShow = this.getAttribute('data-page');
+                const targetPage = document.getElementById('page-' + pageToShow);
+
+                if (targetPage.classList.contains('active')) return;
+
+                // Troca de classes para animação
+                categoryPages.forEach(page => page.classList.remove('active'));
+                if (targetPage) targetPage.classList.add('active');
+
+                // Recalcula altura
+                updateContainerHeight();
+
+                // Atualiza botões da paginação
+                paginationLinks.forEach(item => item.parentElement.classList.remove('active'));
+                this.parentElement.classList.add('active');
+            });
+        });
+    }
+});
+
+// ================================================================== //
+// 4. DELEGAÇÃO DE EVENTOS (GERENCIA CLIQUES GLOBAIS)
+// ================================================================== //
+// Isso faz com que botões do Header/Footer funcionem mesmo carregados depois
+document.addEventListener("click", function (event) {
+
+    // --- BOTÃO "VER TODAS NOTIFICAÇÕES" ---
+    if (event.target.closest("#btnVerTodas")) {
+        // Fecha o dropdown
+        const dropdownEl = document.getElementById("notifDropdown");
+        if (dropdownEl) {
+            const dropdown = bootstrap.Dropdown.getInstance(dropdownEl);
+            if (dropdown) dropdown.hide();
+        }
+        // Abre o modal
+        const modalEl = document.getElementById("modalNotificacoes");
+        const modal = bootstrap.Modal.getOrCreateInstance(modalEl);
+        modal.show();
+    }
+
+    // --- CONTADOR DE NOTIFICAÇÕES (Ao clicar em uma notificação) ---
+    if (event.target.closest(".notif-item")) {
+        const notifBadge = document.getElementById("notifBadge");
+        if (notifBadge) {
+            let count = parseInt(notifBadge.textContent);
+            if (count > 0) {
+                count--;
+                notifBadge.textContent = count;
+                if (count === 0) notifBadge.style.display = "none";
+            }
+        }
+    }
+
+    // --- ALTERNAR TEMA (CLARO/ESCURO) ---
+    const themeBtn = event.target.closest(".theme-option");
+    if (themeBtn) {
+        const selectedTheme = themeBtn.getAttribute("data-theme");
+        applyTheme(selectedTheme);
+    }
+
+    // --- ABRIR CADASTRO (DO LOGIN) ---
+    if (event.target.closest("#abrirCadastro")) {
+        event.preventDefault();
+        document.getElementById("loginForm").style.display = "none";
+        document.getElementById("cadastroForm").style.display = "block";
+    }
+
+    // --- VOLTAR PARA LOGIN (DO CADASTRO) ---
+    if (event.target.closest("#abrirLogin")) {
+        event.preventDefault();
+        document.getElementById("cadastroForm").style.display = "none";
+        document.getElementById("loginForm").style.display = "block";
+    }
+
+    // --- SALVAR E LIMPAR (PESSOA FÍSICA) ---
+    if (event.target.closest("#btnSalvarPF")) {
+        const nomeInput = document.getElementById("nomePF");
+        const emailInput = document.getElementById("emailPF");
+        const telefoneInput = document.getElementById("telefonePF");
+        const cpfInput = document.getElementById("cpfPF");
+
+        localStorage.setItem("cadastroNome", nomeInput.value);
+        localStorage.setItem("cadastroEmail", emailInput.value);
+        localStorage.setItem("cadastroTelefone", telefoneInput.value);
+        localStorage.setItem("cadastroCpf", cpfInput.value);
+        localStorage.setItem("tipoPessoa", "pf");
+
+        // Limpa campos
+        nomeInput.value = ""; emailInput.value = ""; telefoneInput.value = ""; cpfInput.value = "";
+        
+        window.location.href = "cadastro-completo.html";
+    }
+
+    // --- SALVAR E LIMPAR (PESSOA JURÍDICA) ---
+    if (event.target.closest("#btnSalvarPJ")) {
+        const emailInput = document.getElementById("emailPJ");
+        const cnpjInput = document.getElementById("cnpjPJ");
+        const fantasiaInput = document.getElementById("fantasiaPJ");
+        const razaoInput = document.getElementById("razaoPJ");
+        const ieInput = document.getElementById("iePJ");
+
+        localStorage.setItem("cadastroEmail", emailInput.value);
+        localStorage.setItem("cadastroCnpj", cnpjInput.value);
+        localStorage.setItem("cadastroFantasia", fantasiaInput.value);
+        localStorage.setItem("cadastroRazao", razaoInput.value);
+        localStorage.setItem("cadastroIe", ieInput.value);
+        localStorage.setItem("tipoPessoa", "pj");
+
+        // Limpa campos
+        emailInput.value = ""; cnpjInput.value = ""; fantasiaInput.value = ""; razaoInput.value = ""; ieInput.value = "";
+
+        window.location.href = "cadastro-completo.html";
+    }
+});
