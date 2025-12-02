@@ -70,34 +70,21 @@
             </div>
         </section>
 
-        <section class="avaliacoes py-5">
-            <div class="container">
-                <h4 class="fw-bold mb-4 text-center">Avaliações da loja</h4>
-                <div class="row justify-content-center g-3">
-                    <div class="col-md-3">
-                        <div class="card p-3 shadow-sm">
-                            <div class="mb-2">★★★★★</div>
-                            <p>Ótima loja e um excelente atendimento! Além disso, eles respondem super rápido. </p>
-                            <small class="text-muted">Marcos Vinícius</small>
+        <section class="avaliacoes py-5 bg-body">
+    <div class="container">
+        <h4 class="fw-bold mb-4 text-center text-body">Avaliações da loja</h4>
+        <div class="row justify-content-center g-3">
+            @foreach ($avaliacoes as $avaliacao)
+                        <div class="col-md-3">
+                            <div class="card p-3 shadow-sm">
+                                <div class="mb-2">{!! str_repeat('★', $avaliacao->nota) !!}</div>
+                                <p>{!! $avaliacao->content !!} </p>
+                                <small class="text-muted">{!! $avaliacao->user->name !!}</small>
+                            </div>
                         </div>
-                    </div>
-                    <div class="col-md-3">
-                        <div class="card p-3 shadow-sm">
-                            <div class="mb-2">★★★★☆</div>
-                            <p>Gosto muito da loja. O único problema é achar vaga para estacionar próximo à entrada.</p>
-                            <small class="text-muted">Leonardo</small>
-                        </div>
-                    </div>
-                    <div class="col-md-3">
-                        <div class="card p-3 shadow-sm">
-                            <div class="mb-2">★★★★★</div>
-                            <p>Além do atendimento, amei! As atendentes são atenciosas e tiram todas as dúvidas.</p>
-                            <small class="text-muted">Letícia</small>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
+                    @endforeach
+        </div>
+    </div>
     </main>
 @endsection
 

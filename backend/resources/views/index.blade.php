@@ -42,7 +42,7 @@
       </div>
     </section>
   </main>
-  <main class="container my-5">
+  <main class="container my-5 pt-5">
 
     <!-- PRODUTOS -->
     <section id="produtos-destaque" class="section-box mb-5">

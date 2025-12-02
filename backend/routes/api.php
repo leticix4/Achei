@@ -17,6 +17,8 @@ Route::get('/brands', [SearchController::class, 'getBrands']);
 Route::post('/stores', [StoreController::class, 'create']);
 Route::get('/stores', [StoreController::class, 'index']);
 Route::get('/stores/{id}', [StoreController::class, 'show']);
+Route::get('/stores/{store}/avaliacao', [StoreController::class, 'show']);
+
 
 Route::get('/products', [ProductController::class, 'index']);
 
@@ -34,6 +36,14 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::put('/stores/{id}', [StoreController::class, 'update']);
     Route::delete('/stores/{id}', [StoreController::class, 'destroy']);
 
-    Route::post('/products', [ProductController::class, 'store']);
-    Route::put('/products/{id}', [ProductController::class, 'update']);
+    Route::group(['prefix' => 'products'], function () {
+        Route::post('/', [ProductController::class, 'store']);
+        Route::put('/{id}', [ProductController::class, 'update']);
+
+        Route::get('/{product}/messages', [MessageController::class, 'index']);
+        Route::post('/{product}/messages', [MessageController::class, 'create']);
+
+        Route::get('/{product}/messages/store/{user}', [MessageController::class, 'storeMessages']);
+        Route::post('/{product}/messages/store/{user}', [MessageController::class, 'create']);
+    });
 });

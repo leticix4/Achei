@@ -1,6 +1,8 @@
 <?php
 
+use App\Http\Controllers\API\AvaliacaoController;
 use Illuminate\Support\Facades\Route;
+
 
 // HOME
 Route::get('/', function () {
@@ -17,20 +19,6 @@ Route::get('/cadastro-completo', function () {
     return view('cadastro-completo');
 })->name('cadastro-completo');
 
-// CADASTRO DE PRODUTO (lojista)
-Route::get('/cadastro-produto', function () {
-    return view('cadastro-produto');
-})->name('cadastro-produto');
-
-// LOJA
-Route::get('/loja', function () {
-    return view('loja');
-})->name('loja');
-
-// PÁGINA DE PRODUTO
-Route::get('/produto', function () {
-    return view('produto');
-})->name('produto');
 
 // Supermercado
 Route::get('/supermercado', function () {
@@ -111,3 +99,20 @@ Route::get('/brinquedos', function () {
 Route::get('/veiculos', function () {
     return view('veiculos');
 })->name('veiculos');
+
+
+Route::middleware('auth:sanctum')->group(function () {
+
+    // CADASTRO DE PRODUTO (lojista)
+    Route::get('/cadastro-produto', function () {
+        return view('cadastro-produto');
+    })->name('cadastro-produto');   
+    });
+    
+    // PÁGINA DE PRODUTO
+    Route::get('/produto', function () {
+        return view('produto');
+    })->name('produto');
+    
+    // LOJA
+    Route::get('/loja', [AvaliacaoController::class, 'index'])->name('loja');
