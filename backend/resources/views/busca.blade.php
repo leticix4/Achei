@@ -1,8 +1,6 @@
 @extends('layouts.app')
 
 @push('styles')
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-    <link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.css" />
     <link rel="stylesheet" href="{{ asset('css/busca.css') }}">
 @endpush
 
@@ -26,15 +24,13 @@
                             <li><a class="dropdown-item" href="#" data-filter="menor-preco">Menor preço</a></li>
                             <li><a class="dropdown-item" href="#" data-filter="maior-preco">Maior preço</a></li>
                             <li><a class="dropdown-item" href="#" data-filter="melhor-avaliacao">Melhor avaliação</a>
-                            <li><a class="dropdown-item" href="#" data-filter="mais-proximo">Mais próximo</a></li>
                             </li>
+                            <li><a class="dropdown-item" href="#" data-filter="mais-proximo">Mais próximo</a></li>
                         </ul>
                     </div>
-
                 </div>
 
-                <div id="product-grid" class="row row-cols-2 row-cols-md-3 g-3">
-                </div>
+                <div id="product-grid" class="row row-cols-2 row-cols-md-3 g-3"></div>
             </div>
 
             <div class="col-lg-5 d-none d-lg-block">
@@ -44,55 +40,10 @@
     </main>
 
 @endsection
+
 @push('scripts')
-    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-    <script src="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.min.js"></script>
-
     <script>
-        L.Routing.Localization = L.extend({}, L.Routing.Localization || {}, {
-            'pt-BR': {
-                directions: {
-                    N: 'norte',
-                    NE: 'nordeste',
-                    E: 'leste',
-                    SE: 'sudeste',
-                    S: 'sul',
-                    SW: 'sudoeste',
-                    W: 'oeste',
-                    NW: 'noroeste',
-                    SlightRight: 'Vire levemente à direita',
-                    Right: 'Vire à direita',
-                    SharpRight: 'Vire acentuadamente à direita',
-                    SlightLeft: 'Vire levemente à esquerda',
-                    Left: 'Vire à esquerda',
-                    SharpLeft: 'Vire acentuadamente à esquerda',
-                    Uturn: 'Faça o retorno',
-                },
-                instructions: {
-                    Head: ['Siga para {dir}', ' na {road}'],
-                    Continue: ['Continue por {road}', ''],
-                    SlightRight: ['Vire levemente à direita na {road}', ''],
-                    Right: ['Vire à direita na {road}', ''],
-                    SharpRight: ['Vire acentuadamente à direita na {road}', ''],
-                    SlightLeft: ['Vire levemente à esquerda na {road}', ''],
-                    Left: ['Vire à esquerda na {road}', ''],
-                    SharpLeft: ['Vire acentuadamente à esquerda na {road}', ''],
-                    Destination: ['Você chegou ao seu destino', ''],
-                    Roundabout: ['Pegue a {exitStr} saída na rotatória', ' para {road}'],
-                    StartAt: ['Comece em {road}', ''],
-                    ViaPoint: ['Ponto intermediário', ''],
-                },
-                formatOrder: function(n) {
-                    return n + 'ª';
-                }
-            }
-        });
-    </script>
-
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-
-            // --- Exemplo para o mapa ---
+        window.initBuscaMap = function() {
             const products = [{
                     name: "Larana Supermercado",
                     rating: 4.6,
@@ -143,67 +94,156 @@
                 }
             ];
 
-            // --- INICIALIZAÇÃO DO MAPA ---
-            const map = L.map('map').setView([-16.175, -40.694], 14);
-            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                attribution: '&copy; OpenStreetMap'
-            }).addTo(map);
+            // -------------------------------
+            // 2. MAPA GOOGLE
+            // -------------------------------
+            const mapElement = document.getElementById('map');
+            let map = null;
 
-            let userLocation = null;
-            let routingControl = null;
+            if (mapElement) {
+                map = new google.maps.Map(mapElement, {
+                    center: {
+                        lat: -16.175,
+                        lng: -40.694
+                    },
+                    zoom: 14,
+                    mapTypeControl: false,
+                    streetViewControl: false
+                });
+            }
 
-            // --- GERAÇÃO DOS CARDS DE PRODUTO ---
+            let userLocation = null; // {lat, lng}
+            let userMarker = null;
+            let productMarkers = []; // array de google.maps.Marker
+            let directionsService = null;
+            let directionsRenderer = null;
+
+            if (map) {
+                directionsService = new google.maps.DirectionsService();
+                directionsRenderer = new google.maps.DirectionsRenderer({
+                    map: map,
+                    suppressMarkers: false
+                });
+            }
+
+            // -------------------------------
+            // 3. HELPERS
+            // -------------------------------
+            function clearProductMarkers() {
+                productMarkers.forEach(m => m.setMap(null));
+                productMarkers = [];
+            }
+
+            function addProductMarker(product) {
+                if (!map) return;
+
+                const marker = new google.maps.Marker({
+                    position: {
+                        lat: product.lat,
+                        lng: product.lng
+                    },
+                    map: map,
+                    title: product.name
+                });
+
+                const content = `
+                    <div style="max-width: 220px">
+                        <strong>${product.name}</strong><br>
+                        R$ ${product.price}<br>
+                        <small>${product.address}</small><br><br>
+                        <button class="btn btn-primary btn-sm w-100 mb-1"
+                                onclick="window.getRouteFromBusca('car', ${product.lat}, ${product.lng})">
+                            <i class="bi bi-car-front-fill"></i> Rota de Carro
+                        </button>
+                        <button class="btn btn-info btn-sm w-100 text-white"
+                                onclick="window.getRouteFromBusca('walk', ${product.lat}, ${product.lng})">
+                            <i class="bi bi-person-walking"></i> Rota a Pé
+                        </button>
+                    </div>
+                `;
+                const infowindow = new google.maps.InfoWindow({
+                    content
+                });
+                marker.addListener('click', () => infowindow.open(map, marker));
+
+                productMarkers.push(marker);
+            }
+
+            // Haversine pra distância em km
+            function calcDistancia(lat1, lon1, lat2, lon2) {
+                const R = 6371;
+                const dLat = (lat2 - lat1) * Math.PI / 180;
+                const dLon = (lon2 - lon1) * Math.PI / 180;
+                const a = Math.sin(dLat / 2) ** 2 +
+                    Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
+                    Math.sin(dLon / 2) ** 2;
+                const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+                return R * c;
+            }
+
+            // -------------------------------
+            // 4. CARDS + MARCADORES
+            // -------------------------------
             const productGrid = document.getElementById('product-grid');
             const productCount = document.getElementById('product-count');
-            productCount.textContent = `${products.length} produtos encontrados próximo a você`;
+            if (productCount) {
+                productCount.textContent = `${products.length} produtos encontrados próximo a você`;
+            }
 
-            // Função para mostrar os produtos
-            function renderProducts(prodList) {
+            function renderProducts(list) {
+                if (!productGrid) return;
+
                 productGrid.innerHTML = '';
-                prodList.forEach(product => {
-                    const cardHtml = `
-                <div class="col">
-                    <div class="product-card">
-                       <a href="{{ route('produto')}}"><img src="{{ asset('image/arroz.png') }}" alt="Produto"></a>
-                        <div class="product-name"><a style="color: #003147;"href="{{ route('loja')}}">${product.name}</a></div>
-                        <div class="product-rating small">${product.rating} <i class="bi bi-star-fill"></i></div>
-                        <div class="product-address">${product.address}</div>
-                        <div class="product-price">R$${product.price}</div>
-                    </div>
-                </div>
-            `;
-                    productGrid.innerHTML += cardHtml;
+                clearProductMarkers();
 
-                    // Adiciona marcador no mapa
-                    const popupContent = `
-                <b>${product.name}</b><br>
-                R$${product.price}<br><br>
-                <button class="btn btn-primary btn-sm w-100 mb-1" onclick="window.getRoute('car', ${product.lat}, ${product.lng})">
-                    <i class="bi bi-car-front-fill"></i> Rota de Carro
-                </button>
-                <button class="btn btn-info btn-sm w-100 text-white" onclick="window.getRoute('walk', ${product.lat}, ${product.lng})">
-                    <i class="bi bi-person-walking"></i> Rota a Pé
-                </button>
-            `;
-                    L.marker([product.lat, product.lng]).addTo(map).bindPopup(popupContent);
+                list.forEach(product => {
+                    const cardHtml = `
+                        <div class="col">
+                            <div class="product-card">
+                                <a href="{{ route('produto') }}">
+                                    <img src="{{ asset('image/arroz.png') }}" alt="Produto">
+                                </a>
+                                <div class="product-name">
+                                    <a style="color: #003147;" href="{{ route('loja') }}">
+                                        ${product.name}
+                                    </a>
+                                </div>
+                                <div class="product-rating small">
+                                    ${product.rating} <i class="bi bi-star-fill"></i>
+                                </div>
+                                <div class="product-address">${product.address}</div>
+                                <div class="product-price">R$ ${product.price}</div>
+                            </div>
+                        </div>
+                    `;
+                    productGrid.insertAdjacentHTML('beforeend', cardHtml);
+
+                    // marcador no mapa
+                    if (map) addProductMarker(product);
                 });
             }
 
             renderProducts(products);
 
-            // --- FILTRO (menor preço, maior preço, melhor avaliação,mais proximo) ---
+            // -------------------------------
+            // 5. FILTROS
+            // -------------------------------
             document.querySelectorAll('[data-filter]').forEach(btn => {
                 btn.addEventListener('click', e => {
                     e.preventDefault();
-                    const tipo = e.target.getAttribute('data-filter');
+                    const tipo = e.currentTarget.getAttribute('data-filter');
                     let ordenados = [...products];
 
                     if (tipo === 'menor-preco') {
-                        ordenados.sort((a, b) => parseFloat(a.price.replace(',', '.')) - parseFloat(
-                            b.price.replace(',', '.')));
+                        ordenados.sort((a, b) =>
+                            parseFloat(a.price.replace(',', '.')) -
+                            parseFloat(b.price.replace(',', '.'))
+                        );
                     } else if (tipo === 'maior-preco') {
-                        ordenados.sort((a, b) => parseFloat(b.price.replace(',', '.')) - parseFloat(
-                            a.price.replace(',', '.')));
+                        ordenados.sort((a, b) =>
+                            parseFloat(b.price.replace(',', '.')) -
+                            parseFloat(a.price.replace(',', '.'))
+                        );
                     } else if (tipo === 'melhor-avaliacao') {
                         ordenados.sort((a, b) => b.rating - a.rating);
                     } else if (tipo === 'mais-proximo') {
@@ -212,122 +252,110 @@
                             return;
                         }
 
-                        // Calcula distância entre dois pontos (em km)
-                        const calcDistancia = (lat1, lon1, lat2, lon2) => {
-                            const R = 6371;
-                            const dLat = (lat2 - lat1) * Math.PI / 180;
-                            const dLon = (lon2 - lon1) * Math.PI / 180;
-                            const a = Math.sin(dLat / 2) ** 2 +
-                                Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI /
-                                    180) *
-                                Math.sin(dLon / 2) ** 2;
-                            const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-                            return R * c;
-                        };
-
-                        // Ordena e pega o mais próximo
                         ordenados.sort((a, b) => {
-                            const distA = calcDistancia(userLocation.lat, userLocation.lng,
-                                a.lat, a.lng);
-                            const distB = calcDistancia(userLocation.lat, userLocation.lng,
-                                b.lat, b.lng);
+                            const distA = calcDistancia(
+                                userLocation.lat, userLocation.lng,
+                                a.lat, a.lng
+                            );
+                            const distB = calcDistancia(
+                                userLocation.lat, userLocation.lng,
+                                b.lat, b.lng
+                            );
                             return distA - distB;
                         });
+
+                        // deixa só o mais próximo
                         ordenados = [ordenados[0]];
 
-                        // Remove marcadores anteriores (sem apagar o mapa)
-                        map.eachLayer(layer => {
-                            if (layer instanceof L.Marker && !layer._icon.classList
-                                .contains("leaflet-user-marker")) {
-                                map.removeLayer(layer);
-                            }
-                        });
-
-                        // Adiciona apenas o marcador do produto mais próximo
-                        const p = ordenados[0];
-                        const distanciaKm = calcDistancia(userLocation.lat, userLocation.lng, p.lat,
-                            p.lng).toFixed(2);
-                        const popupContent = `
-                            <b>${p.name}</b><br>
-                            R$${p.price}<br><br>
-                            <small>📍 Distância: ${distanciaKm} km</small><br><br>
-                            `;
-                        L.marker([p.lat, p.lng]).addTo(map).bindPopup(popupContent).openPopup();
-                        map.setView([p.lat, p.lng], 16);
+                        if (map) {
+                            const p = ordenados[0];
+                            map.setCenter({
+                                lat: p.lat,
+                                lng: p.lng
+                            });
+                            map.setZoom(16);
+                        }
                     }
 
                     renderProducts(ordenados);
                 });
             });
 
-
-
-
-            // --- LOCALIZAÇÃO DO USUÁRIO ---
-            if ('geolocation' in navigator) {
+            // -------------------------------
+            // 6. LOCALIZAÇÃO DO USUÁRIO
+            // -------------------------------
+            if ('geolocation' in navigator && map) {
                 navigator.geolocation.getCurrentPosition(
                     (position) => {
-                        userLocation = L.latLng(position.coords.latitude, position.coords.longitude);
-                        const userMarker = L.circleMarker(userLocation, {
-                            radius: 8,
-                            color: 'blue',
-                            fillColor: '#3498db',
-                            fillOpacity: 0.8
-                        }).addTo(map);
-                        userMarker.bindPopup("<b>Você está aqui</b>").openPopup();
+                        userLocation = {
+                            lat: position.coords.latitude,
+                            lng: position.coords.longitude
+                        };
+
+                        if (userMarker) {
+                            userMarker.setMap(null);
+                        }
+
+                        userMarker = new google.maps.Marker({
+                            position: userLocation,
+                            map: map,
+                            title: 'Você está aqui',
+                            icon: {
+                                path: google.maps.SymbolPath.CIRCLE,
+                                scale: 7,
+                                fillColor: '#007bff',
+                                fillOpacity: 1,
+                                strokeColor: '#ffffff',
+                                strokeWeight: 2
+                            }
+                        });
+
+                        map.setCenter(userLocation);
                     },
                     (error) => {
-                        console.error("Erro ao obter a localização: ", error);
+                        console.error("Erro ao obter localização: ", error);
                         alert("Não foi possível obter sua localização.");
                     }
                 );
             }
 
-            // --- FUNÇÃO DE ROTAS ---
-            window.getRoute = function(profile, productLat, productLng) {
+            // -------------------------------
+            // 7. ROTAS (CARRO / A PÉ)
+            // -------------------------------
+            window.getRouteFromBusca = function(profile, destLat, destLng) {
+                if (!map || !directionsService || !directionsRenderer) return;
+
                 if (!userLocation) {
                     alert("Sua localização ainda não foi determinada.");
                     return;
                 }
 
-                if (routingControl) map.removeControl(routingControl);
+                const travelMode = profile === 'walk' ?
+                    google.maps.TravelMode.WALKING :
+                    google.maps.TravelMode.DRIVING;
 
-                let profileUrl = (profile === 'walk') ? 'foot' : 'car';
-
-                routingControl = L.Routing.control({
-                    waypoints: [userLocation, L.latLng(productLat, productLng)],
-                    router: new L.Routing.OSRMv1({
-                        serviceUrl: `https://routing.openstreetmap.de/routed-${profileUrl}/route/v1/`
-                    }),
-                    routeWhileDragging: false,
-                    addWaypoints: false,
-                    draggableWaypoints: false,
-                    showAlternatives: false,
-                    formatter: new L.Routing.FormatterPtBR()
-                }).addTo(map);
+                directionsService.route({
+                        origin: userLocation,
+                        destination: {
+                            lat: destLat,
+                            lng: destLng
+                        },
+                        travelMode: travelMode
+                    },
+                    (response, status) => {
+                        if (status === 'OK') {
+                            directionsRenderer.setDirections(response);
+                        } else {
+                            console.error('Erro ao calcular rota:', status);
+                            alert('Não foi possível calcular a rota.');
+                        }
+                    }
+                );
             };
-        });
-        L.Routing.FormatterPtBR = L.Routing.Formatter.extend({
-            formatInstruction: function(instr) {
-                const road = instr.road ? ` na ${instr.road}` : '';
-                const instrucoes = {
-                    'Head': `Siga${road}`,
-                    'Continue': `Continue${road}`,
-                    'Right': `Vire à direita${road}`,
-                    'Left': `Vire à esquerda${road}`,
-                    'Destination': 'Você chegou ao seu destino'
-                };
-                return instrucoes[instr.type] || '';
-            },
-            formatDistance: function(d) {
-                if (d < 1000) return Math.round(d) + ' m';
-                return (d / 1000).toFixed(1) + ' km';
-            },
-            formatTime: function(t) {
-                if (t > 3600) return Math.floor(t / 3600) + ' h ' + Math.floor((t % 3600) / 60) + ' min';
-                if (t > 60) return Math.floor(t / 60) + ' min';
-                return Math.round(t) + ' s';
-            }
-        });
+        };
+    </script>
+
+    <script async defer
+        src="https://maps.googleapis.com/maps/api/js?key={{ env('GOOGLE_MAPS_API_KEY') }}&libraries=places&callback=initBuscaMap">
     </script>
 @endpush
