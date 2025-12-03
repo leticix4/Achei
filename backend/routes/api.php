@@ -6,6 +6,7 @@ use App\Http\Controllers\API\ProductController;
 use App\Http\Controllers\API\SearchController;
 use App\Http\Controllers\API\MessageController;
 use App\Http\Controllers\API\SSEController;
+use App\Http\Controllers\API\AvaliacaoController;
 
 use Illuminate\Support\Facades\Route;
 
@@ -17,7 +18,7 @@ Route::get('/brands', [SearchController::class, 'getBrands']);
 Route::post('/stores', [StoreController::class, 'create']);
 Route::get('/stores', [StoreController::class, 'index']);
 Route::get('/stores/{id}', [StoreController::class, 'show']);
-Route::get('/stores/{store}/avaliacao', [StoreController::class, 'show']);
+Route::get('/stores/{store}/avaliacao', [AvaliacaoController::class, 'index']);
 Route::get('/products', [ProductController::class, 'index']);
 
 Route::post('/register', [AuthController::class, 'register']);
@@ -28,6 +29,10 @@ Route::post('/products/{id}/messages', [MessageController::class, 'create']);
 
 Route::middleware('auth:sanctum')->group(function () {
     Route::get('/user', [AuthController::class, 'user']);
+    Route::get('/user/notifications', [AuthController::class, 'notifications']);
+    Route::post('/user/notifications/mark-read', [AuthController::class, 'markNotificationsRead']);
+
+    Route::get('/notifications/stream', [SSEController::class, 'stream']);
 
     Route::post('/logout', [AuthController::class, 'logout']);
 
@@ -36,6 +41,7 @@ Route::middleware('auth:sanctum')->group(function () {
     
     Route::get('/unread-messages-count', [MessageController::class, 'getUnreadMessagesCount']);
 
+    Route::post('/stores/{store}/avaliacao', [AvaliacaoController::class, 'store']);
 
     Route::group(['prefix' => 'products'], function () {
         Route::post('/', [ProductController::class, 'store']);

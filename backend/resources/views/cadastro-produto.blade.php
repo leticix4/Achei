@@ -104,6 +104,27 @@
 {{-- ======================= SCRIPT ATUALIZADO ============================ --}}
 
 <script>
+// Função para obter headers com autenticação
+function getAuthHeaders(additionalHeaders = {}) {
+    const token = localStorage.getItem("access_token");
+    const headers = {
+        "Content-Type": "application/json",
+        ...additionalHeaders
+    };
+    if (token) {
+        headers["Authorization"] = `Bearer ${token}`;
+    }
+    return headers;
+}
+
+// Função para fazer fetch com autenticação
+async function fetchWithAuth(url, options = {}) {
+    const headers = getAuthHeaders(options.headers);
+    return fetch(url, {
+        ...options,
+        headers
+    });
+}
 
 document.getElementById('productForm').addEventListener('submit', async function (e) {
     e.preventDefault();
@@ -125,14 +146,8 @@ document.getElementById('productForm').addEventListener('submit', async function
     };
 
     try {
-        const token=localStorage.getItem('access_token')
-        const response = await fetch('http://localhost:8000/api/products', {
+        const response = await fetchWithAuth('http://localhost:8000/api/products', {
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Accept': 'application/json',
-                "Authorization": 'bearer ' + token 
-            },
             body: JSON.stringify(productData)
         });
 

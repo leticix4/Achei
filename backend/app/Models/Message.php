@@ -13,6 +13,7 @@ class Message extends Model
         'product_id',
         'user_id',
         'content',
+        'is_store',
     ];
 
     public function user()

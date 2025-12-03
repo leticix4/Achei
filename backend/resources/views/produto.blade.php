@@ -118,6 +118,28 @@
 
 @push('scripts')
     <script>
+    // Função para obter headers com autenticação
+    function getAuthHeaders(additionalHeaders = {}) {
+        const token = localStorage.getItem("access_token");
+        const headers = {
+            "Content-Type": "application/json",
+            ...additionalHeaders
+        };
+        if (token) {
+            headers["Authorization"] = `Bearer ${token}`;
+        }
+        return headers;
+    }
+
+    // Função para fazer fetch com autenticação
+    async function fetchWithAuth(url, options = {}) {
+        const headers = getAuthHeaders(options.headers);
+        return fetch(url, {
+            ...options,
+            headers
+        });
+    }
+
     const chatButton = document.getElementById('chatButton');
     const chatWindow = document.getElementById('chatWindow');
     const closeChat = document.getElementById('closeChat');
@@ -129,15 +151,8 @@
 
     const fetchMessages = async () => {
         try {
-            const token = localStorage.getItem('access_token');
-
-            const response = await fetch(`${apiUrl}/products/${productId}/messages`, {
-                method: 'GET',
-                headers: {
-                  'Content-Type': 'application/json',
-                  'Accept': 'application/json',
-                  'Authorization': `Bearer ${token}`
-                }
+            const response = await fetchWithAuth(`${apiUrl}/products/${productId}/messages`, {
+                method: 'GET'
             });
             const res = await response.json();
 
@@ -156,15 +171,8 @@
 
     const fetchSendMessage = async (content, userId) => {
         try {
-            const token = localStorage.getItem('access_token');
-
-            const response = await fetch(`${apiUrl}/products/${productId}/messages`, {
+            const response = await fetchWithAuth(`${apiUrl}/products/${productId}/messages`, {
                 method: 'POST',
-                headers: {
-                  'Content-Type': 'application/json',
-                  'Accept': 'application/json',
-                  'Authorization': `Bearer ${token}`
-                },
                 body: JSON.stringify({
                     content: content,
                     product_id: productId,
