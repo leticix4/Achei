@@ -9,7 +9,7 @@
 @section('content')
 
     <!-- FORM CADASTRO -->
-    <div class="container">
+    <div class="container mt-5">
         <div class="form-section">
             <h2 class="section-title">Cadastro</h2>
 

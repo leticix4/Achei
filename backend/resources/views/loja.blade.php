@@ -46,7 +46,13 @@
                 <div class="me-4">
                     <strong>Avaliação da Loja: 4.8</strong> <i class="bi bi-star-fill text-warning"></i>
                 </div>
-                <button class="btn btn-outline-secondary"><i class="bi bi-share-fill me-2"></i> Compartilhar</button>
+                <a 
+                href="https://wa.me/?text={{ urlencode('Confira essa Loja que encontrei!' . url()->current()) }}" 
+                target="_blank"
+                class="btn btn-outline-success"
+            >
+                <i class="bi bi-whatsapp me-2"></i> Compartilhar
+            </a>
             </div>
         </div>
     </section>
