@@ -53,6 +53,10 @@
 
     <main class="container">
         <section class="store-main-content">
+                <a href="{{ route('busca') }}" class="btn-voltar" >
+                    <img src="{{ asset('icons/icon-voltar.png') }}" alt="Voltar" class="icon">
+                    Voltar
+                </a>
             <div class="row g-4 align-items-center">
                 <div class="col-md-7 store-info">
                     <h5><i class="bi bi-geo-alt-fill me-2"></i> Endereço:</h5>
