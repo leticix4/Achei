@@ -4,8 +4,15 @@
 
 @section('content')
 
+
+
     <section id="categorias" class="section-box py-5">
         <div class="container">
+            <a href="{{ route('home') }}" class="btn-voltar">
+                {{-- Substitua 'icon-voltar.png' pelo nome exato do seu arquivo --}}
+                <img src="{{ asset('icons/icon-voltar.png') }}" alt="Voltar" class="icon">
+                Voltar
+            </a>
             <h2 class="section-title">{{ $titulo }}</h2>
 
             <div class="row g-4">
