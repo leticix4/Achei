@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\ProductRating;
 
 class Product extends Model
 {
@@ -47,4 +48,22 @@ class Product extends Model
               ->orWhere('brand', 'LIKE', "%{$searchTerm}%");
         });
     }
+    public function ratings()
+    {
+        return $this->hasMany(ProductRating::class);
+    }
+
+        // média simples
+    public function getRatingAvgAttribute()
+    {
+         return $this->ratings()->avg('stars') ?: 0;
+    }
+
+    // quantidade de avaliações
+    public function getRatingCountAttribute()
+    {
+        return $this->ratings()->count();
+    }
+    
+    
 }

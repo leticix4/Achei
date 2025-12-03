@@ -21,8 +21,8 @@
       <!-- Links -->
       <div class="footer-links mb-3">
         <a href="{{ route('home') }}" class="text-decoration-none text-light mx-2">Início</a>
-        <a href="#" class="text-decoration-none text-light mx-2">Sobre Nós</a>
-        <a href="#" class="text-decoration-none text-light mx-2">Contato</a>
+        <a href="https://wa.me/33991073855" class="text-decoration-none text-light mx-2">Sobre Nós</a>
+        <a href="https://wa.me/33991073855" class="text-decoration-none text-light mx-2">Contato</a>
       </div>
 
       <p class="text-muted small mb-0 footer-copy">&copy; 2025 achei! | Todos os direitos reservados</p>

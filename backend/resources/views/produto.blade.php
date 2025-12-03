@@ -1,93 +1,188 @@
 @extends('layouts.app')
 
+
 @push('styles')
     <link rel="stylesheet" href="{{ asset('css/produto.css') }}">
+
+    <style>
+        .rating-stars-wrapper .btn {
+            text-decoration: none;
+        }
+
+        .rating-stars-wrapper i {
+            font-size: 1.4rem;
+        }
+
+        .produto-main {
+            max-width: 1200px;
+            margin: 0 auto 3rem auto;
+        }
+    </style>
 @endpush
 
 @section('title', 'Produto')
 
 @section('content')
-    <!--Produto-->
-<h1 class="container mt-4 text-body">Arroz Camil</h1>
-  <div class="produto-main">
-    <!--Produto-->
-    <div class="produto-container">
-      <!-- Lado Esquerdo: Carrossel de Imagens -->
-      <div class="imagem-produto" >
-        <div class="carousel-container">
-          <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel" >
-            <div class="carousel-inner" >
-                <div class="carousel-item active">
-                    <img class="d-block w-100" src="{{ asset('image/arroz.png') }}"
-                        alt="Primeira imagem do produto">
-                </div>
-                <div class="carousel-item">
-                    <img class="d-block w-100" src="{{ asset('image/arroz2.jpg') }}"
-                        alt="Segunda imagem do produto">
-                </div>
-                <div class="carousel-item">
-                    <img class="d-block w-100" src="{{ asset('image/arroz3.jpg') }}"
-                        alt="Terceira imagem do produto">
-                </div>
-            </div>
-            <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-bs-slide="prev">
-              <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-              <span class="visually-hidden">Anterior</span>
-            </a>
-            <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-bs-slide="next">
-              <span class="carousel-control-next-icon" aria-hidden="true"></span>
-              <span class="visually-hidden">Próximo</span>
-            </a>
-          </div>
-        </div>
-      </div>
-      <!-- Lado Direito: Tabela -->
-      <div class="info-produto">
-        <h2 class="text-body">Ficha Técnica</h2>
-        <!-- SOLUÇÃO: Substituir a tabela por uma lista do Bootstrap -->
-        <div class="ficha-tecnica-container">
-          <div class="list-group list-group-flush">
-            <div class="list-group-item d-flex justify-content-between align-items-center bg-transparent border-bottom">
-              <span class="fw-bold text-primary">Marca</span>
-              <span class="text-body">Camil</span>
-            </div>
-            <div class="list-group-item d-flex justify-content-between align-items-center bg-transparent border-bottom">
-              <span class="fw-bold text-primary">Modelo</span>
-              <span class="text-body">Camil</span>
-            </div>
-            <div class="list-group-item d-flex justify-content-between align-items-center bg-transparent border-bottom">
-              <span class="fw-bold text-primary">Uso</span>
-              <span class="text-body">Doméstico</span>
-            </div>
-            <div class="list-group-item d-flex justify-content-between align-items-center bg-transparent border-bottom">
-              <span class="fw-bold text-primary">Tipo</span>
-              <span class="text-body">Supermercado</span>
-            </div>
-            <div class="list-group-item d-flex justify-content-between align-items-center bg-transparent border-bottom">
-              <span class="fw-bold text-primary">Peso</span>
-              <span class="text-body">5 kg</span>
-            </div>
-            <div class="list-group-item d-flex justify-content-between align-items-center bg-transparent">
-              <span class="fw-bold text-primary">Número de pontos</span>
-              <span class="text-body">10</span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <h3 class="ms-3 text-body">Descrição</h3>
-    <p class="ms-3 text-body">O arroz Camil é uma marca tradicional brasileira de arroz,
-      que pode ser encontrado em diversas versões, como branco, parboilizado,
-      integral e preto, sendo a fonte de energia para muitos brasileiros.</p>
-  </div>
+    <main class="container mt-4">
 
-  <!-- Botão flutuante do chat -->
-  <div class="chat-button" id="chatButton">
-  <!-- Ícone SVG do balão de conversa -->
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-    <path d="M20 2H4C2.9 2 2 2.9 2 4v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/>
-  </svg>
-</div>
+        {{-- Título + rating + preço --}}
+        <div class="d-flex justify-content-between align-items-start mb-4">
+            <div>
+                <h1 class="text-body mb-1">
+                    {{ $product->name ?? 'Arroz Camil' }}
+                </h1>
+
+                {{-- Bloco de média das estrelas --}}
+                <div class="d-flex align-items-center gap-2 mb-1">
+                    @for ($i = 1; $i <= 5; $i++)
+                        <i class="bi bi-star{{ $i <= round($avg) ? '-fill text-warning' : ' text-muted' }}"></i>
+                    @endfor>
+
+                    <span class="small text-body">
+                        @if ($count > 0)
+                            {{ $avg }} / 5 ({{ $count }} avaliação{{ $count > 1 ? 'es' : '' }})
+                        @else
+                            Ainda não há avaliações
+                        @endif
+                    </span>
+                </div>
+
+                {{-- Formulário de avaliação do usuário --}}
+                @auth
+                    <form action="{{ route('produtos.avaliar', $product) }}" method="POST" id="rating-form" class="mt-1">
+                        @csrf
+                        <input type="hidden" name="stars" id="rating-stars" value="{{ $userRating->stars ?? 0 }}">
+
+                        <div class="d-flex align-items-center gap-1 rating-stars-wrapper">
+                            @for ($i = 1; $i <= 5; $i++)
+                                <button type="button" class="btn btn-link p-0 border-0 rating-star"
+                                    data-value="{{ $i }}">
+                                    <i
+                                        class="bi bi-star{{ $userRating && $i <= $userRating->stars ? '-fill text-warning' : ' text-muted' }}"></i>
+                                </button>
+                            @endfor
+                        </div>
+
+                        @error('stars')
+                            <div class="text-danger small mt-1">{{ $message }}</div>
+                        @enderror
+
+                        <button class="btn btn-primary btn-sm mt-2">
+                            Salvar avaliação
+                        </button>
+
+                        @if (session('success'))
+                            <div class="text-success small mt-2">{{ session('success') }}</div>
+                        @endif
+                    </form>
+                @else
+                    <p class="small mt-2">
+                        Faça <a href="{{ route('login') }}">login</a> para avaliar este produto.
+                    </p>
+                @endauth
+            </div>
+
+            {{-- Preço (se tiver no banco) --}}
+            <div class="text-end">
+                @isset($product->price)
+                    <h2 class="text-primary fw-bold">
+                        R$ {{ number_format($product->price, 2, ',', '.') }}
+                    </h2>
+                @endisset
+            </div>
+        </div>
+
+        {{-- CONTEÚDO PRINCIPAL DO PRODUTO --}}
+        <div class="produto-main">
+            <div class="produto-container d-flex flex-wrap gap-4">
+
+                {{-- Lado esquerdo: carrossel --}}
+                <div class="imagem-produto flex-grow-1" style="min-width: 280px; max-width: 450px;">
+                    <div class="carousel-container">
+                        <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
+                            <div class="carousel-inner">
+                                <div class="carousel-item active">
+                                    <img class="d-block w-100" src="{{ asset('image/arroz.png') }}"
+                                        alt="Primeira imagem do produto">
+                                </div>
+                                <div class="carousel-item">
+                                    <img class="d-block w-100" src="{{ asset('image/arroz2.jpg') }}"
+                                        alt="Segunda imagem do produto">
+                                </div>
+                                <div class="carousel-item">
+                                    <img class="d-block w-100" src="{{ asset('image/arroz3.jpg') }}"
+                                        alt="Terceira imagem do produto">
+                                </div>
+                            </div>
+                            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls"
+                                data-bs-slide="prev">
+                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                <span class="visually-hidden">Anterior</span>
+                            </button>
+                            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls"
+                                data-bs-slide="next">
+                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                <span class="visually-hidden">Próximo</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                {{-- Lado direito: ficha técnica --}}
+                <div class="info-produto flex-grow-1" style="min-width: 280px;">
+                    <h2 class="text-body">Ficha Técnica</h2>
+                    <div class="ficha-tecnica-container">
+                        <div class="list-group list-group-flush">
+                            <div
+                                class="list-group-item d-flex justify-content-between align-items-center bg-transparent border-bottom">
+                                <span class="fw-bold text-primary">Marca</span>
+                                <span class="text-body">{{ $product->brand ?? 'Camil' }}</span>
+                            </div>
+                            <div
+                                class="list-group-item d-flex justify-content-between align-items-center bg-transparent border-bottom">
+                                <span class="fw-bold text-primary">Modelo</span>
+                                <span class="text-body">{{ $product->sku ?? 'Camil' }}</span>
+                            </div>
+                            <div
+                                class="list-group-item d-flex justify-content-between align-items-center bg-transparent border-bottom">
+                                <span class="fw-bold text-primary">Uso</span>
+                                <span class="text-body">Doméstico</span>
+                            </div>
+                            <div
+                                class="list-group-item d-flex justify-content-between align-items-center bg-transparent border-bottom">
+                                <span class="fw-bold text-primary">Tipo</span>
+                                <span class="text-body">Supermercado</span>
+                            </div>
+                            <div
+                                class="list-group-item d-flex justify-content-between align-items-center bg-transparent border-bottom">
+                                <span class="fw-bold text-primary">Peso</span>
+                                <span class="text-body">5 kg</span>
+                            </div>
+                            <div class="list-group-item d-flex justify-content-between align-items-center bg-transparent">
+                                <span class="fw-bold text-primary">Número de pontos</span>
+                                <span class="text-body">10</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            {{-- Descrição --}}
+            <h3 class="ms-3 mt-4 text-body">Descrição</h3>
+            <p class="ms-3 text-body">
+                {{ $product->description ??
+                    'O arroz Camil é uma marca tradicional brasileira de arroz,
+                                                que pode ser encontrado em diversas versões, como branco, parboilizado,
+                                                integral e preto, sendo a fonte de energia para muitos brasileiros.' }}
+            </p>
+        </div>
+
+        {{-- Botão flutuante do chat --}}
+        <div class="chat-button" id="chatButton">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                <path d="M20 2H4C2.9 2 2 2.9 2 4v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z" />
+            </svg>
+        </div>
 
   <!-- chat -->
   <div class="chat-window position-fixed bottom-0 end-0 m-3 shadow-lg rounded-3" id="chatWindow" style="width: 350px; height: 450px; display: none; z-index: 1060;">
@@ -96,27 +191,67 @@
       <button id="closeChat" class="btn-close btn-close-white">X</button>
     </div>
 
-    <div class="chat-body bg-body-tertiary flex-grow-1 p-3 overflow-auto" id="chatBody">
-      <div class="d-flex mb-2">
-        <div class="bg-primary text-white rounded-3 p-2" style="max-width: 80%;">
-          <strong>Atendente:</strong> Olá! Como posso te ajudar hoje?
+            <div class="chat-body bg-body-tertiary flex-grow-1 p-3 overflow-auto" id="chatBody">
+                <div class="d-flex mb-2">
+                    <div class="bg-primary text-white rounded-3 p-2" style="max-width: 80%;">
+                        <strong>Atendente:</strong> Olá! Como posso te ajudar hoje?
+                    </div>
+                </div>
+            </div>
+
+            <div class="chat-input bg-body border-top p-3 rounded-bottom-3">
+                <div class="input-group">
+                    <input type="text" id="userMessage" class="form-control" placeholder="Digite sua mensagem...">
+                    <button type="button" id="sendMessage" class="btn btn-primary">
+                        <i class="bi bi-send"></i>
+                    </button>
+                </div>
+            </div>
         </div>
-      </div>
-    </div>
-
-    <div class="chat-input bg-body border-top p-3 rounded-bottom-3">
-      <div class="input-group">
-        <input type="text" id="userMessage" class="form-control" placeholder="Digite sua mensagem...">
-        <button type="button" id="sendMessage" class="btn btn-primary">
-          <i class="bi bi-send"></i>
-        </button>
-      </div>
-    </div>
-  </div>
-
+    </main>
 @endsection
 
 @push('scripts')
+    {{-- JS das estrelas --}}
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const starsButtons = document.querySelectorAll('.rating-star');
+            const inputStars = document.getElementById('rating-stars');
+
+            if (!starsButtons.length || !inputStars) return;
+
+            function setStars(value) {
+                starsButtons.forEach(btn => {
+                    const icon = btn.querySelector('i');
+                    const starValue = parseInt(btn.dataset.value, 10);
+
+                    if (starValue <= value) {
+                        icon.classList.remove('bi-star', 'text-muted');
+                        icon.classList.add('bi-star-fill', 'text-warning');
+                    } else {
+                        icon.classList.add('bi-star', 'text-muted');
+                        icon.classList.remove('bi-star-fill', 'text-warning');
+                    }
+                });
+            }
+
+            // estado inicial
+            const initial = parseInt(inputStars.value || '0', 10);
+            if (initial > 0) {
+                setStars(initial);
+            }
+
+            starsButtons.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const value = parseInt(btn.dataset.value, 10);
+                    inputStars.value = value;
+                    setStars(value);
+                });
+            });
+        });
+    </script>
+
+    {{-- JS do chat (seu código original) --}}
     <script>
     // Função para obter headers com autenticação
     function getAuthHeaders(additionalHeaders = {}) {
@@ -151,28 +286,42 @@
 
     const fetchMessages = async () => {
         try {
-            const response = await fetchWithAuth(`${apiUrl}/products/${productId}/messages`, {
-                method: 'GET'
+            const token = localStorage.getItem('access_token');
+
+            const response = await fetch(`${apiUrl}/products/${productId}/messages`, {
+                method: 'GET',
+                headers: {
+                  'Content-Type': 'application/json',
+                  'Accept': 'application/json',
+                  'Authorization': `Bearer ${token}`
+                }
             });
             const res = await response.json();
 
             const mensagens = res.data
 
-            if (!mensagens || mensagens.length === 0) return;
+                if (!mensagens || mensagens.length === 0) return;
 
-            chatBody.innerHTML = '';
-            for (const message of mensagens) {
-                handleCreateMessageCard(message.user, message.content);
+                chatBody.innerHTML = '';
+                for (const message of mensagens) {
+                    handleCreateMessageCard(message.user, message.content);
+                }
+            } catch (error) {
+                console.error('Erro ao buscar mensagens:', error);
             }
-        } catch (error) {
-            console.error('Erro ao buscar mensagens:', error);
         }
-    }
 
     const fetchSendMessage = async (content, userId) => {
         try {
-            const response = await fetchWithAuth(`${apiUrl}/products/${productId}/messages`, {
+            const token = localStorage.getItem('access_token');
+
+            const response = await fetch(`${apiUrl}/products/${productId}/messages`, {
                 method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json',
+                  'Accept': 'application/json',
+                  'Authorization': `Bearer ${token}`
+                },
                 body: JSON.stringify({
                     content: content,
                     product_id: productId,
@@ -184,47 +333,46 @@
         }
     }
 
-    fetchMessages();
-    setInterval(fetchMessages, 5000);
+        fetchMessages();
+        setInterval(fetchMessages, 5000);
 
-    chatButton.onclick = () => {
-      chatWindow.style.display = 'flex';
-      chatButton.style.display = 'none';
-    };
+        chatButton.onclick = () => {
+            chatWindow.style.display = 'flex';
+            chatButton.style.display = 'none';
+        };
 
-    closeChat.onclick = () => {
-      chatWindow.style.display = 'none';
-      chatButton.style.display = 'flex';
-    };
+        closeChat.onclick = () => {
+            chatWindow.style.display = 'none';
+            chatButton.style.display = 'flex';
+        };
 
-    const handleCreateMessageCard = (username, message, isUser = true) => {
-      const messageDiv = document.createElement('div');
-      messageDiv.className = `d-flex mb-2 ${isUser ? 'justify-content-end' : 'justify-content-start'}`;
+        const handleCreateMessageCard = (username, message, isUser = true) => {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `d-flex mb-2 ${isUser ? 'justify-content-end' : 'justify-content-start'}`;
 
-      const messageContent = document.createElement('div');
-      messageContent.className = `rounded-3 p-2 ${isUser ? 'bg-success text-white' : 'bg-primary text-white'}`;
-      messageContent.style.maxWidth = '80%';
+            const messageContent = document.createElement('div');
+            messageContent.className = `rounded-3 p-2 ${isUser ? 'bg-success text-white' : 'bg-primary text-white'}`;
+            messageContent.style.maxWidth = '80%';
 
-      messageContent.innerHTML = `<strong>${username}:</strong> ${message}`;
-      messageDiv.appendChild(messageContent);
-      chatBody.appendChild(messageDiv);
-      chatBody.scrollTop = chatBody.scrollHeight;
-    }
+            messageContent.innerHTML = `<strong>${username}:</strong> ${message}`;
+            messageDiv.appendChild(messageContent);
+            chatBody.appendChild(messageDiv);
+            chatBody.scrollTop = chatBody.scrollHeight;
+        }
 
-    sendMessage.onclick = () => {
-      const message = userMessage.value.trim();
-      if (message) {
-        handleCreateMessageCard("Você", message, true);
+        sendMessage.onclick = () => {
+            const message = userMessage.value.trim();
+            if (message) {
+                handleCreateMessageCard("Você", message, true);
+                fetchSendMessage(message, 1);
+                userMessage.value = '';
+            }
+        };
 
-        fetchSendMessage(message, 1);
-        userMessage.value = '';
-      }
-    };
-
-    userMessage.addEventListener('keypress', function(e) {
-      if (e.key === 'Enter') {
-        sendMessage.click();
-      }
-    });
-  </script>
+        userMessage.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                sendMessage.click();
+            }
+        });
+    </script>
 @endpush

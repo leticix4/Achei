@@ -13,28 +13,47 @@ return new class extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
+            
+            // Dados Básicos
+            $table->string('name'); // Nome Completo ou Razão Social
             $table->string('email')->unique();
-            $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
+            $table->string('type')->default('pf'); // 'pf' ou 'pj'
+            
+            // Campos de Pessoa Física
+            $table->string('cpf')->nullable()->unique();
+            $table->date('birth_date')->nullable();
+            $table->string('gender')->nullable();
+            
+            // Campos de Pessoa Jurídica
+            $table->string('cnpj')->nullable()->unique();
+            $table->string('fantasy_name')->nullable(); // Nome Fantasia
+            $table->string('state_registration')->nullable(); // Inscrição Estadual
+            $table->string('contact_name')->nullable(); // Nome do Contato
+            $table->string('contact_cpf')->nullable(); // CPF do Contato
+            
+            // Contato
+            $table->string('phone'); // Celular
+            $table->string('phone_secondary')->nullable(); // Telefone Adicional
+            
+            // Endereço 
+            $table->string('zip_code'); // CEP
+            $table->string('address'); // Rua/Endereço
+            $table->string('number');
+            $table->string('complement')->nullable();
+            $table->string('district'); // Bairro
+            $table->string('city');
+            $table->string('state');
+            $table->string('reference')->nullable();
+
+            // Sistema
+            $table->string('role')->default('user'); // 'user', 'admin', 'store'
+            $table->timestamp('email_verified_at')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });
 
-        Schema::create('password_reset_tokens', function (Blueprint $table) {
-            $table->string('email')->primary();
-            $table->string('token');
-            $table->timestamp('created_at')->nullable();
-        });
-
-        Schema::create('sessions', function (Blueprint $table) {
-            $table->string('id')->primary();
-            $table->foreignId('user_id')->nullable()->index();
-            $table->string('ip_address', 45)->nullable();
-            $table->text('user_agent')->nullable();
-            $table->longText('payload');
-            $table->integer('last_activity')->index();
-        });
+        // ... (mantenha o resto das tabelas password_reset_tokens e sessions como estão)
     }
 
     /**

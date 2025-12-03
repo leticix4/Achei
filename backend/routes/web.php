@@ -1,7 +1,13 @@
 <?php
 
 use App\Http\Controllers\API\AvaliacaoController;
+use App\Http\Controllers\BuscaController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ProductRatingController;
+use App\Http\Controllers\ProdutoController;
+use App\Http\Controllers\Auth\RegisterController;
+
+
 
 
 // HOME
@@ -12,18 +18,30 @@ Route::get('/', function () {
 // BUSCA
 Route::get('/busca', function () {
     return view('busca');
-})->name('busca');
+})->name('busca.mapa');
 
 // CADASTRO COMPLETO (PF/PJ)
 Route::get('/cadastro-completo', function () {
     return view('cadastro-completo');
 })->name('cadastro-completo');
 
+Route::get('/busca', [BuscaController::class, 'lista'])->name('busca.lista');
+
+  // PÁGINA DE PRODUTO
+Route::get('/produto', function () {
+     return view('produto');
+ })->name('produto');
+
+Route::get('/produto/{product}', [ProdutoController::class, 'show'])->name('produto.show');
+Route::post('/produto/{product}/rate', [ProdutoController::class, 'rate'])->name('produto.rate');
+
+//Rota para SALVAR o cadastro (POST)
+Route::post('/register', [RegisterController::class, 'store'])->name('register.store');
 
 // Rota Genérica para Categorias
 Route::get('/categoria/{slug}', function ($slug) {
     
-    // NOSSO "BANCO DE DADOS" FIXO
+    //"BANCO DE DADOS" FIXO
     $dbCategorias = [
         'supermercado' => [
             'titulo' => 'SUPERMERCADO',
@@ -251,10 +269,11 @@ Route::middleware('auth:sanctum')->group(function () {
 
     });
     
-    // PÁGINA DE PRODUTO
-    Route::get('/produto', function () {
-        return view('produto');
-    })->name('produto');
-    
     // LOJA
     Route::get('/loja', [AvaliacaoController::class, 'index'])->name('loja');
+
+// ROTA PARA AVALIAR PRODUTO
+Route::middleware('auth')->post(
+    '/produtos/{product}/avaliar',
+    [ProductRatingController::class, 'store']
+)->name('produtos.avaliar');

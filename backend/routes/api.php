@@ -7,8 +7,13 @@ use App\Http\Controllers\API\SearchController;
 use App\Http\Controllers\API\MessageController;
 use App\Http\Controllers\API\SSEController;
 use App\Http\Controllers\API\AvaliacaoController;
+use App\Http\Controllers\API\ProductRatingController;
 
 use Illuminate\Support\Facades\Route;
+
+
+Route::post('/products/{id}/rate', [ProductRatingController::class, 'rate'])->middleware('auth:sanctum');
+Route::get('/products/{id}/ratings', [ProductRatingController::class, 'list']);
 
 Route::get('/search', [SearchController::class, 'searchProducts']);
 Route::get('/search/nearby', [SearchController::class, 'searchNearby']);
