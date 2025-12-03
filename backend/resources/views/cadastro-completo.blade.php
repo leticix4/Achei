@@ -8,7 +8,6 @@
 
 @section('content')
 
-    <!-- FORM CADASTRO -->
     <div class="container">
         <div class="form-section">
             <h2 class="section-title">Cadastro</h2>
@@ -27,26 +26,30 @@
             </div>
 
             <hr class="my-4">
-            <!-- FORMULÁRIO PESSOA FÍSICA -->
-            <form id="formPF">
+
+            <form id="formPF" method="POST" action="{{ route('register.store') }}">
+                @csrf
+                <input type="hidden" name="tipoPessoa" value="pf">
+
                 <div class="row g-5">
                     <div class="col-md-6 border-end-md">
                         <h3 class="fw-bold mb-4">Dados Pessoais</h3>
 
                         <div class="mb-3">
                             <label class="form-label fw-bold">Nome Completo*</label>
-                            <input type="text" id="nomeCompleto" class="form-control bg-light border-0" required>
+                            <input type="text" id="nomeCompleto" name="nomeCompleto"
+                                class="form-control bg-light border-0" required>
                         </div>
 
                         <div class="row g-3 mb-3">
                             <div class="col-md-6">
                                 <label class="form-label fw-bold">Email*</label>
-                                <input type="email" id="emailCompleto" class="form-control bg-light border-0"
-                                    placeholder="exemplo@email.com" required>
+                                <input type="email" id="emailCompleto" name="email"
+                                    class="form-control bg-light border-0" placeholder="exemplo@email.com" required>
                             </div>
                             <div class="col-md-6">
                                 <label class="form-label fw-bold">CPF*</label>
-                                <input type="text" id="cpfCompleto" inputmode="numeric"
+                                <input type="text" id="cpfCompleto" name="cpf" inputmode="numeric"
                                     class="form-control bg-light border-0" required>
                             </div>
                         </div>
@@ -54,15 +57,15 @@
                         <div class="row g-3 mb-3">
                             <div class="col-md-6">
                                 <label class="form-label fw-bold">Data de nascimento*</label>
-                                <input type="date" class="form-control bg-light border-0" required>
+                                <input type="date" name="nascimento" class="form-control bg-light border-0" required>
                             </div>
                             <div class="col-md-6">
                                 <label class="form-label fw-bold">Gênero*</label>
-                                <select class="form-select bg-light border-0">
-                                    <option selected>Selecione</option>
-                                    <option>Masculino</option>
-                                    <option>Feminino</option>
-                                    <option>Outro</option>
+                                <select class="form-select bg-light border-0" name="genero">
+                                    <option selected value="">Selecione</option>
+                                    <option value="Masculino">Masculino</option>
+                                    <option value="Feminino">Feminino</option>
+                                    <option value="Outro">Outro</option>
                                 </select>
                             </div>
                         </div>
@@ -70,21 +73,22 @@
                         <div class="row g-3 mb-3">
                             <div class="col-md-6">
                                 <label class="form-label fw-bold">Celular*</label>
-                                <input type="tel" id="celularCompleto" inputmode="numeric"
+                                <input type="tel" id="celularCompleto" name="telefone" inputmode="numeric"
                                     class="form-control bg-light border-0" required>
                             </div>
                             <div class="col-md-6">
                                 <label class="form-label fw-bold">Contato adicional</label>
-                                <input type="tel" inputmode="numeric" class="form-control bg-light border-0">
+                                <input type="tel" name="telefone_secundario" inputmode="numeric"
+                                    class="form-control bg-light border-0">
                             </div>
                         </div>
 
                         <div class="row g-3 mb-3">
                             <div class="col-md-6">
                                 <label class="form-label fw-bold">Senha*</label>
-                                <input type="password" id="senhaPF" class="form-control bg-light border-0" required>
+                                <input type="password" id="senhaPF" name="password" class="form-control bg-light border-0"
+                                    required>
 
-                                <!-- REGRAS DA SENHA -->
                                 <small id="regrasPF" class="text-muted d-block mt-1" style="font-size: .85rem;">
                                     A senha deve conter:
                                     <ul style="margin-left: 20px; margin-top: 3px;">
@@ -95,14 +99,12 @@
                                     </ul>
                                 </small>
                             </div>
-
                             <div class="col-md-6">
                                 <label class="form-label fw-bold">Confirmar senha*</label>
-                                <input type="password" id="confSenhaPF" class="form-control bg-light border-0" required>
+                                <input type="password" id="confSenhaPF" name="password_confirmation"
+                                    class="form-control bg-light border-0" required>
                             </div>
                         </div>
-
-
                     </div>
 
                     <div class="col-md-6">
@@ -111,7 +113,7 @@
                         <div class="mb-3 d-flex align-items-center">
                             <div class="flex-grow-1 me-3">
                                 <label class="form-label fw-bold">CEP*</label>
-                                <input type="text" id="cepPF" inputmode="numeric"
+                                <input type="text" id="cepPF" name="cep" inputmode="numeric"
                                     class="form-control bg-light border-0" required style="max-width: 150px;">
                             </div>
                             <a href="https://buscacepinter.correios.com.br/app/endereco/index.php" target="_blank"
@@ -121,34 +123,34 @@
                         <div class="row g-3 mb-3">
                             <div class="col-md-8">
                                 <label class="form-label fw-bold">Endereço*</label>
-                                <input type="text" class="form-control bg-light border-0" required>
+                                <input type="text" name="endereco" class="form-control bg-light border-0" required>
                             </div>
                             <div class="col-md-4">
                                 <label class="form-label fw-bold">Número*</label>
-                                <input type="text" inputmode="numeric" class="form-control bg-light border-0"
-                                    required>
+                                <input type="text" name="numero" inputmode="numeric"
+                                    class="form-control bg-light border-0" required>
                             </div>
                         </div>
 
                         <div class="row g-3 mb-3">
                             <div class="col-md-6">
                                 <label class="form-label fw-bold">Complemento</label>
-                                <input type="text" class="form-control bg-light border-0">
+                                <input type="text" name="complemento" class="form-control bg-light border-0">
                             </div>
                             <div class="col-md-6">
                                 <label class="form-label fw-bold">Bairro*</label>
-                                <input type="text" class="form-control bg-light border-0" required>
+                                <input type="text" name="bairro" class="form-control bg-light border-0" required>
                             </div>
                         </div>
 
                         <div class="row g-3 mb-4">
                             <div class="col-md-8">
                                 <label class="form-label fw-bold">Cidade*</label>
-                                <input type="text" class="form-control bg-light border-0" required>
+                                <input type="text" name="cidade" class="form-control bg-light border-0" required>
                             </div>
                             <div class="col-md-4">
                                 <label class="form-label fw-bold">Estado*</label>
-                                <select class="form-select bg-light border-0">
+                                <select name="estado" class="form-select bg-light border-0">
                                     <option value="AC">Acre</option>
                                     <option value="AL">Alagoas</option>
                                     <option value="AP">Amapá</option>
@@ -180,25 +182,29 @@
                             </div>
                         </div>
 
+                        <div class="d-flex justify-content-end mt-4">
+                            <button type="submit" class="btn btn-primary px-4">Finalizar Cadastro</button>
+                        </div>
                     </div>
                 </div>
-                <div class="d-flex justify-content-end mt-3">
-                    <button class="btn btn-primary px-4">Finalizar Cadastro</button>
-                </div>
             </form>
-            <!-- FORMULÁRIO PESSOA JURÍDICA -->
-            <form id="formPJ" style="display:none;">
-                <div class="row g-5">
 
+            <form id="formPJ" method="POST" action="{{ route('register.store') }}" style="display:none;">
+                @csrf
+                <input type="hidden" name="tipoPessoa" value="pj">
+
+                <div class="row g-5">
                     <div class="col-md-6 border-end-md">
                         <h3 class="fw-bold mb-4">Dados da Empresa</h3>
                         <div class="mb-2">
                             <label class="form-label fw-bold">Razão Social*</label>
-                            <input type="text" id="razaoPJ" class="form-control bg-light border-0" required>
+                            <input type="text" id="razaoPJ" name="razaoSocial"
+                                class="form-control bg-light border-0" required>
                         </div>
 
                         <div class="form-check mb-3">
-                            <input class="form-check-input" type="checkbox" id="isentoIE">
+                            <input class="form-check-input" type="checkbox" id="isentoIE" name="isentoIE"
+                                value="1">
                             <label class="form-check-label small fw-bold" for="isentoIE">
                                 Inscrição estadual isento
                             </label>
@@ -207,11 +213,12 @@
                         <div class="row g-3 mb-3">
                             <div class="col-md-6">
                                 <label class="form-label fw-bold">Inscrição Estadual*</label>
-                                <input type="text" id="iePJ" class="form-control bg-light border-0" required>
+                                <input type="text" id="iePJ" name="inscricaoEstadual"
+                                    class="form-control bg-light border-0" required>
                             </div>
                             <div class="col-md-6">
                                 <label class="form-label fw-bold">CNPJ*</label>
-                                <input type="text" id="cnpjPJ" inputmode="numeric"
+                                <input type="text" id="cnpjPJ" name="cnpj" inputmode="numeric"
                                     class="form-control bg-light border-0" required>
                             </div>
                         </div>
@@ -219,30 +226,31 @@
                         <div class="row g-3 mb-3">
                             <div class="col-md-6">
                                 <label class="form-label fw-bold">Nome de Contato*</label>
-                                <input type="text" id="nomeContatoPJ" class="form-control bg-light border-0" required>
+                                <input type="text" id="nomeContatoPJ" name="nomeContato"
+                                    class="form-control bg-light border-0" required>
                             </div>
                             <div class="col-md-6">
                                 <label class="form-label fw-bold">CPF Contato*</label>
-                                <input type="text" id="cpfContatoPJ" inputmode="numeric"
+                                <input type="text" id="cpfContatoPJ" name="cpfContato" inputmode="numeric"
                                     class="form-control bg-light border-0" required>
                             </div>
                         </div>
 
                         <div class="mb-3">
-                            <label class="form-label fw-bold">Email*</label>
-                            <input type="email" id="emailPJ" class="form-control bg-light border-0"
-                                placeholder="exemplo@email.com"required>
+                            <label class="form-label fw-bold">Email Empresarial*</label>
+                            <input type="email" id="emailPJ" name="email" class="form-control bg-light border-0"
+                                placeholder="exemplo@email.com" required>
                         </div>
 
                         <div class="row g-3 mb-3">
                             <div class="col-md-6">
                                 <label class="form-label fw-bold">Celular*</label>
-                                <input type="tel" id="celularPJ" inputmode="numeric"
+                                <input type="tel" id="celularPJ" name="telefone" inputmode="numeric"
                                     class="form-control bg-light border-0" required>
                             </div>
                             <div class="col-md-6">
                                 <label class="form-label fw-bold">Telefone adicional</label>
-                                <input type="tel" id="telefonePJ" inputmode="numeric"
+                                <input type="tel" id="telefonePJ" name="telefone_secundario" inputmode="numeric"
                                     class="form-control bg-light border-0">
                             </div>
                         </div>
@@ -250,7 +258,8 @@
                         <div class="row g-3 mb-3">
                             <div class="col-md-6">
                                 <label class="form-label fw-bold">Senha*</label>
-                                <input type="password" id="senhaPJ" class="form-control bg-light border-0" required>
+                                <input type="password" id="senhaPJ" name="password"
+                                    class="form-control bg-light border-0" required>
                                 <small id="regrasPJ" class="text-muted d-block mt-1" style="font-size: .85rem;">
                                     A senha deve conter:
                                     <ul style="margin-left: 20px; margin-top: 3px;">
@@ -263,7 +272,8 @@
                             </div>
                             <div class="col-md-6">
                                 <label class="form-label fw-bold">Confirmar senha*</label>
-                                <input type="password" id="confSenhaPJ" class="form-control bg-light border-0" required>
+                                <input type="password" id="confSenhaPJ" name="password_confirmation"
+                                    class="form-control bg-light border-0" required>
                             </div>
                         </div>
                     </div>
@@ -274,7 +284,7 @@
                         <div class="mb-3 d-flex align-items-center">
                             <div class="flex-grow-1 me-3">
                                 <label class="form-label fw-bold">CEP*</label>
-                                <input type="text" id="cepPJ" inputmode="numeric"
+                                <input type="text" id="cepPJ" name="cep" inputmode="numeric"
                                     class="form-control bg-light border-0" required style="max-width: 150px;">
                             </div>
                             <a href="#" class="text-decoration-none small fw-bold text-dark">Não sei meu CEP.</a>
@@ -283,38 +293,43 @@
                         <div class="row g-3 mb-3">
                             <div class="col-md-8">
                                 <label class="form-label fw-bold">Endereço*</label>
-                                <input type="text" id="enderecoPJ" class="form-control bg-light border-0" required>
+                                <input type="text" id="enderecoPJ" name="endereco"
+                                    class="form-control bg-light border-0" required>
                             </div>
                             <div class="col-md-4">
                                 <label class="form-label fw-bold">Número*</label>
-                                <input type="text" id="numeroPJ" inputmode="numeric"
+                                <input type="text" id="numeroPJ" name="numero" inputmode="numeric"
                                     class="form-control bg-light border-0" required>
                             </div>
                         </div>
 
                         <div class="mb-3">
                             <label class="form-label fw-bold">Complemento</label>
-                            <input type="text" id="complementoPJ" class="form-control bg-light border-0">
+                            <input type="text" id="complementoPJ" name="complemento"
+                                class="form-control bg-light border-0">
                         </div>
 
                         <div class="mb-3">
                             <label class="form-label fw-bold">Referência</label>
-                            <input type="text" id="referenciaPJ" class="form-control bg-light border-0">
+                            <input type="text" id="referenciaPJ" name="referencia"
+                                class="form-control bg-light border-0">
                         </div>
 
                         <div class="mb-3">
                             <label class="form-label fw-bold">Bairro*</label>
-                            <input type="text" id="bairroPJ" class="form-control bg-light border-0" required>
+                            <input type="text" id="bairroPJ" name="bairro" class="form-control bg-light border-0"
+                                required>
                         </div>
 
                         <div class="row g-3 mb-4">
                             <div class="col-md-8">
                                 <label class="form-label fw-bold">Cidade*</label>
-                                <input type="text" id="cidadePJ" class="form-control bg-light border-0" required>
+                                <input type="text" id="cidadePJ" name="cidade"
+                                    class="form-control bg-light border-0" required>
                             </div>
                             <div class="col-md-4">
                                 <label class="form-label fw-bold">Estado*</label>
-                                <select id="estadoPJ" class="form-select bg-light border-0">
+                                <select id="estadoPJ" name="estado" class="form-select bg-light border-0">
                                     <option value="AC">Acre</option>
                                     <option value="AL">Alagoas</option>
                                     <option value="AP">Amapá</option>
@@ -345,10 +360,10 @@
                                 </select>
                             </div>
                         </div>
+                        <div class="d-flex justify-content-end mt-3">
+                            <button type="submit" class="btn btn-primary px-4">Finalizar Cadastro</button>
+                        </div>
                     </div>
-                </div>
-                <div class="d-flex justify-content-end mt-3">
-                    <button class="btn btn-primary px-4">Finalizar Cadastro</button>
                 </div>
             </form>
 
@@ -531,7 +546,7 @@
             const telPF = document.getElementById("celularCompleto");
             const senhaPF = document.getElementById("senhaPF");
             const confSenhaPF = document.getElementById("confSenhaPF");
-            const cepPF = document.querySelector("#formPF input[placeholder='39960-000']") || null;
+            const cepPF = document.getElementById("cepPF"); // Corrigido
 
             // ==========================
             //  SELETORES PJ
@@ -545,7 +560,7 @@
             const senhaPJ = document.getElementById("senhaPJ");
             const confSenhaPJ = document.getElementById("confSenhaPJ");
             const cepPJ = document.getElementById("cepPJ");
-           
+
 
             // ==========================
             //  APLICA REGRAS
@@ -567,27 +582,6 @@
 
             configurarSenha(senhaPF, confSenhaPF);
             configurarSenha(senhaPJ, confSenhaPJ);
-
-            // Valida no submit também
-            const formPFEl = document.getElementById("formPF");
-            if (formPFEl) {
-                formPFEl.addEventListener("submit", function(e) {
-                    if (!formPFEl.checkValidity()) {
-                        e.preventDefault();
-                        formPFEl.reportValidity();
-                    }
-                });
-            }
-
-            const formPJEl = document.getElementById("formPJ");
-            if (formPJEl) {
-                formPJEl.addEventListener("submit", function(e) {
-                    if (!formPJEl.checkValidity()) {
-                        e.preventDefault();
-                        formPJEl.reportValidity();
-                    }
-                });
-            }
         });
     </script>
 @endpush
