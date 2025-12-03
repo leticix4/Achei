@@ -1,18 +1,9 @@
 @extends('layouts.app')
 
-
 @push('styles')
     <link rel="stylesheet" href="{{ asset('css/produto.css') }}">
 
     <style>
-        .rating-stars-wrapper .btn {
-            text-decoration: none;
-        }
-
-        .rating-stars-wrapper i {
-            font-size: 1.4rem;
-        }
-
         .produto-main {
             max-width: 1200px;
             margin: 0 auto 3rem auto;
@@ -25,61 +16,12 @@
 @section('content')
     <main class="container mt-4">
 
-        {{-- Título + rating + preço --}}
+        {{-- Título + preço --}}
         <div class="d-flex justify-content-between align-items-start mb-4">
             <div>
                 <h1 class="text-body mb-1">
                     {{ $product->name ?? 'Arroz Camil' }}
                 </h1>
-
-                {{-- Bloco de média das estrelas --}}
-                <div class="d-flex align-items-center gap-2 mb-1">
-                    @for ($i = 1; $i <= 5; $i++)
-                        <i class="bi bi-star{{ $i <= round($avg) ? '-fill text-warning' : ' text-muted' }}"></i>
-                    @endfor>
-
-                    <span class="small text-body">
-                        @if ($count > 0)
-                            {{ $avg }} / 5 ({{ $count }} avaliação{{ $count > 1 ? 'es' : '' }})
-                        @else
-                            Ainda não há avaliações
-                        @endif
-                    </span>
-                </div>
-
-                {{-- Formulário de avaliação do usuário --}}
-                @auth
-                    <form action="{{ route('produtos.avaliar', $product) }}" method="POST" id="rating-form" class="mt-1">
-                        @csrf
-                        <input type="hidden" name="stars" id="rating-stars" value="{{ $userRating->stars ?? 0 }}">
-
-                        <div class="d-flex align-items-center gap-1 rating-stars-wrapper">
-                            @for ($i = 1; $i <= 5; $i++)
-                                <button type="button" class="btn btn-link p-0 border-0 rating-star"
-                                    data-value="{{ $i }}">
-                                    <i
-                                        class="bi bi-star{{ $userRating && $i <= $userRating->stars ? '-fill text-warning' : ' text-muted' }}"></i>
-                                </button>
-                            @endfor
-                        </div>
-
-                        @error('stars')
-                            <div class="text-danger small mt-1">{{ $message }}</div>
-                        @enderror
-
-                        <button class="btn btn-primary btn-sm mt-2">
-                            Salvar avaliação
-                        </button>
-
-                        @if (session('success'))
-                            <div class="text-success small mt-2">{{ session('success') }}</div>
-                        @endif
-                    </form>
-                @else
-                    <p class="small mt-2">
-                        Faça <a href="{{ route('login') }}">login</a> para avaliar este produto.
-                    </p>
-                @endauth
             </div>
 
             {{-- Preço (se tiver no banco) --}}
@@ -172,8 +114,8 @@
             <p class="ms-3 text-body">
                 {{ $product->description ??
                     'O arroz Camil é uma marca tradicional brasileira de arroz,
-                                                que pode ser encontrado em diversas versões, como branco, parboilizado,
-                                                integral e preto, sendo a fonte de energia para muitos brasileiros.' }}
+                                    que pode ser encontrado em diversas versões, como branco, parboilizado,
+                                    integral e preto, sendo a fonte de energia para muitos brasileiros.' }}
             </p>
         </div>
 
@@ -184,12 +126,14 @@
             </svg>
         </div>
 
-  <!-- chat -->
-  <div class="chat-window position-fixed bottom-0 end-0 m-3 shadow-lg rounded-3" id="chatWindow" style="width: 350px; height: 450px; display: none; z-index: 1060;">
-    <div class="chat-header bg-primary text-white rounded-top-3 p-3 d-flex justify-content-between align-items-center">
-      <span class="fw-bold">Chat com a Loja</span>
-      <button id="closeChat" class="btn-close btn-close-white">X</button>
-    </div>
+        {{-- Janela do chat --}}
+        <div class="chat-window position-fixed bottom-0 end-0 m-3 shadow-lg rounded-3" id="chatWindow"
+            style="width: 350px; height: 450px; display: none; z-index: 1060;">
+            <div
+                class="chat-header bg-primary text-white rounded-top-3 p-3 d-flex justify-content-between align-items-center">
+                <span class="fw-bold">Chat com a Loja</span>
+                <button id="closeChat" class="btn-close btn-close-white">X</button>
+            </div>
 
             <div class="chat-body bg-body-tertiary flex-grow-1 p-3 overflow-auto" id="chatBody">
                 <div class="d-flex mb-2">
@@ -212,55 +156,16 @@
 @endsection
 
 @push('scripts')
-    {{-- JS das estrelas --}}
+    {{-- JS do chat --}}
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const starsButtons = document.querySelectorAll('.rating-star');
-            const inputStars = document.getElementById('rating-stars');
-
-            if (!starsButtons.length || !inputStars) return;
-
-            function setStars(value) {
-                starsButtons.forEach(btn => {
-                    const icon = btn.querySelector('i');
-                    const starValue = parseInt(btn.dataset.value, 10);
-
-                    if (starValue <= value) {
-                        icon.classList.remove('bi-star', 'text-muted');
-                        icon.classList.add('bi-star-fill', 'text-warning');
-                    } else {
-                        icon.classList.add('bi-star', 'text-muted');
-                        icon.classList.remove('bi-star-fill', 'text-warning');
-                    }
-                });
-            }
-
-            // estado inicial
-            const initial = parseInt(inputStars.value || '0', 10);
-            if (initial > 0) {
-                setStars(initial);
-            }
-
-            starsButtons.forEach(btn => {
-                btn.addEventListener('click', () => {
-                    const value = parseInt(btn.dataset.value, 10);
-                    inputStars.value = value;
-                    setStars(value);
-                });
-            });
-        });
-    </script>
-
-    {{-- JS do chat (seu código original) --}}
-    <script>
-    const chatButton = document.getElementById('chatButton');
-    const chatWindow = document.getElementById('chatWindow');
-    const closeChat = document.getElementById('closeChat');
-    const sendMessage = document.getElementById('sendMessage');
-    const userMessage = document.getElementById('userMessage');
-    const chatBody = document.getElementById('chatBody');
-    const apiUrl = 'http://localhost:8000/api';
-    const productId = 1;
+        const chatButton = document.getElementById('chatButton');
+        const chatWindow = document.getElementById('chatWindow');
+        const closeChat = document.getElementById('closeChat');
+        const sendMessage = document.getElementById('sendMessage');
+        const userMessage = document.getElementById('userMessage');
+        const chatBody = document.getElementById('chatBody');
+        const apiUrl = 'http://localhost:8000/api';
+        const productId = 1;
 
         const fetchMessages = async () => {
             try {

@@ -151,11 +151,32 @@
                     </div>
                 </div>
                 <!-- Botão de entrar -->
-                <button id="btnEntrar" style="display: flex;" class="btn btn-entrar ms-3 align-items-center"
-                    data-bs-toggle="modal" data-bs-target="#modalLogin">
-                    <i class="bi bi-person-circle me-2"></i> Entrar
-                    <i class="bi bi-box-arrow-in-right ms-2"></i>
-                </button>
+                @guest
+                    <button id="btnEntrar" class="btn btn-entrar ms-3 d-flex align-items-center" data-bs-toggle="modal"
+                        data-bs-target="#modalLogin">
+                        <i class="bi bi-person-circle me-2"></i> Entrar
+                        <i class="bi bi-box-arrow-in-right ms-2"></i>
+                    </button>
+                @else
+                    <div class="dropdown ms-3">
+                        <button class="btn btn-entrar d-flex align-items-center dropdown-toggle" type="button"
+                            id="userMenu" data-bs-toggle="dropdown">
+                            <i class="bi bi-person-circle me-2"></i> {{ Auth::user()->name }}
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                            <li><a class="dropdown-item" href="#">Meu Perfil</a></li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+                            <li>
+                                <form action="{{ route('logout') }}" method="POST">
+                                    @csrf
+                                    <button type="submit" class="dropdown-item text-danger">Sair</button>
+                                </form>
+                            </li>
+                        </ul>
+                    </div>
+                @endguest
                 <button id="btnPerfil" style="display: none;" class="btn btn-entrar ms-3 align-items-center">
                     <i class="bi bi-person-circle me-2"></i> <span id="headerUserName"></span>
                 </button>
@@ -169,36 +190,42 @@
                                     <!-- COLUNA ESQUERDA -->
                                     <div class="col-md-6 p-4 d-flex flex-column justify-content-center">
                                         <!-- LOGIN -->
-                                        <div id="loginForm">
+                                        <form action="{{ route('login') }}" method="POST" id="loginForm">
+                                            @csrf
                                             <h4 class="fw-bold text-center mb-4">BEM VINDO</h4>
+
+                                            @error('email')
+                                                <div class="alert alert-danger py-1 px-2 mb-3 small">
+                                                    {{ $message }}
+                                                </div>
+                                            @enderror
+
                                             <div class="mb-3">
                                                 <label class="form-label">Email</label>
-                                                <input type="email" class="form-control" id="loginEmail"
-                                                    value="test@example.com" placeholder="Digite seu email" required>
+                                                <input type="email" name="email" class="form-control"
+                                                    placeholder="Digite seu email" required>
                                             </div>
                                             <div class="mb-3">
                                                 <label class="form-label">Senha</label>
-                                                <input type="password" value="password" class="form-control"
-                                                    id="loginPassword" placeholder="********" required>
+                                                <input type="password" name="password" class="form-control"
+                                                    placeholder="********" required>
                                             </div>
                                             <div class="d-flex justify-content-between mb-3">
                                                 <div>
-                                                    <input type="checkbox" id="lembrar">
+                                                    <input type="checkbox" name="remember" id="lembrar">
                                                     <label for="lembrar" class="small">Lembrar de mim</label>
                                                 </div>
-                                                <a href="#" class="small text-decoration-none">Esqueceu a
-                                                    senha?</a>
+                                                <a href="{{ route('password.request') }}"
+                                                    class="small text-decoration-none">Esqueceu a senha?</a>
                                             </div>
-                                            <button class="btn btn-primary w-100 mb-2"
-                                                id="loginButton">Entrar</button>
-                                            <button type="button" class="btn btn-outline-secondary w-100 mb-2">
-                                                <i class="bi bi-google me-2"></i> Entrar com o Google
-                                            </button>
+
+                                            <button type="submit" class="btn btn-primary w-100 mb-2">Entrar</button>
                                             <p class="small text-center mt-3">
                                                 Não tem uma conta?
-                                                <a href="#" id="abrirCadastro">Criar conta</a>
+                                                <a href="{{ route('cadastro-completo') }}" id="abrirCadastro">Criar
+                                                    conta</a>
                                             </p>
-                                        </div>
+                                        </form>
                                         <!-- CADASTRO PF / PJ -->
                                         <div id="cadastroForm" style="display: none;">
                                             <h4 class="fw-bold text-center mb-4">Criar Conta</h4>
@@ -344,11 +371,13 @@
                 <a class="nav-link dropdown-toggle" href="#" id="categoriasDropdown" role="button"
                     data-bs-toggle="dropdown" aria-expanded="false">Categorias</a>
                 <ul class="dropdown-menu custom-dropdown" aria-labelledby="categoriasDropdown">
-                    <li><a class="dropdown-item" href="{{ route('categoria.show', 'supermercado') }}">Supermercado</a>
+                    <li><a class="dropdown-item"
+                            href="{{ route('categoria.show', 'supermercado') }}">Supermercado</a>
                     </li>
                     <li><a class="dropdown-item" href="{{ route('categoria.show', 'tecnologia') }}">Tecnologia</a>
                     </li>
-                    <li><a class="dropdown-item" href="{{ route('categoria.show', 'casa-moveis') }}">Casa e Móveis</a>
+                    <li><a class="dropdown-item" href="{{ route('categoria.show', 'casa-moveis') }}">Casa e
+                            Móveis</a>
                     </li>
                     <li><a class="dropdown-item"
                             href="{{ route('categoria.show', 'eletrodomesticos') }}">Eletrodomésticos</a></li>

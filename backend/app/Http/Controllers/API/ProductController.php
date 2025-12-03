@@ -8,6 +8,9 @@ use App\Models\Store;
 use App\Http\Resources\ProductResource;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\ValidationException;
+use Illuminate\Support\Facades\Storage;
 
 class ProductController extends Controller
 {
@@ -37,19 +40,48 @@ class ProductController extends Controller
 
     public function store(Request $request): JsonResponse
     {
+        if (!Auth::check()) {
+            return response()->json(['message' => 'Usuário não autenticado.'], 401);
+        }
+
+        $user = Auth::user();
+        $storeId = $user->id;
+
+        if (!$storeId) {
+             throw ValidationException::withMessages([
+                'store_id' => ['O usuário logado não possui uma loja associada.']
+            ]);
+        }
+
         $validated = $request->validate([
-            'store_id' => 'required|exists:stores,id',
             'name' => 'required|string|max:255',
             'description' => 'nullable|string',
-            'image_url' => 'nullable|url',
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
             'price' => 'required|numeric|min:0',
             'quantity_available' => 'required|integer|min:0',
             'brand' => 'required|string|max:100',
             'category' => 'required|string|max:100',
             'sku' => 'nullable|string|unique:products,sku',
+            'tipo' => 'nullable|string',
         ]);
 
-        $product = Product::create($validated);
+        $imagePath = null;
+        if ($request->hasFile('image')) {
+            $imagePath = $request->file('image')->store('produtos', 'public');
+        }
+        
+        $product = Product::create([
+            'store_id' => $storeId,
+            'name' => $validated['name'],
+            'description' => $validated['description'],
+            'price' => $validated['price'],
+            'quantity_available' => $validated['quantity_available'],
+            'brand' => $validated['brand'],
+            'category' => $validated['category'],
+            'sku' => $validated['sku'],
+            'image_url' => $imagePath ? Storage::url($imagePath) : null,
+            'tipo' => $request->tipo ?? null,
+        ]);
 
         return response()->json([
             'message' => 'Produto cadastrado com sucesso',

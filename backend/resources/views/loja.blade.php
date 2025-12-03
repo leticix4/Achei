@@ -24,45 +24,42 @@
                     <a class="nav-link active" href="{{ route('loja') }}">Início</a>
                 </li>
 
-                <!-- DROPDOWN DE PRODUTOS -->
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="produtosDropdown" role="button"
                         data-bs-toggle="dropdown" aria-expanded="false">
                         Produtos
                     </a>
                     <ul class="dropdown-menu shadow" aria-labelledby="produtosDropdown">
+                        {{-- O link 'Cadastrar Produto' aponta para a rota protegida --}}
                         <li><a class="dropdown-item" href="{{ route('cadastro-produto') }}">Cadastrar Produto</a></li>
-                        <li><a class="dropdown-item" href="#">Editar Produto</a></li>
-                        <li><a class="dropdown-item text-danger" href="#">Excluir Produto</a></li>
+
+                        {{-- ALTERADO: O link 'Editar Produto' agora aponta para a lista de gestão --}}
+                        <li><a class="dropdown-item" href="{{ route('loja.produtos.lista') }}">Gerenciar Produtos
+                                (Editar/Excluir)</a></li>
+
+                        {{-- REMOVIDO: O item 'Excluir Produto' foi removido --}}
                     </ul>
                 </li>
 
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Categorias</a>
-                </li>
+                {{-- REMOVIDO: O item 'Categorias' foi removido --}}
+
             </ul>
 
             <div class="d-flex align-items-center">
                 <div class="me-4">
                     <strong>Avaliação da Loja: 4.8</strong> <i class="bi bi-star-fill text-warning"></i>
                 </div>
-                <a 
-                href="https://wa.me/?text={{ urlencode('Confira essa Loja que encontrei!' . url()->current()) }}" 
-                target="_blank"
-                class="btn btn-outline-success"
-            >
-                <i class="bi bi-whatsapp me-2"></i> Compartilhar
-            </a>
+                <a href="https://wa.me/?text={{ urlencode('Confira essa Loja que encontrei!' . url()->current()) }}"
+                    target="_blank" class="btn btn-outline-success">
+                    <i class="bi bi-whatsapp me-2"></i> Compartilhar
+                </a>
             </div>
         </div>
     </section>
 
     <main class="container">
         <section class="store-main-content">
-                <a href="{{ route('busca') }}" class="btn-voltar" >
-                    <img src="{{ asset('icons/icon-voltar.png') }}" alt="Voltar" class="icon">
-                    Voltar
-                </a>
+            {{-- Restante do conteúdo (endereço e mapa) --}}
             <div class="row g-4 align-items-center">
                 <div class="col-md-7 store-info">
                     <h5><i class="bi bi-geo-alt-fill me-2"></i> Endereço:</h5>
@@ -102,6 +99,7 @@
 @endsection
 
 @push('scripts')
+    {{-- (Scripts do Google Maps omitidos por brevidade, permanecem inalterados) --}}
     <script>
         // callback chamado pelo script do Google Maps
         window.initLojaMap = function() {

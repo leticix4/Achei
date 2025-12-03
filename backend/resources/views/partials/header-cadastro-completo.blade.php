@@ -191,9 +191,6 @@
                                             </div>
                                             <button class="btn btn-primary w-100 mb-2"
                                                 id="loginButton">Entrar</button>
-                                            <button type="button" class="btn btn-outline-secondary w-100 mb-2">
-                                                <i class="bi bi-google me-2"></i> Entrar com o Google
-                                            </button>
                                         </div>
                                     </div>
                                     <!-- COLUNA DIREITA (LUPA) -->
@@ -256,26 +253,36 @@
                 <a class="nav-link" href="#produtos-destaque">Destaque</a>
             </li>
             <!-- Dropdown de Categorias -->
-           <li class="nav-item dropdown">
+            <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" id="categoriasDropdown" role="button"
                     data-bs-toggle="dropdown" aria-expanded="false">Categorias</a>
                 <ul class="dropdown-menu custom-dropdown" aria-labelledby="categoriasDropdown">
-                    <li><a class="dropdown-item" href="{{ route('categoria.show', 'supermercado') }}">Supermercado</a></li>
-                    <li><a class="dropdown-item" href="{{ route('categoria.show', 'tecnologia') }}">Tecnologia</a></li>
-                    <li><a class="dropdown-item" href="{{ route('categoria.show', 'casa-moveis') }}">Casa e Móveis</a></li>
-                    <li><a class="dropdown-item" href="{{ route('categoria.show', 'eletrodomesticos') }}">Eletrodomésticos</a></li>
-                    <li><a class="dropdown-item" href="{{ route('categoria.show', 'esportes') }}">Esportes e Fitness</a></li>
-                    <li><a class="dropdown-item" href="{{ route('categoria.show', 'ferramentas') }}">Ferramentas</a></li>
-                    <li><a class="dropdown-item" href="{{ route('categoria.show', 'construcao') }}">Construção</a></li>
+                    <li><a class="dropdown-item" href="{{ route('categoria.show', 'supermercado') }}">Supermercado</a>
+                    </li>
+                    <li><a class="dropdown-item" href="{{ route('categoria.show', 'tecnologia') }}">Tecnologia</a>
+                    </li>
+                    <li><a class="dropdown-item" href="{{ route('categoria.show', 'casa-moveis') }}">Casa e Móveis</a>
+                    </li>
+                    <li><a class="dropdown-item"
+                            href="{{ route('categoria.show', 'eletrodomesticos') }}">Eletrodomésticos</a></li>
+                    <li><a class="dropdown-item" href="{{ route('categoria.show', 'esportes') }}">Esportes e
+                            Fitness</a></li>
+                    <li><a class="dropdown-item" href="{{ route('categoria.show', 'ferramentas') }}">Ferramentas</a>
+                    </li>
+                    <li><a class="dropdown-item" href="{{ route('categoria.show', 'construcao') }}">Construção</a>
+                    </li>
                     <li><a class="dropdown-item" href="{{ route('categoria.show', 'autopecas') }}">Autopeças</a></li>
                     <li><a class="dropdown-item" href="{{ route('categoria.show', 'papelaria') }}">Papelaria</a></li>
                     <li><a class="dropdown-item" href="{{ route('categoria.show', 'petshop') }}">Pet Shop</a></li>
                     <li><a class="dropdown-item" href="{{ route('categoria.show', 'saude') }}">Saúde</a></li>
-                    <li><a class="dropdown-item" href="{{ route('categoria.show', 'veiculos') }}">Acessórios para Veículos</a></li>
-                    <li><a class="dropdown-item" href="{{ route('categoria.show', 'beleza') }}">Beleza e Cuidado Pessoal</a></li>
+                    <li><a class="dropdown-item" href="{{ route('categoria.show', 'veiculos') }}">Acessórios para
+                            Veículos</a></li>
+                    <li><a class="dropdown-item" href="{{ route('categoria.show', 'beleza') }}">Beleza e Cuidado
+                            Pessoal</a></li>
                     <li><a class="dropdown-item" href="{{ route('categoria.show', 'moda') }}">Moda</a></li>
                     <li><a class="dropdown-item" href="{{ route('categoria.show', 'bebes') }}">Bebês</a></li>
-                    <li><a class="dropdown-item" href="{{ route('categoria.show', 'brinquedos') }}">Brinquedos</a></li>
+                    <li><a class="dropdown-item" href="{{ route('categoria.show', 'brinquedos') }}">Brinquedos</a>
+                    </li>
                 </ul>
             </li>
         </ul>

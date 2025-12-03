@@ -12,7 +12,6 @@
                     <button type="button" data-bs-target="#mainBanner" data-bs-slide-to="2"></button>
                 </div>
 
-
                 <div class="carousel-inner">
                     <div class="carousel-item active">
                         <a href="{{ route('categoria.show', 'brinquedos') }}" class="banner-destaque">
@@ -36,7 +35,6 @@
                 <button class="carousel-control-next" type="button" data-bs-target="#mainBanner" data-bs-slide="next">
                     <span class="carousel-control-next-icon"></span>
                 </button>
-
             </div>
         </section>
     </main>
@@ -56,52 +54,54 @@
                                     <div>
                                         <p class="categoria-tag">Tecnologia</p>
                                         <h3>Impressoras</h3>
-                                        <a href="#" class="btn btn-dark btn-sm mt-3">Conferir</a>
+                                        <a href="{{ route('busca.lista', ['q' => 'Impressoras']) }}"
+                                            class="btn btn-dark btn-sm mt-3">Conferir</a>
                                     </div>
                                     <div class="card-imagem">
                                         <img src="{{ asset('destaques/impressora.png') }}" alt="Impressora">
                                     </div>
                                 </div>
-
                             </div>
                             <div class="carousel-item">
                                 <div class="card-produto bg-yellow">
                                     <div>
                                         <p class="categoria-tag">Tecnologia</p>
                                         <h3>Notebook Gamer</h3>
-                                        <a href="#" class="btn btn-dark btn-sm mt-3">Conferir</a>
+                                        <a href="{{ route('busca.lista', ['q' => 'Notebook Gamer']) }}"
+                                            class="btn btn-dark btn-sm mt-3">Conferir</a>
                                     </div>
                                     <div class="card-imagem">
                                         <img src="{{ asset('destaques/notegame.png') }}" alt="Notebook Gamer">
                                     </div>
                                 </div>
-
                             </div>
                             <div class="carousel-item">
                                 <div class="card-produto bg-yellow">
                                     <div>
                                         <p class="categoria-tag">Tecnologia</p>
                                         <h3>Fotografia</h3>
-                                        <a href="#" class="btn btn-dark btn-sm mt-3">Conferir</a>
+                                        <a href="{{ route('busca.lista', ['q' => 'Fotografia']) }}"
+                                            class="btn btn-dark btn-sm mt-3">Conferir</a>
                                     </div>
                                     <div class="card-imagem">
                                         <img src="{{ asset('destaques/camera.png') }}" alt="Fotografia">
                                     </div>
                                 </div>
-
                             </div>
                         </div>
-                        <button class="carousel-control-prev" type="button" data-bs-target="#carousel1" data-bs-slide="prev">
+                        <button class="carousel-control-prev" type="button" data-bs-target="#carousel1"
+                            data-bs-slide="prev">
                             <span class="carousel-control-prev-icon"></span>
                         </button>
-                        <button class="carousel-control-next" type="button" data-bs-target="#carousel1" data-bs-slide="next">
+                        <button class="carousel-control-next" type="button" data-bs-target="#carousel1"
+                            data-bs-slide="next">
                             <span class="carousel-control-next-icon"></span>
                         </button>
                     </div>
                 </div>
                 <div class="col-6 col-lg-3 col-md-3" data-aos="fade-left" data-aos-duration="800" data-aos-delay="200"
                     data-aos-once="true">
-                    <a href="#" class="card-produto bg-white clicavel">
+                    <a href="{{ route('busca.lista', ['q' => 'Geladeira']) }}" class="card-produto bg-white clicavel">
                         <div>
                             <p class="categoria-tag">Eletrodomésticos</p>
                             <h3>Geladeira</h3>
@@ -113,7 +113,8 @@
                 </div>
                 <div class="col-6 col-lg-3 col-md-3" data-aos="fade-left" data-aos-duration="800" data-aos-delay="300"
                     data-aos-once="true">
-                    <a href="#" class="card-produto bg-blue clicavel">
+                    <a href="{{ route('busca.lista', ['q' => 'Chave de Fenda']) }}"
+                        class="card-produto bg-blue clicavel">
                         <div>
                             <p class="categoria-tag">Ferramentas</p>
                             <h3>Chave de Fenda</h3>
@@ -124,7 +125,7 @@
                     </a>
                 </div>
                 <div class="col-6 col-lg-3 col-md-3" data-aos="fade-up" data-aos-duration="800" data-aos-once="true">
-                    <a href="#" class="card-produto bg-blue clicavel">
+                    <a href="{{ route('busca.lista', ['q' => 'HeadPhone']) }}" class="card-produto bg-blue clicavel">
                         <div>
                             <p class="categoria-tag">Tecnologia</p>
                             <h3>HeadPhone</h3>
@@ -137,7 +138,7 @@
 
                 <div class="col-6 col-lg-3 col-md-3" data-aos="fade-up" data-aos-duration="800" data-aos-delay="100"
                     data-aos-once="true">
-                    <a href="#" class="card-produto bg-yellow clicavel">
+                    <a href="{{ route('busca.lista', ['q' => 'Plantas']) }}" class="card-produto bg-yellow clicavel">
                         <div>
                             <p class="categoria-tag">Decoração</p>
                             <h3>Plantas</h3>
@@ -148,53 +149,55 @@
                     </a>
                 </div>
                 <div class="col-12 col-lg-6 col-md-6">
-                    <div id="carousel2" class="carousel slide" data-aos="fade-up" data-aos-duration="800" data-aos-delay="200"
-                        data-aos-once="true" data-bs-ride="carousel">
+                    <div id="carousel2" class="carousel slide" data-aos="fade-up" data-aos-duration="800"
+                        data-aos-delay="200" data-aos-once="true" data-bs-ride="carousel">
                         <div class="carousel-inner">
                             <div class="carousel-item active">
                                 <div class="card-produto bg-white">
                                     <div>
                                         <p class="categoria-tag">Moda Feminina</p>
                                         <h3>Moda</h3>
-                                        <a href="#" class="btn btn-dark btn-sm mt-3">Conferir</a>
+                                        <a href="{{ route('busca.lista', ['q' => 'Moda']) }}"
+                                            class="btn btn-dark btn-sm mt-3">Conferir</a>
                                     </div>
                                     <div class="card-imagem">
                                         <img src="{{ asset('destaques/bolsa.png') }}" alt="Moda">
                                     </div>
                                 </div>
-
                             </div>
                             <div class="carousel-item">
                                 <div class="card-produto bg-white">
                                     <div>
                                         <p class="categoria-tag">Moda Feminina</p>
                                         <h3>Bijouteria</h3>
-                                        <a href="#" class="btn btn-dark btn-sm mt-3">Conferir</a>
+                                        <a href="{{ route('busca.lista', ['q' => 'Bijouteria']) }}"
+                                            class="btn btn-dark btn-sm mt-3">Conferir</a>
                                     </div>
                                     <div class="card-imagem">
                                         <img src="{{ asset('destaques/acessorios.png') }}" alt="Bijouteria">
                                     </div>
                                 </div>
-
                             </div>
                             <div class="carousel-item">
                                 <div class="card-produto bg-white">
                                     <div>
                                         <p class="categoria-tag">Moda Feminina</p>
                                         <h3>Maquiagem</h3>
-                                        <a href="#" class="btn btn-dark btn-sm mt-3">Conferir</a>
+                                        <a href="{{ route('busca.lista', ['q' => 'Maquiagem']) }}"
+                                            class="btn btn-dark btn-sm mt-3">Conferir</a>
                                     </div>
                                     <div class="card-imagem">
                                         <img src="{{ asset('destaques/maquiagem.png') }}" alt="maquiagem">
                                     </div>
                                 </div>
-
                             </div>
                         </div>
-                        <button class="carousel-control-prev" type="button" data-bs-target="#carousel2" data-bs-slide="prev">
+                        <button class="carousel-control-prev" type="button" data-bs-target="#carousel2"
+                            data-bs-slide="prev">
                             <span class="carousel-control-prev-icon"></span>
                         </button>
-                        <button class="carousel-control-next" type="button" data-bs-target="#carousel2" data-bs-slide="next">
+                        <button class="carousel-control-next" type="button" data-bs-target="#carousel2"
+                            data-bs-slide="next">
                             <span class="carousel-control-next-icon"></span>
                         </button>
                     </div>
@@ -213,7 +216,8 @@
                                     <div class="category-card">
                                         <div class="row g-0 h-100">
                                             <div class="col-4 icon-part">
-                                                <img src="{{ asset('icons/supermercado.png') }}" alt="Mercearia" class="icon-img">
+                                                <img src="{{ asset('icons/supermercado.png') }}" alt="Mercearia"
+                                                    class="icon-img">
                                             </div>
                                             <div class="col-8 text-part"><span>Supermercado</span></div>
                                         </div>
@@ -225,7 +229,8 @@
                                     <div class="category-card">
                                         <div class="row g-0 h-100">
                                             <div class="col-4 icon-part">
-                                                <img src="{{ asset('icons/notebook.png') }}" alt="Tecnologia" class="icon-img">
+                                                <img src="{{ asset('icons/notebook.png') }}" alt="Tecnologia"
+                                                    class="icon-img">
                                             </div>
                                             <div class="col-8 text-part"><span>Tecnologia</span></div>
                                         </div>
@@ -237,7 +242,8 @@
                                     <div class="category-card">
                                         <div class="row g-0 h-100">
                                             <div class="col-4 icon-part">
-                                                <img src="{{ asset('icons/abaju.png') }}" alt="Casa e Móveis" class="icon-img">
+                                                <img src="{{ asset('icons/abaju.png') }}" alt="Casa e Móveis"
+                                                    class="icon-img">
                                             </div>
                                             <div class="col-8 text-part"><span>Casa e Móveis</span></div>
                                         </div>
@@ -249,7 +255,8 @@
                                     <div class="category-card">
                                         <div class="row g-0 h-100">
                                             <div class="col-4 icon-part">
-                                                <img src="{{ asset('icons/tomada.png') }}" alt="Eletrodomésticos" class="icon-img">
+                                                <img src="{{ asset('icons/tomada.png') }}" alt="Eletrodomésticos"
+                                                    class="icon-img">
                                             </div>
                                             <div class="col-8 text-part"><span>Eletrodomésticos</span></div>
                                         </div>
@@ -261,7 +268,8 @@
                                     <div class="category-card">
                                         <div class="row g-0 h-100">
                                             <div class="col-4 icon-part">
-                                                <img src="{{ asset('icons/bike.png') }}" alt="Esportes e Fitness" class="icon-img">
+                                                <img src="{{ asset('icons/bike.png') }}" alt="Esportes e Fitness"
+                                                    class="icon-img">
                                             </div>
                                             <div class="col-8 text-part"><span>Esportes e Fitness</span></div>
                                         </div>
@@ -273,7 +281,8 @@
                                     <div class="category-card">
                                         <div class="row g-0 h-100">
                                             <div class="col-4 icon-part">
-                                                <img src="{{ asset('icons/chave.png') }}" alt="Ferramentas" class="icon-img">
+                                                <img src="{{ asset('icons/chave.png') }}" alt="Ferramentas"
+                                                    class="icon-img">
                                             </div>
                                             <div class="col-8 text-part"><span>Ferramentas</span></div>
                                         </div>
@@ -285,7 +294,8 @@
                                     <div class="category-card">
                                         <div class="row g-0 h-100">
                                             <div class="col-4 icon-part">
-                                                <img src="{{ asset('icons/tijolo.png') }}" alt="Construção" class="icon-img">
+                                                <img src="{{ asset('icons/tijolo.png') }}" alt="Construção"
+                                                    class="icon-img">
                                             </div>
                                             <div class="col-8 text-part"><span>Construção</span></div>
                                         </div>
@@ -297,7 +307,8 @@
                                     <div class="category-card">
                                         <div class="row g-0 h-100">
                                             <div class="col-4 icon-part">
-                                                <img src="{{ asset('icons/engrenagem.png') }}" alt="Autopeças" class="icon-img">
+                                                <img src="{{ asset('icons/engrenagem.png') }}" alt="Autopeças"
+                                                    class="icon-img">
                                             </div>
                                             <div class="col-8 text-part"><span>Autopeças</span></div>
                                         </div>
@@ -309,7 +320,8 @@
                                     <div class="category-card">
                                         <div class="row g-0 h-100">
                                             <div class="col-4 icon-part">
-                                                <img src="{{ asset('icons/caderno.png') }}" alt="Papelaria" class="icon-img">
+                                                <img src="{{ asset('icons/caderno.png') }}" alt="Papelaria"
+                                                    class="icon-img">
                                             </div>
                                             <div class="col-8 text-part"><span>Papelaria</span></div>
                                         </div>
@@ -326,7 +338,8 @@
                                     <div class="category-card">
                                         <div class="row g-0 h-100">
                                             <div class="col-4 icon-part">
-                                                <img src="{{ asset('icons/pata.png') }}" alt="Pet Shop" class="icon-img">
+                                                <img src="{{ asset('icons/pata.png') }}" alt="Pet Shop"
+                                                    class="icon-img">
                                             </div>
                                             <div class="col-8 text-part"><span>Pet Shop</span></div>
                                         </div>
@@ -338,7 +351,8 @@
                                     <div class="category-card">
                                         <div class="row g-0 h-100">
                                             <div class="col-4 icon-part">
-                                                <img src="{{ asset('icons/saude.png') }}" alt="Saúde" class="icon-img">
+                                                <img src="{{ asset('icons/saude.png') }}" alt="Saúde"
+                                                    class="icon-img">
                                             </div>
                                             <div class="col-8 text-part"><span>Saúde</span></div>
                                         </div>
@@ -350,7 +364,8 @@
                                     <div class="category-card">
                                         <div class="row g-0 h-100">
                                             <div class="col-4 icon-part">
-                                                <img src="{{ asset('icons/carro.png') }}" alt="Acessórios para Veículos" class="icon-img">
+                                                <img src="{{ asset('icons/carro.png') }}" alt="Acessórios para Veículos"
+                                                    class="icon-img">
                                             </div>
                                             <div class="col-8 text-part"><span>Acessórios para Veículos</span></div>
                                         </div>
@@ -362,7 +377,8 @@
                                     <div class="category-card">
                                         <div class="row g-0 h-100">
                                             <div class="col-4 icon-part">
-                                                <img src="{{ asset('icons/locao.png') }}" alt="Beleza e Cuidado Pessoal" class="icon-img">
+                                                <img src="{{ asset('icons/locao.png') }}" alt="Beleza e Cuidado Pessoal"
+                                                    class="icon-img">
                                             </div>
                                             <div class="col-8 text-part"><span>Beleza e Cuidado Pessoal</span></div>
                                         </div>
@@ -374,7 +390,8 @@
                                     <div class="category-card">
                                         <div class="row g-0 h-100">
                                             <div class="col-4 icon-part">
-                                                <img src="{{ asset('icons/vestido.png') }}" alt="Moda" class="icon-img">
+                                                <img src="{{ asset('icons/vestido.png') }}" alt="Moda"
+                                                    class="icon-img">
                                             </div>
                                             <div class="col-8 text-part"><span>Moda</span></div>
                                         </div>
@@ -386,7 +403,8 @@
                                     <div class="category-card">
                                         <div class="row g-0 h-100">
                                             <div class="col-4 icon-part">
-                                                <img src="{{ asset('icons/carrinhobebe.png') }}" alt="Bebês" class="icon-img">
+                                                <img src="{{ asset('icons/carrinhobebe.png') }}" alt="Bebês"
+                                                    class="icon-img">
                                             </div>
                                             <div class="col-8 text-part"><span>Bebês</span></div>
                                         </div>
@@ -398,7 +416,8 @@
                                     <div class="category-card">
                                         <div class="row g-0 h-100">
                                             <div class="col-4 icon-part">
-                                                <img src="{{ asset('icons/controle.png') }}" alt="Brinquedos" class="icon-img">
+                                                <img src="{{ asset('icons/controle.png') }}" alt="Brinquedos"
+                                                    class="icon-img">
                                             </div>
                                             <div class="col-8 text-part"><span>Brinquedos</span></div>
                                         </div>
@@ -419,17 +438,20 @@
         </section>
     </main>
 
-
-    <div id="notificationAlert" class="position-fixed bottom-0 end-0 m-3 shadow-lg rounded-circle p-2 bg-primary text-white cursor-pointer" 
-         style="width: 50px; height: 50px; display: none; z-index: 1061;">
+    <div id="notificationAlert"
+        class="position-fixed bottom-0 end-0 m-3 shadow-lg rounded-circle p-2 bg-primary text-white cursor-pointer"
+        style="width: 50px; height: 50px; display: none; z-index: 1061;">
         <i class="bi bi-chat-fill d-flex justify-content-center align-items-center h-100" style="font-size: 1.5rem;"></i>
-        <span id="unreadCountBadge" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" style="display: none;">
+        <span id="unreadCountBadge"
+            class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
+            style="display: none;">
             0
             <span class="visually-hidden">mensagens não lidas</span>
         </span>
     </div>
 
-    <div class="chat-window position-fixed bottom-0 end-0 m-3 shadow-lg rounded-3" id="chatWindow" style="width: 350px; height: 450px; display: none; z-index: 1060; flex-direction: column;">
+    <div class="chat-window position-fixed bottom-0 end-0 m-3 shadow-lg rounded-3" id="chatWindow"
+        style="width: 350px; height: 450px; display: none; z-index: 1060; flex-direction: column;">
         <div class="chat-header bg-primary text-white rounded-top-3 p-3 d-flex justify-content-between align-items-center">
             <span class="fw-bold">Chat com a Loja</span>
             <button id="closeChat" class="btn-close btn-close-white">X</button>
@@ -458,25 +480,23 @@
         const notificationAlert = document.getElementById('notificationAlert');
         const closeChatButton = document.getElementById('closeChat');
         const unreadCountBadge = document.getElementById('unreadCountBadge');
-        
-        const apiUrl = 'http://localhost:8000/api'; 
-        
-        
-        notificationAlert.addEventListener('click', () => {
-            chatWindow.style.display = 'flex'; 
-            notificationAlert.style.display = 'none';
 
+        const apiUrl = 'http://localhost:8000/api';
+
+        notificationAlert.addEventListener('click', () => {
+            chatWindow.style.display = 'flex';
+            notificationAlert.style.display = 'none';
         });
 
         closeChatButton.addEventListener('click', () => {
             chatWindow.style.display = 'none';
         });
-                
+
         const checkNewMessages = async () => {
             const token = localStorage.getItem('access_token');
-            
+
             if (!token) {
-                notificationAlert.style.display = 'none'; 
+                notificationAlert.style.display = 'none';
                 return;
             }
 
@@ -488,7 +508,7 @@
                         'Authorization': `Bearer ${token}`
                     }
                 });
-                
+
                 if (!response.ok) {
                     console.error('Erro ao verificar notificações:', response.status);
                     notificationAlert.style.display = 'none';
@@ -496,13 +516,13 @@
                 }
 
                 const data = await response.json();
-                const count = data.unread_count || 0; 
+                const count = data.unread_count || 0;
 
                 if (count > 0) {
                     if (chatWindow.style.display !== 'flex') {
                         unreadCountBadge.textContent = count;
                         unreadCountBadge.style.display = 'block';
-                        notificationAlert.style.display = 'flex'; 
+                        notificationAlert.style.display = 'flex';
                     }
                 } else {
                     notificationAlert.style.display = 'none';
@@ -517,6 +537,6 @@
 
         checkNewMessages();
 
-        setInterval(checkNewMessages, 10000); 
+        setInterval(checkNewMessages, 10000);
     </script>
 @endsection

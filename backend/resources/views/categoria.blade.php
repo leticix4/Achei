@@ -4,12 +4,9 @@
 
 @section('content')
 
-
-
     <section id="categorias" class="section-box py-5">
         <div class="container">
             <a href="{{ route('home') }}" class="btn-voltar">
-                {{-- Substitua 'icon-voltar.png' pelo nome exato do seu arquivo --}}
                 <img src="{{ asset('icons/icon-voltar.png') }}" alt="Voltar" class="icon">
                 Voltar
             </a>
@@ -18,7 +15,7 @@
             <div class="row g-4">
                 @foreach ($itens as $item)
                     <div class="col-4 col-lg-4 col-md-3">
-                        <a href="#" class="category-card-link">
+                        <a href="{{ route('busca.lista', ['q' => $item['nome']]) }}" class="category-card-link">
                             <div class="category-card">
                                 <div class="row g-0 h-100">
                                     <div class="col-4 icon-part">

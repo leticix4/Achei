@@ -4,44 +4,42 @@ use App\Http\Controllers\API\AvaliacaoController;
 use App\Http\Controllers\BuscaController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProductRatingController;
+use App\Http\Controllers\API\ProductController; 
 use App\Http\Controllers\ProdutoController;
 use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\Auth\PasswordResetController;
+use Illuminate\Support\Facades\Auth;
 
-
-
-
-// HOME
 Route::get('/', function () {
     return view('index');
 })->name('home');
 
-// BUSCA
-Route::get('/busca', function () {
-    return view('busca');
-})->name('busca.mapa');
+Route::get('/busca', [BuscaController::class, 'lista'])->name('busca.lista');
 
-// CADASTRO COMPLETO (PF/PJ)
 Route::get('/cadastro-completo', function () {
     return view('cadastro-completo');
 })->name('cadastro-completo');
 
-Route::get('/busca', [BuscaController::class, 'lista'])->name('busca.lista');
-
-  // PÁGINA DE PRODUTO
-Route::get('/produto', function () {
-     return view('produto');
- })->name('produto');
-
-Route::get('/produto/{product}', [ProdutoController::class, 'show'])->name('produto.show');
-Route::post('/produto/{product}/rate', [ProdutoController::class, 'rate'])->name('produto.rate');
-
-//Rota para SALVAR o cadastro (POST)
 Route::post('/register', [RegisterController::class, 'store'])->name('register.store');
 
-// Rota Genérica para Categorias
+Route::post('/login', [LoginController::class, 'login'])->name('login');
+Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
+
+Route::get('/esqueci-senha', [PasswordResetController::class, 'showLinkRequestForm'])->name('password.request');
+Route::post('/esqueci-senha', [PasswordResetController::class, 'sendResetLinkEmail'])->name('password.email');
+Route::get('/resetar-senha/{token}', [PasswordResetController::class, 'showResetForm'])->name('password.reset');
+Route::post('/resetar-senha', [PasswordResetController::class, 'reset'])->name('password.update');
+Route::get('/produto/cadastro', [ProdutoController::class, 'create'])->name('cadastro-produto');
+Route::post('/produto/store', [ProdutoController::class, 'store'])->name('produto.store');
+Route::get('/produto', function () {
+    return view('produto');
+})->name('produto');
+
+Route::get('/produto/{product}', [ProdutoController::class, 'show'])->name('produto.show');
+Route::get('/loja', [AvaliacaoController::class, 'index'])->name('loja');
+
 Route::get('/categoria/{slug}', function ($slug) {
-    
-    //"BANCO DE DADOS" FIXO
     $dbCategorias = [
         'supermercado' => [
             'titulo' => 'SUPERMERCADO',
@@ -258,22 +256,28 @@ Route::get('/categoria/{slug}', function ($slug) {
     ]);
 
 })->name('categoria.show');
-  
-// CADASTRO DE PRODUTO (lojista)
-    Route::get('/cadastroproduto', function () {
-        return view('cadastro-produto');
-    })->name('cadastro-produto');   
+ 
 
-Route::middleware('auth:sanctum')->group(function () {
+Route::middleware('auth:sanctum')->group(function () { 
 
+    Route::group(['middleware' => function ($request, $next) {
+        
+        if (!Auth::check() || Auth::user()->type !== 'pj') {
+            abort(403, 'Acesso restrito a contas PJ (Lojistas).');
+        }
 
+        return $next($request);
+
+    }], function () {
+        
+        Route::get('/cadastroproduto', function () {
+            return view('cadastro-produto');
+        })->name('cadastro-produto'); 
+        
+        Route::get('/loja/produtos', function () {
+            return view('lista-produtos'); 
+        })->name('loja.produtos.lista');
+        
+        Route::post('/api/products', [ProductController::class, 'store'])->name('produto.store');
     });
-    
-    // LOJA
-    Route::get('/loja', [AvaliacaoController::class, 'index'])->name('loja');
-
-// ROTA PARA AVALIAR PRODUTO
-Route::middleware('auth')->post(
-    '/produtos/{product}/avaliar',
-    [ProductRatingController::class, 'store']
-)->name('produtos.avaliar');
+});
