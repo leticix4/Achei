@@ -1,588 +1,536 @@
-@extends('layouts.app-cadastro')
-
-@push('styles')
-    <link rel="stylesheet" href="{{ asset('css/cadastro-completo.css') }}">
-@endpush
+@extends('layouts.app')
 
 @section('title', 'Cadastro Completo')
 
+@push('styles')
+    <style>
+        .form-section {
+            background: #fff;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            margin-top: 2rem;
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #003147;
+            border-left: 4px solid #003147;
+            padding-left: 10px;
+            margin-bottom: 1.5rem;
+        }
+
+        /* Campos com fundo cinza suave */
+        .form-control,
+        .form-select {
+            background-color: #f2f2f2;
+            border: none;
+            border-radius: 8px;
+            padding: 10px 15px;
+        }
+
+        .form-control:focus {
+            background-color: #e9ecef;
+            box-shadow: none;
+            border: 1px solid #ccc;
+        }
+
+        /* Mensagem de erro de validação */
+        .invalid-feedback {
+            font-size: 0.85rem;
+        }
+
+        /* Linha divisória vertical (apenas em telas grandes) */
+        @media (min-width: 768px) {
+            .border-end-md {
+                border-right: 1px solid #dee2e6;
+                padding-right: 3rem;
+            }
+
+            .col-md-6:last-child {
+                padding-left: 3rem;
+            }
+        }
+    </style>
+@endpush
+
 @section('content')
 
-    <!-- FORM CADASTRO -->
-    <div class="container mt-5">
+    <div class="container">
+        @if ($errors->any())
+            <div class="alert alert-danger alert-dismissible fade show mt-3" role="alert">
+                <strong>Ops!</strong> Verifique os erros abaixo:
+                <ul class="mb-0 mt-1">
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        @endif
+
         <div class="form-section">
             <h2 class="section-title">Cadastro</h2>
 
-            <div class="mb-4">
-                <label class="form-label fw-bold me-3">Você é:</label>
+            <div class="mb-4 p-3 bg-light rounded">
+                <label class="form-label fw-bold d-block mb-2">Você é:</label>
+
                 <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" name="tipoPessoa" id="pf" value="pf" checked>
-                    <label class="form-check-label fw-bold" for="pf">Pessoa Física</label>
+                    <input class="form-check-input" type="radio" name="tipoPessoa" id="radioPF" value="pf"
+                        onclick="mudarFormulario('pf')" checked>
+                    <label class="form-check-label fw-bold" for="radioPF">Pessoa Física</label>
                 </div>
+
                 <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" name="tipoPessoa" id="pj" value="pj">
-                    <label class="form-check-label fw-bold" for="pj">Pessoa Jurídica</label>
+                    <input class="form-check-input" type="radio" name="tipoPessoa" id="radioPJ" value="pj"
+                        onclick="mudarFormulario('pj')">
+                    <label class="form-check-label fw-bold" for="radioPJ">Pessoa Jurídica</label>
                 </div>
-                <p class="small text-muted mt-1">Campos marcados com (*) são obrigatórios.</p>
+                <p class="small text-muted mt-2 mb-0">Campos marcados com (*) são obrigatórios.</p>
             </div>
 
             <hr class="my-4">
 
-            <form id="formPF" method="POST" action="{{ route('register.store') }}">
-                @csrf
-                <input type="hidden" name="tipoPessoa" value="pf">
+            <div id="containerPF" style="display: block;">
+                <form id="formPF" method="POST" action="{{ route('register.store') }}"
+                    onsubmit="return validarSenha('senhaPF', 'confSenhaPF')">
+                    @csrf
+                    <input type="hidden" name="type" value="pf">
 
-                <div class="row g-5">
-                    <div class="col-md-6 border-end-md">
-                        <h3 class="fw-bold mb-4">Dados Pessoais</h3>
+                    <div class="row g-5">
+                        <div class="col-md-6 border-end-md">
+                            <h4 class="fw-bold mb-4">Dados Pessoais</h4>
 
-                        <div class="mb-3">
-                            <label class="form-label fw-bold">Nome Completo*</label>
-                            <input type="text" id="nomeCompleto" name="nomeCompleto"
-                                class="form-control bg-light border-0" required>
-                        </div>
+                            <div class="mb-3">
+                                <label class="form-label fw-bold">Nome Completo*</label>
+                                <input type="text" id="nomeCompleto" name="name" class="form-control" required>
+                            </div>
 
-                        <div class="row g-3 mb-3">
-                            <div class="col-md-6">
-                                <label class="form-label fw-bold">Email*</label>
-                                <input type="email" id="emailCompleto" name="email"
-                                    class="form-control bg-light border-0" placeholder="exemplo@email.com" required>
+                            <div class="row g-3 mb-3">
+                                <div class="col-md-6">
+                                    <label class="form-label fw-bold">Email*</label>
+                                    <input type="email" id="emailCompleto" name="email" class="form-control"
+                                        placeholder="exemplo@email.com" required>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label fw-bold">CPF*</label>
+                                    <input type="text" id="cpfCompleto" name="cpf" class="form-control" required>
+                                </div>
                             </div>
-                            <div class="col-md-6">
-                                <label class="form-label fw-bold">CPF*</label>
-                                <input type="text" id="cpfCompleto" name="cpf" inputmode="numeric"
-                                    class="form-control bg-light border-0" required>
-                            </div>
-                        </div>
 
-                        <div class="row g-3 mb-3">
-                            <div class="col-md-6">
-                                <label class="form-label fw-bold">Data de nascimento*</label>
-                                <input type="date" name="nascimento" class="form-control bg-light border-0" required>
+                            <div class="row g-3 mb-3">
+                                <div class="col-md-6">
+                                    <label class="form-label fw-bold">Data de nascimento*</label>
+                                    <input type="date" name="birth_date" class="form-control" required>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label fw-bold">Gênero*</label>
+                                    <select class="form-select" name="gender">
+                                        <option value="" selected>Selecione</option>
+                                        <option value="Masculino">Masculino</option>
+                                        <option value="Feminino">Feminino</option>
+                                        <option value="Outro">Outro</option>
+                                    </select>
+                                </div>
                             </div>
-                            <div class="col-md-6">
-                                <label class="form-label fw-bold">Gênero*</label>
-                                <select class="form-select bg-light border-0" name="genero">
-                                    <option selected value="">Selecione</option>
-                                    <option value="Masculino">Masculino</option>
-                                    <option value="Feminino">Feminino</option>
-                                    <option value="Outro">Outro</option>
-                                </select>
-                            </div>
-                        </div>
 
-                        <div class="row g-3 mb-3">
-                            <div class="col-md-6">
-                                <label class="form-label fw-bold">Celular*</label>
-                                <input type="tel" id="celularCompleto" name="telefone" inputmode="numeric"
-                                    class="form-control bg-light border-0" required>
+                            <div class="row g-3 mb-3">
+                                <div class="col-md-6">
+                                    <label class="form-label fw-bold">Celular*</label>
+                                    <input type="tel" id="celularCompleto" name="phone" class="form-control"
+                                        placeholder="(99) 99999-9999" required>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label fw-bold">Contato adicional</label>
+                                    <input type="tel" id="telefoneAdicionalPF" name="phone_secondary"
+                                        class="form-control" placeholder="(99) 99999-9999">
+                                </div>
                             </div>
-                            <div class="col-md-6">
-                                <label class="form-label fw-bold">Contato adicional</label>
-                                <input type="tel" name="telefone_secundario" inputmode="numeric"
-                                    class="form-control bg-light border-0">
-                            </div>
-                        </div>
 
-                        <div class="row g-3 mb-3">
-                            <div class="col-md-6">
-                                <label class="form-label fw-bold">Senha*</label>
-                                <input type="password" id="senhaPF" name="password" class="form-control bg-light border-0"
-                                    required>
-
-                                <small id="regrasPF" class="text-muted d-block mt-1" style="font-size: .85rem;">
-                                    A senha deve conter:
-                                    <ul style="margin-left: 20px; margin-top: 3px;">
-                                        <li>Mínimo de 8 caracteres</li>
-                                        <li>1 letra maiúscula</li>
-                                        <li>1 número</li>
-                                        <li>1 caractere especial (!@#$%&*)</li>
-                                    </ul>
-                                </small>
-                            </div>
-                            <div class="col-md-6">
-                                <label class="form-label fw-bold">Confirmar senha*</label>
-                                <input type="password" id="confSenhaPF" name="password_confirmation"
-                                    class="form-control bg-light border-0" required>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-md-6">
-                        <h3 class="fw-bold mb-4">Endereço</h3>
-
-                        <div class="mb-3 d-flex align-items-center">
-                            <div class="flex-grow-1 me-3">
-                                <label class="form-label fw-bold">CEP*</label>
-                                <input type="text" id="cepPF" name="cep" inputmode="numeric"
-                                    class="form-control bg-light border-0" required style="max-width: 150px;">
-                            </div>
-                            <a href="https://buscacepinter.correios.com.br/app/endereco/index.php" target="_blank"
-                                class="text-decoration-none small fw-bold text-dark">Não sei meu CEP.</a>
-                        </div>
-
-                        <div class="row g-3 mb-3">
-                            <div class="col-md-8">
-                                <label class="form-label fw-bold">Endereço*</label>
-                                <input type="text" name="endereco" class="form-control bg-light border-0" required>
-                            </div>
-                            <div class="col-md-4">
-                                <label class="form-label fw-bold">Número*</label>
-                                <input type="text" name="numero" inputmode="numeric"
-                                    class="form-control bg-light border-0" required>
+                            <div class="row g-3 mb-3">
+                                <div class="col-md-6">
+                                    <label class="form-label fw-bold">Senha*</label>
+                                    <input type="password" id="senhaPF" name="password" class="form-control" required>
+                                    <small class="text-muted d-block mt-1" style="font-size: .75rem;">
+                                        Mínimo 8 caracteres, 1 maiúscula, 1 número e 1 especial.
+                                    </small>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label fw-bold">Confirmar senha*</label>
+                                    <input type="password" id="confSenhaPF" name="password_confirmation"
+                                        class="form-control" required>
+                                </div>
                             </div>
                         </div>
 
-                        <div class="row g-3 mb-3">
-                            <div class="col-md-6">
-                                <label class="form-label fw-bold">Complemento</label>
-                                <input type="text" name="complemento" class="form-control bg-light border-0">
-                            </div>
-                            <div class="col-md-6">
-                                <label class="form-label fw-bold">Bairro*</label>
-                                <input type="text" name="bairro" class="form-control bg-light border-0" required>
-                            </div>
-                        </div>
+                        <div class="col-md-6">
+                            <h4 class="fw-bold mb-4">Endereço</h4>
 
-                        <div class="row g-3 mb-4">
-                            <div class="col-md-8">
-                                <label class="form-label fw-bold">Cidade*</label>
-                                <input type="text" name="cidade" class="form-control bg-light border-0" required>
+                            <div class="mb-3 d-flex align-items-center">
+                                <div class="flex-grow-1 me-3">
+                                    <label class="form-label fw-bold">CEP*</label>
+                                    <input type="text" id="cepPF" name="zip_code" class="form-control" required
+                                        style="max-width: 150px;">
+                                </div>
+                                <a href="https://buscacepinter.correios.com.br/app/endereco/index.php" target="_blank"
+                                    class="text-decoration-none small fw-bold text-dark">Não sei meu CEP.</a>
                             </div>
-                            <div class="col-md-4">
-                                <label class="form-label fw-bold">Estado*</label>
-                                <select name="estado" class="form-select bg-light border-0">
-                                    <option value="AC">Acre</option>
-                                    <option value="AL">Alagoas</option>
-                                    <option value="AP">Amapá</option>
-                                    <option value="AM">Amazonas</option>
-                                    <option value="BA">Bahia</option>
-                                    <option value="CE">Ceará</option>
-                                    <option value="DF">Distrito Federal</option>
-                                    <option value="ES">Espírito Santo</option>
-                                    <option value="GO">Goiás</option>
-                                    <option value="MA">Maranhão</option>
-                                    <option value="MT">Mato Grosso</option>
-                                    <option value="MS">Mato Grosso do Sul</option>
-                                    <option selected value="MG">Minas Gerais</option>
-                                    <option value="PA">Pará</option>
-                                    <option value="PB">Paraíba</option>
-                                    <option value="PR">Paraná</option>
-                                    <option value="PE">Pernambuco</option>
-                                    <option value="PI">Piauí</option>
-                                    <option value="RJ">Rio de Janeiro</option>
-                                    <option value="RN">Rio Grande do Norte</option>
-                                    <option value="RS">Rio Grande do Sul</option>
-                                    <option value="RO">Rondônia</option>
-                                    <option value="RR">Roraima</option>
-                                    <option value="SC">Santa Catarina</option>
-                                    <option value="SP">São Paulo</option>
-                                    <option value="SE">Sergipe</option>
-                                    <option value="TO">Tocantins</option>
-                                </select>
+
+                            <div class="row g-3 mb-3">
+                                <div class="col-md-8">
+                                    <label class="form-label fw-bold">Endereço*</label>
+                                    <input type="text" name="address" class="form-control" required>
+                                </div>
+                                <div class="col-md-4">
+                                    <label class="form-label fw-bold">Número*</label>
+                                    <input type="text" name="number" class="form-control" required>
+                                </div>
                             </div>
-                        </div>
 
-                        <div class="d-flex justify-content-end mt-4">
-                            <button type="submit" class="btn btn-primary px-4">Finalizar Cadastro</button>
-                        </div>
-                    </div>
-                </div>
-            </form>
-
-            <form id="formPJ" method="POST" action="{{ route('register.store') }}" style="display:none;">
-                @csrf
-                <input type="hidden" name="tipoPessoa" value="pj">
-
-                <div class="row g-5">
-                    <div class="col-md-6 border-end-md">
-                        <h3 class="fw-bold mb-4">Dados da Empresa</h3>
-                        <div class="mb-2">
-                            <label class="form-label fw-bold">Razão Social*</label>
-                            <input type="text" id="razaoPJ" name="razaoSocial"
-                                class="form-control bg-light border-0" required>
-                        </div>
-
-                        <div class="form-check mb-3">
-                            <input class="form-check-input" type="checkbox" id="isentoIE" name="isentoIE"
-                                value="1">
-                            <label class="form-check-label small fw-bold" for="isentoIE">
-                                Inscrição estadual isento
-                            </label>
-                        </div>
-
-                        <div class="row g-3 mb-3">
-                            <div class="col-md-6">
-                                <label class="form-label fw-bold">Inscrição Estadual*</label>
-                                <input type="text" id="iePJ" name="inscricaoEstadual"
-                                    class="form-control bg-light border-0" required>
+                            <div class="row g-3 mb-3">
+                                <div class="col-md-6">
+                                    <label class="form-label fw-bold">Complemento</label>
+                                    <input type="text" name="complement" class="form-control">
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label fw-bold">Bairro*</label>
+                                    <input type="text" name="district" class="form-control" required>
+                                </div>
                             </div>
-                            <div class="col-md-6">
-                                <label class="form-label fw-bold">CNPJ*</label>
-                                <input type="text" id="cnpjPJ" name="cnpj" inputmode="numeric"
-                                    class="form-control bg-light border-0" required>
-                            </div>
-                        </div>
 
-                        <div class="row g-3 mb-3">
-                            <div class="col-md-6">
-                                <label class="form-label fw-bold">Nome de Contato*</label>
-                                <input type="text" id="nomeContatoPJ" name="nomeContato"
-                                    class="form-control bg-light border-0" required>
+                            <div class="row g-3 mb-4">
+                                <div class="col-md-8">
+                                    <label class="form-label fw-bold">Cidade*</label>
+                                    <input type="text" name="city" class="form-control" required>
+                                </div>
+                                <div class="col-md-4">
+                                    <label class="form-label fw-bold">Estado*</label>
+                                    <select name="state" class="form-select">
+                                        <option value="MG" selected>MG</option>
+                                        <option value="AC">AC</option>
+                                        <option value="AL">AL</option>
+                                        <option value="AP">AP</option>
+                                        <option value="AM">AM</option>
+                                        <option value="BA">BA</option>
+                                        <option value="CE">CE</option>
+                                        <option value="DF">DF</option>
+                                        <option value="ES">ES</option>
+                                        <option value="GO">GO</option>
+                                        <option value="MA">MA</option>
+                                        <option value="MT">MT</option>
+                                        <option value="MS">MS</option>
+                                        <option value="PA">PA</option>
+                                        <option value="PB">PB</option>
+                                        <option value="PR">PR</option>
+                                        <option value="PE">PE</option>
+                                        <option value="PI">PI</option>
+                                        <option value="RJ">RJ</option>
+                                        <option value="RN">RN</option>
+                                        <option value="RS">RS</option>
+                                        <option value="RO">RO</option>
+                                        <option value="RR">RR</option>
+                                        <option value="SC">SC</option>
+                                        <option value="SP">SP</option>
+                                        <option value="SE">SE</option>
+                                        <option value="TO">TO</option>
+                                    </select>
+                                </div>
                             </div>
-                            <div class="col-md-6">
-                                <label class="form-label fw-bold">CPF Contato*</label>
-                                <input type="text" id="cpfContatoPJ" name="cpfContato" inputmode="numeric"
-                                    class="form-control bg-light border-0" required>
-                            </div>
-                        </div>
 
-                        <div class="mb-3">
-                            <label class="form-label fw-bold">Email Empresarial*</label>
-                            <input type="email" id="emailPJ" name="email" class="form-control bg-light border-0"
-                                placeholder="exemplo@email.com" required>
-                        </div>
-
-                        <div class="row g-3 mb-3">
-                            <div class="col-md-6">
-                                <label class="form-label fw-bold">Celular*</label>
-                                <input type="tel" id="celularPJ" name="telefone" inputmode="numeric"
-                                    class="form-control bg-light border-0" required>
-                            </div>
-                            <div class="col-md-6">
-                                <label class="form-label fw-bold">Telefone adicional</label>
-                                <input type="tel" id="telefonePJ" name="telefone_secundario" inputmode="numeric"
-                                    class="form-control bg-light border-0">
-                            </div>
-                        </div>
-
-                        <div class="row g-3 mb-3">
-                            <div class="col-md-6">
-                                <label class="form-label fw-bold">Senha*</label>
-                                <input type="password" id="senhaPJ" name="password"
-                                    class="form-control bg-light border-0" required>
-                                <small id="regrasPJ" class="text-muted d-block mt-1" style="font-size: .85rem;">
-                                    A senha deve conter:
-                                    <ul style="margin-left: 20px; margin-top: 3px;">
-                                        <li>Mínimo de 8 caracteres</li>
-                                        <li>1 letra maiúscula</li>
-                                        <li>1 número</li>
-                                        <li>1 caractere especial (!@#$%&*)</li>
-                                    </ul>
-                                </small>
-                            </div>
-                            <div class="col-md-6">
-                                <label class="form-label fw-bold">Confirmar senha*</label>
-                                <input type="password" id="confSenhaPJ" name="password_confirmation"
-                                    class="form-control bg-light border-0" required>
+                            <div class="d-flex justify-content-end mt-4">
+                                <button type="submit" class="btn btn-primary px-5 py-2 fw-bold">CADASTRAR</button>
                             </div>
                         </div>
                     </div>
+                </form>
+            </div>
 
-                    <div class="col-md-6">
-                        <h3 class="fw-bold mb-4">Endereço</h3>
+            <div id="containerPJ" style="display: none;">
+                <form id="formPJ" method="POST" action="{{ route('register.store') }}"
+                    onsubmit="return validarSenha('senhaPJ', 'confSenhaPJ')">
+                    @csrf
+                    <input type="hidden" name="type" value="pj">
 
-                        <div class="mb-3 d-flex align-items-center">
-                            <div class="flex-grow-1 me-3">
-                                <label class="form-label fw-bold">CEP*</label>
-                                <input type="text" id="cepPJ" name="cep" inputmode="numeric"
-                                    class="form-control bg-light border-0" required style="max-width: 150px;">
+                    <div class="row g-5">
+                        <div class="col-md-6 border-end-md">
+                            <h4 class="fw-bold mb-4">Dados da Empresa</h4>
+
+                            <div class="mb-3">
+                                <label class="form-label fw-bold">Razão Social*</label>
+                                <input type="text" id="razaoPJ" name="name" class="form-control" required>
                             </div>
-                            <a href="#" class="text-decoration-none small fw-bold text-dark">Não sei meu CEP.</a>
-                        </div>
 
-                        <div class="row g-3 mb-3">
-                            <div class="col-md-8">
-                                <label class="form-label fw-bold">Endereço*</label>
-                                <input type="text" id="enderecoPJ" name="endereco"
-                                    class="form-control bg-light border-0" required>
+                            <div class="mb-3">
+                                <label class="form-label fw-bold">Nome Fantasia*</label>
+                                <input type="text" id="fantasiaPJ" name="fantasy_name" class="form-control" required>
                             </div>
-                            <div class="col-md-4">
-                                <label class="form-label fw-bold">Número*</label>
-                                <input type="text" id="numeroPJ" name="numero" inputmode="numeric"
-                                    class="form-control bg-light border-0" required>
+
+                            <div class="form-check mb-3">
+                                <input class="form-check-input" type="checkbox" id="isentoIE"
+                                    name="state_registration_exempt" value="1">
+                                <label class="form-check-label small fw-bold" for="isentoIE">Inscrição estadual
+                                    isento</label>
                             </div>
-                        </div>
 
-                        <div class="mb-3">
-                            <label class="form-label fw-bold">Complemento</label>
-                            <input type="text" id="complementoPJ" name="complemento"
-                                class="form-control bg-light border-0">
-                        </div>
-
-                        <div class="mb-3">
-                            <label class="form-label fw-bold">Referência</label>
-                            <input type="text" id="referenciaPJ" name="referencia"
-                                class="form-control bg-light border-0">
-                        </div>
-
-                        <div class="mb-3">
-                            <label class="form-label fw-bold">Bairro*</label>
-                            <input type="text" id="bairroPJ" name="bairro" class="form-control bg-light border-0"
-                                required>
-                        </div>
-
-                        <div class="row g-3 mb-4">
-                            <div class="col-md-8">
-                                <label class="form-label fw-bold">Cidade*</label>
-                                <input type="text" id="cidadePJ" name="cidade"
-                                    class="form-control bg-light border-0" required>
+                            <div class="row g-3 mb-3">
+                                <div class="col-md-6">
+                                    <label class="form-label fw-bold">Inscrição Estadual*</label>
+                                    <input type="text" id="iePJ" name="state_registration" class="form-control"
+                                        required>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label fw-bold">CNPJ*</label>
+                                    <input type="text" id="cnpjPJ" name="cnpj" class="form-control" required>
+                                </div>
                             </div>
-                            <div class="col-md-4">
-                                <label class="form-label fw-bold">Estado*</label>
-                                <select id="estadoPJ" name="estado" class="form-select bg-light border-0">
-                                    <option value="AC">Acre</option>
-                                    <option value="AL">Alagoas</option>
-                                    <option value="AP">Amapá</option>
-                                    <option value="AM">Amazonas</option>
-                                    <option value="BA">Bahia</option>
-                                    <option value="CE">Ceará</option>
-                                    <option value="DF">Distrito Federal</option>
-                                    <option value="ES">Espírito Santo</option>
-                                    <option value="GO">Goiás</option>
-                                    <option value="MA">Maranhão</option>
-                                    <option value="MT">Mato Grosso</option>
-                                    <option value="MS">Mato Grosso do Sul</option>
-                                    <option selected value="MG">Minas Gerais</option>
-                                    <option value="PA">Pará</option>
-                                    <option value="PB">Paraíba</option>
-                                    <option value="PR">Paraná</option>
-                                    <option value="PE">Pernambuco</option>
-                                    <option value="PI">Piauí</option>
-                                    <option value="RJ">Rio de Janeiro</option>
-                                    <option value="RN">Rio Grande do Norte</option>
-                                    <option value="RS">Rio Grande do Sul</option>
-                                    <option value="RO">Rondônia</option>
-                                    <option value="RR">Roraima</option>
-                                    <option value="SC">Santa Catarina</option>
-                                    <option value="SP">São Paulo</option>
-                                    <option value="SE">Sergipe</option>
-                                    <option value="TO">Tocantins</option>
-                                </select>
+
+                            <div class="row g-3 mb-3">
+                                <div class="col-md-6">
+                                    <label class="form-label fw-bold">Nome de Contato*</label>
+                                    <input type="text" id="nomeContatoPJ" name="contact_name" class="form-control"
+                                        required>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label fw-bold">CPF Contato*</label>
+                                    <input type="text" id="cpfContatoPJ" name="contact_cpf" class="form-control"
+                                        required>
+                                </div>
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label fw-bold">Email Empresarial*</label>
+                                <input type="email" id="emailPJ" name="email" class="form-control" required>
+                            </div>
+
+                            <div class="row g-3 mb-3">
+                                <div class="col-md-6">
+                                    <label class="form-label fw-bold">Senha*</label>
+                                    <input type="password" id="senhaPJ" name="password" class="form-control" required>
+                                    <small class="text-muted d-block mt-1" style="font-size: .75rem;">
+                                        Mínimo 8 caracteres, 1 maiúscula, 1 número e 1 especial.
+                                    </small>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label fw-bold">Confirmar senha*</label>
+                                    <input type="password" id="confSenhaPJ" name="password_confirmation"
+                                        class="form-control" required>
+                                </div>
+                            </div>
+
+                            <div class="row g-3 mb-3">
+                                <div class="col-md-6">
+                                    <label class="form-label fw-bold">Celular*</label>
+                                    <input type="tel" id="celularPJ" name="phone" class="form-control" required>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label fw-bold">Telefone adicional</label>
+                                    <input type="tel" id="telefonePJ" name="phone_secondary" class="form-control">
+                                </div>
                             </div>
                         </div>
-                        <div class="d-flex justify-content-end mt-3">
-                            <button type="submit" class="btn btn-primary px-4">Finalizar Cadastro</button>
+
+                        <div class="col-md-6">
+                            <h4 class="fw-bold mb-4">Endereço</h4>
+                            <div class="mb-3 d-flex align-items-center">
+                                <div class="flex-grow-1 me-3">
+                                    <label class="form-label fw-bold">CEP*</label>
+                                    <input type="text" id="cepPJ" name="zip_code" class="form-control" required
+                                        style="max-width: 150px;">
+                                </div>
+                                <a href="#" class="text-decoration-none small fw-bold text-dark">Não sei meu
+                                    CEP.</a>
+                            </div>
+
+                            <div class="row g-3 mb-3">
+                                <div class="col-md-8">
+                                    <label class="form-label fw-bold">Endereço*</label>
+                                    <input type="text" name="address" class="form-control" required>
+                                </div>
+                                <div class="col-md-4">
+                                    <label class="form-label fw-bold">Número*</label>
+                                    <input type="text" name="number" class="form-control" required>
+                                </div>
+                            </div>
+
+                            <div class="row g-3 mb-3">
+                                <div class="col-md-6">
+                                    <label class="form-label fw-bold">Complemento</label>
+                                    <input type="text" name="complement" class="form-control">
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label fw-bold">Bairro*</label>
+                                    <input type="text" name="district" class="form-control" required>
+                                </div>
+                            </div>
+
+                            <div class="row g-3 mb-4">
+                                <div class="col-md-8">
+                                    <label class="form-label fw-bold">Cidade*</label>
+                                    <input type="text" name="city" class="form-control" required>
+                                </div>
+                                <div class="col-md-4">
+                                    <label class="form-label fw-bold">Estado*</label>
+                                    <select name="state" class="form-select">
+                                        <option value="MG" selected>MG</option>
+                                        <option value="AC">AC</option>
+                                        <option value="AL">AL</option>
+                                        <option value="AP">AP</option>
+                                        <option value="AM">AM</option>
+                                        <option value="BA">BA</option>
+                                        <option value="CE">CE</option>
+                                        <option value="DF">DF</option>
+                                        <option value="ES">ES</option>
+                                        <option value="GO">GO</option>
+                                        <option value="MA">MA</option>
+                                        <option value="MT">MT</option>
+                                        <option value="MS">MS</option>
+                                        <option value="PA">PA</option>
+                                        <option value="PB">PB</option>
+                                        <option value="PR">PR</option>
+                                        <option value="PE">PE</option>
+                                        <option value="PI">PI</option>
+                                        <option value="RJ">RJ</option>
+                                        <option value="RN">RN</option>
+                                        <option value="RS">RS</option>
+                                        <option value="RO">RO</option>
+                                        <option value="RR">RR</option>
+                                        <option value="SC">SC</option>
+                                        <option value="SP">SP</option>
+                                        <option value="SE">SE</option>
+                                        <option value="TO">TO</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="d-flex justify-content-end mt-3">
+                                <button type="submit" class="btn btn-primary px-5 py-2 fw-bold">CADASTRAR
+                                    EMPRESA</button>
+                            </div>
                         </div>
                     </div>
-                </div>
-            </form>
+                </form>
 
+            </div>
         </div>
-    </div>
-@endsection
+    @endsection
 
-@push('scripts')
-    <script>
-        // ==========================
-        // TROCA ENTRE PF E PJ
-        // ==========================
-        (function() {
-            const pfRadio = document.getElementById("pf");
-            const pjRadio = document.getElementById("pj");
-            const formPF = document.getElementById("formPF");
-            const formPJ = document.getElementById("formPJ");
+    @push('scripts')
+        <script>
+            // 1. FUNÇÃO DE TROCA DE FORMULÁRIO
+            function mudarFormulario(tipo) {
+                const divPF = document.getElementById('containerPF');
+                const divPJ = document.getElementById('containerPJ');
+                const radioPF = document.getElementById('radioPF');
+                const radioPJ = document.getElementById('radioPJ');
 
-            if (!pfRadio || !pjRadio || !formPF || !formPJ) {
-                console.error("Erro: não achei algum dos elementos PF/PJ.");
-                return;
-            }
-
-            function mostrarPF() {
-                formPF.style.display = "block";
-                formPJ.style.display = "none";
-            }
-
-            function mostrarPJ() {
-                formPF.style.display = "none";
-                formPJ.style.display = "block";
-            }
-
-            function aplicarEstadoInicial() {
-                const tipo = localStorage.getItem("tipoPessoa");
-
-                if (tipo === "pj") {
-                    pjRadio.checked = true;
-                    mostrarPJ();
-
-                    // Preenche PJ se tiver vindo do modal
-                    document.getElementById("razaoPJ").value = localStorage.getItem("cadastroRazao") || "";
-                    document.getElementById("fantasiaPJ").value = localStorage.getItem("cadastroFantasia") || "";
-                    document.getElementById("iePJ").value = localStorage.getItem("cadastroIe") || "";
-                    document.getElementById("cnpjPJ").value = localStorage.getItem("cadastroCnpj") || "";
-                    document.getElementById("emailPJ").value = localStorage.getItem("cadastroEmail") || "";
+                if (tipo === 'pf') {
+                    divPF.style.display = 'block';
+                    divPJ.style.display = 'none';
+                    radioPF.checked = true;
                 } else {
-                    // padrão: PF
-                    pfRadio.checked = true;
-                    mostrarPF();
-
-                    document.getElementById("nomeCompleto").value = localStorage.getItem("cadastroNome") || "";
-                    document.getElementById("emailCompleto").value = localStorage.getItem("cadastroEmail") || "";
-                    document.getElementById("celularCompleto").value = localStorage.getItem("cadastroTelefone") || "";
-                    document.getElementById("cpfCompleto").value = localStorage.getItem("cadastroCpf") || "";
+                    divPF.style.display = 'none';
+                    divPJ.style.display = 'block';
+                    radioPJ.checked = true;
                 }
             }
 
-            pfRadio.addEventListener("change", mostrarPF);
-            pjRadio.addEventListener("change", mostrarPJ);
-
-            aplicarEstadoInicial();
-        })();
-
-
-        // ==========================
-        //  VALIDAÇÕES / MÁSCARAS
-        // ==========================
-        document.addEventListener("DOMContentLoaded", function() {
-            // Helpers
-            function apenasLetras(input) {
-                if (!input) return;
-                input.addEventListener("input", () => {
-                    input.value = input.value.replace(/[^A-Za-zÀ-ÖØ-öø-ÿ\s]/g, "");
-                });
-            }
-
-            function apenasNumeros(input) {
-                if (!input) return;
-                input.addEventListener("input", () => {
-                    input.value = input.value.replace(/\D/g, "");
-                });
-            }
-
-            function mascaraCPF(input) {
-                if (!input) return;
-                input.addEventListener("input", () => {
-                    let v = input.value.replace(/\D/g, "");
-                    if (v.length > 11) v = v.slice(0, 11);
-
-                    if (v.length > 3) v = v.slice(0, 3) + "." + v.slice(3);
-                    if (v.length > 7) v = v.slice(0, 7) + "." + v.slice(7);
-                    if (v.length > 11) v = v.slice(0, 11) + "-" + v.slice(11);
-                    input.value = v;
-                });
-            }
-
-            function mascaraCNPJ(input) {
-                if (!input) return;
-                input.addEventListener("input", () => {
-                    let v = input.value.replace(/\D/g, "");
-                    if (v.length > 14) v = v.slice(0, 14);
-
-                    if (v.length > 2) v = v.slice(0, 2) + "." + v.slice(2);
-                    if (v.length > 6) v = v.slice(0, 6) + "." + v.slice(6);
-                    if (v.length > 10) v = v.slice(0, 10) + "/" + v.slice(10);
-                    if (v.length > 15) v = v.slice(0, 15) + "-" + v.slice(15);
-                    input.value = v;
-                });
-            }
-
-            function mascaraCEP(input) {
-                if (!input) return;
-                input.addEventListener("input", () => {
-                    let v = input.value.replace(/\D/g, "");
-                    if (v.length > 8) v = v.slice(0, 8);
-                    if (v.length > 5) v = v.slice(0, 5) + "-" + v.slice(5);
-                    input.value = v;
-                });
-            }
-
-            function mascaraTelefone(input) {
-                if (!input) return;
-                input.addEventListener("input", () => {
-                    let v = input.value.replace(/\D/g, "");
-                    if (v.length > 11) v = v.slice(0, 11);
-
-                    if (v.length > 0) v = "(" + v;
-                    if (v.length > 3) v = v.slice(0, 3) + ") " + v.slice(3);
-                    if (v.length > 10) v = v.slice(0, 10) + "-" + v.slice(10);
-                    input.value = v;
-                });
-            }
-
-            function senhaValida(valor) {
-                // Mínimo 8 | 1 maiúscula | 1 número | 1 caractere especial
+            // 2. FUNÇÃO DE VALIDAÇÃO DE SENHA (CHAMADA NO SUBMIT)
+            function validarSenha(idSenha, idConf) {
+                const senha = document.getElementById(idSenha).value;
+                const conf = document.getElementById(idConf).value;
+                // Regex: Mínimo 8, 1 maiúscula, 1 número, 1 especial
                 const regex = /^(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z0-9]).{8,}$/;
-                return regex.test(valor);
+
+                if (!regex.test(senha)) {
+                    alert("A senha deve ter pelo menos 8 caracteres, uma letra maiúscula, um número e um caractere especial.");
+                    return false; // Impede o envio
+                }
+                if (senha !== conf) {
+                    alert("As senhas não conferem.");
+                    return false; // Impede o envio
+                }
+                return true; // Permite o envio
             }
 
-            function configurarSenha(passwordInput, confirmInput) {
-                if (!passwordInput || !confirmInput) return;
+            // 3. CARREGAMENTO E MÁSCARAS
+            document.addEventListener("DOMContentLoaded", function() {
 
-                function validar(showMessage) {
-                    const senha = passwordInput.value;
-                    const conf = confirmInput.value;
+                // Preenchimento Automático (vindo do modal)
+                const tipoSalvo = localStorage.getItem("tipoPessoa");
+                if (tipoSalvo === "pj") {
+                    mudarFormulario('pj');
+                    if (document.getElementById("razaoPJ")) document.getElementById("razaoPJ").value = localStorage
+                        .getItem("cadastroRazao") || "";
+                    if (document.getElementById("emailPJ")) document.getElementById("emailPJ").value = localStorage
+                        .getItem("cadastroEmail") || "";
+                } else {
+                    mudarFormulario('pf');
+                    if (document.getElementById("nomeCompleto")) document.getElementById("nomeCompleto").value =
+                        localStorage.getItem("cadastroNome") || "";
+                    if (document.getElementById("emailCompleto")) document.getElementById("emailCompleto").value =
+                        localStorage.getItem("cadastroEmail") || "";
+                }
+                localStorage.removeItem("tipoPessoa");
 
-                    passwordInput.setCustomValidity("");
-                    confirmInput.setCustomValidity("");
-
-                    if (senha && !senhaValida(senha)) {
-                        passwordInput.setCustomValidity(
-                            "A senha deve ter pelo menos 8 caracteres, 1 letra maiúscula, 1 número e 1 caractere especial."
-                        );
-                    } else if (conf && senha !== conf) {
-                        confirmInput.setCustomValidity("As senhas não coincidem.");
-                    }
-
-                    // Só mostra balão se tiver algo digitado
-                    if (showMessage) {
-                        if (senha) passwordInput.reportValidity();
-                        if (conf) confirmInput.reportValidity();
-                    }
+                // --- MÁSCARAS ---
+                function mascaraCPF(input) {
+                    if (!input) return;
+                    input.addEventListener("input", () => {
+                        let v = input.value.replace(/\D/g, "");
+                        if (v.length > 11) v = v.slice(0, 11);
+                        v = v.replace(/(\d{3})(\d)/, "$1.$2");
+                        v = v.replace(/(\d{3})(\d)/, "$1.$2");
+                        v = v.replace(/(\d{3})(\d{1,2})$/, "$1-$2");
+                        input.value = v;
+                    });
                 }
 
-                // Enquanto digita: valida silenciosamente
-                passwordInput.addEventListener("input", () => validar(false));
-                confirmInput.addEventListener("input", () => validar(false));
+                function mascaraCNPJ(input) {
+                    if (!input) return;
+                    input.addEventListener("input", () => {
+                        let v = input.value.replace(/\D/g, "");
+                        if (v.length > 14) v = v.slice(0, 14);
+                        v = v.replace(/^(\d{2})(\d)/, "$1.$2");
+                        v = v.replace(/^(\d{2})\.(\d{3})(\d)/, "$1.$2.$3");
+                        v = v.replace(/\.(\d{3})(\d)/, ".$1/$2");
+                        v = v.replace(/(\d{4})(\d)/, "$1-$2");
+                        input.value = v;
+                    });
+                }
 
-                // Ao sair do campo: mostra mensagem
-                passwordInput.addEventListener("blur", () => validar(true));
-                confirmInput.addEventListener("blur", () => validar(true));
-            }
+                function mascaraTelefone(input) {
+                    if (!input) return;
+                    input.addEventListener("input", () => {
+                        let v = input.value.replace(/\D/g, "");
+                        if (v.length > 11) v = v.slice(0, 11);
+                        v = v.replace(/^(\d{2})(\d)/g, "($1) $2");
+                        v = v.replace(/(\d)(\d{4})$/, "$1-$2");
+                        input.value = v;
+                    });
+                }
 
-            // ==========================
-            //  SELETORES PF
-            // ==========================
-            const nomePF = document.getElementById("nomeCompleto");
-            const cpfPF = document.getElementById("cpfCompleto");
-            const telPF = document.getElementById("celularCompleto");
-            const senhaPF = document.getElementById("senhaPF");
-            const confSenhaPF = document.getElementById("confSenhaPF");
-            const cepPF = document.getElementById("cepPF"); // Corrigido
+                function mascaraCEP(input) {
+                    if (!input) return;
+                    input.addEventListener("input", () => {
+                        let v = input.value.replace(/\D/g, "");
+                        if (v.length > 8) v = v.slice(0, 8);
+                        if (v.length > 5) v = v.slice(0, 5) + "-" + v.slice(5);
+                        input.value = v;
+                    });
+                }
 
-            // ==========================
-            //  SELETORES PJ
-            // ==========================
-            const razaoPJ = document.getElementById("razaoPJ");
-            const nomeContatoPJ = document.getElementById("nomeContatoPJ");
-            const cpfContatoPJ = document.getElementById("cpfContatoPJ");
-            const cnpjPJ = document.getElementById("cnpjPJ");
-            const telPJ = document.getElementById("celularPJ");
-            const telAdicPJ = document.getElementById("telefonePJ");
-            const senhaPJ = document.getElementById("senhaPJ");
-            const confSenhaPJ = document.getElementById("confSenhaPJ");
-            const cepPJ = document.getElementById("cepPJ");
+                // Aplica as máscaras
+                mascaraCPF(document.getElementById("cpfCompleto"));
+                mascaraCPF(document.getElementById("cpfContatoPJ"));
+                mascaraCNPJ(document.getElementById("cnpjPJ"));
+                mascaraCEP(document.getElementById("cepPF"));
+                mascaraCEP(document.getElementById("cepPJ"));
 
-
-            // ==========================
-            //  APLICA REGRAS
-            // ==========================
-            apenasLetras(nomePF);
-            apenasLetras(razaoPJ);
-            apenasLetras(nomeContatoPJ);
-
-            mascaraCPF(cpfPF);
-            mascaraCPF(cpfContatoPJ);
-            mascaraCNPJ(cnpjPJ);
-
-            mascaraTelefone(telPF);
-            mascaraTelefone(telPJ);
-            mascaraTelefone(telAdicPJ);
-
-            mascaraCEP(cepPF);
-            mascaraCEP(cepPJ);
-
-            configurarSenha(senhaPF, confSenhaPF);
-            configurarSenha(senhaPJ, confSenhaPJ);
-        });
-    </script>
-@endpush
+                mascaraTelefone(document.getElementById("celularCompleto"));
+                mascaraTelefone(document.getElementById("telefoneAdicionalPF")); // Seu ID novo
+                mascaraTelefone(document.getElementById("celularPJ"));
+                mascaraTelefone(document.getElementById("telefonePJ"));
+            });
+        </script>
+    @endpush
