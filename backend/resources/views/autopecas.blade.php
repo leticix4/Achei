@@ -4,6 +4,7 @@
 
 @section('content')
 
+
     <!-- CATEGORIAS -->
     <section id="categorias" class="section-box py-5">
         <div class="container">
