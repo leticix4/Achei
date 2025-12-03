@@ -89,7 +89,7 @@
   </svg>
 </div>
 
-  <!-- Janela do chat corrigida com Bootstrap -->
+  <!-- chat -->
   <div class="chat-window position-fixed bottom-0 end-0 m-3 shadow-lg rounded-3" id="chatWindow" style="width: 350px; height: 450px; display: none; z-index: 1060;">
     <div class="chat-header bg-primary text-white rounded-top-3 p-3 d-flex justify-content-between align-items-center">
       <span class="fw-bold">Chat com a Loja</span>
