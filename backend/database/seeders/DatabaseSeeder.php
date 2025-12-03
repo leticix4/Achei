@@ -49,7 +49,9 @@ class DatabaseSeeder extends Seeder
             'address_id' => $address->id,
         ]);
 
-        $store =
+        $store = Store::create([
+            'name' => 'Empresa Teste'
+        ])
 
 
 
