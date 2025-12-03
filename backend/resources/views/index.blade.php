@@ -16,17 +16,17 @@
 
         <div class="carousel-inner">
           <div class="carousel-item active">
-            <a href="{{ route('brinquedos') }}" class="banner-destaque">
+            <a href="{{ route('categoria.show', 'brinquedos') }}" class="banner-destaque">
               <img src="{{ asset('banner/banner2.png') }}" class="d-block w-100 rounded" alt="Slide 0">
             </a>
           </div>
           <div class="carousel-item">
-            <a href="{{ route('eletrodomesticos') }}" class="banner-destaque">
+            <a href="{{ route('categoria.show', 'eletrodomesticos') }}" class="banner-destaque">
               <img src="{{ asset('banner/banner3.png') }}" class="d-block w-100 rounded" alt="Slide 1">
             </a>
           </div>
           <div class="carousel-item">
-            <a href="{{ route('moda') }}" class="banner-destaque">
+            <a href="{{ route('categoria.show', 'moda') }}" class="banner-destaque">
               <img src="{{ asset('banner/banner1.png') }}" class="d-block w-100 rounded" alt="Slide 2">
             </a>
           </div>
@@ -42,7 +42,7 @@
       </div>
     </section>
   </main>
-  <main class="container my-5">
+  <main class="container my-5 pt-5">
 
     <!-- PRODUTOS -->
     <section id="produtos-destaque" class="section-box mb-5">
@@ -223,7 +223,7 @@
           <div id="page-1" class="category-page active">
             <div class="row g-4">
               <div class="col-4 col-lg-4 col-md-3" data-aos="fade-right" data-aos-duration="300">
-                <a href="{{ route('supermercado') }}" class="category-card-link">
+                <a href="{{ route('categoria.show', 'supermercado') }}" class="category-card-link">
                   <div class="category-card">
                     <div class="row g-0 h-100">
                       <div class="col-4 icon-part">
@@ -235,7 +235,7 @@
                 </a>
               </div>
               <div class="col-4 col-lg-4 col-md-3" data-aos="fade-up" data-aos-duration="400">
-                <a href="{{ route('tecnologia') }}" class="category-card-link">
+                <a href="{{ route('categoria.show', 'tecnologia') }}" class="category-card-link">
                   <div class="category-card">
                     <div class="row g-0 h-100">
                       <div class="col-4 icon-part">
@@ -247,7 +247,7 @@
                 </a>
               </div>
               <div class="col-4 col-lg-4 col-md-3" data-aos="fade-left" data-aos-duration="500">
-                <a href="{{ route('casaMoveis') }}" class="category-card-link">
+                <a href="{{ route('categoria.show', 'casa-moveis') }}" class="category-card-link">
                   <div class="category-card">
                     <div class="row g-0 h-100">
                       <div class="col-4 icon-part">
@@ -259,7 +259,7 @@
                 </a>
               </div>
               <div class="col-4 col-lg-4 col-md-3" data-aos="fade-right" data-aos-duration="600">
-                <a href="{{ route('eletrodomesticos') }}" class="category-card-link">
+                <a href="{{ route('categoria.show', 'eletrodomesticos') }}" class="category-card-link">
                   <div class="category-card">
                     <div class="row g-0 h-100">
                       <div class="col-4 icon-part">
@@ -271,7 +271,7 @@
                 </a>
               </div>
               <div class="col-4 col-lg-4 col-md-3" data-aos="fade-up" data-aos-duration="700">
-                <a href="{{ route('esportes') }}" class="category-card-link">
+                <a href="{{ route('categoria.show', 'esportes') }}" class="category-card-link">
                   <div class="category-card">
                     <div class="row g-0 h-100">
                       <div class="col-4 icon-part">
@@ -283,7 +283,7 @@
                 </a>
               </div>
               <div class="col-4 col-lg-4 col-md-3" data-aos="fade-left" data-aos-duration="800">
-                <a href="{{ route('ferramentas') }}" class="category-card-link">
+                <a href="{{ route('categoria.show', 'ferramentas') }}" class="category-card-link">
                   <div class="category-card">
                     <div class="row g-0 h-100">
                       <div class="col-4 icon-part">
@@ -295,7 +295,7 @@
                 </a>
               </div>
               <div class="col-4 col-lg-4 col-md-3" data-aos="fade-right" data-aos-duration="900">
-                <a href="{{ route('construcao') }}" class="category-card-link">
+                <a href="{{ route('categoria.show', 'construcao') }}" class="category-card-link">
                   <div class="category-card">
                     <div class="row g-0 h-100">
                       <div class="col-4 icon-part">
@@ -307,7 +307,7 @@
                 </a>
               </div>
               <div class="col-4 col-lg-4 col-md-3" data-aos="fade-up" data-aos-duration="1000">
-                <a href="{{ route('autopecas') }}" class="category-card-link">
+                <a href="{{ route('categoria.show', 'autopecas') }}" class="category-card-link">
                   <div class="category-card">
                     <div class="row g-0 h-100">
                       <div class="col-4 icon-part">
@@ -319,7 +319,7 @@
                 </a>
               </div>
               <div class="col-4 col-lg-4 col-md-3" data-aos="fade-left" data-aos-duration="1100">
-                <a href="{{ route('papelaria') }}" class="category-card-link">
+                <a href="{{ route('categoria.show', 'papelaria') }}" class="category-card-link">
                   <div class="category-card">
                     <div class="row g-0 h-100">
                       <div class="col-4 icon-part">
@@ -336,7 +336,7 @@
           <div id="page-2" class="category-page inactive">
             <div class="row g-4">
               <div class="col-4 col-lg-4 col-md-3">
-                <a href="{{ route('petshop') }}" class="category-card-link">
+                <a href="{{ route('categoria.show', 'petshop') }}" class="category-card-link">
                   <div class="category-card">
                     <div class="row g-0 h-100">
                       <div class="col-4 icon-part">
@@ -348,7 +348,7 @@
                 </a>
               </div>
               <div class="col-4 col-lg-4 col-md-3">
-                <a href="{{ route('saude') }}" class="category-card-link">
+                <a href="{{ route('categoria.show', 'saude') }}" class="category-card-link">
                   <div class="category-card">
                     <div class="row g-0 h-100">
                       <div class="col-4 icon-part">
@@ -360,7 +360,7 @@
                 </a>
               </div>
               <div class="col-4 col-lg-4 col-md-3">
-                <a href="{{ route('veiculos') }}" class="category-card-link">
+                <a href="{{ route('categoria.show', 'veiculos') }}" class="category-card-link">
                   <div class="category-card">
                     <div class="row g-0 h-100">
                       <div class="col-4 icon-part">
@@ -372,7 +372,7 @@
                 </a>
               </div>
               <div class="col-4 col-lg-4 col-md-3">
-                <a href="{{ route('beleza') }}" class="category-card-link">
+                <a href="{{ route('categoria.show', 'beleza') }}" class="category-card-link">
                   <div class="category-card">
                     <div class="row g-0 h-100">
                       <div class="col-4 icon-part">
@@ -384,7 +384,7 @@
                 </a>
               </div>
               <div class="col-4 col-lg-4 col-md-3">
-                <a href="{{ route('moda') }}" class="category-card-link">
+                <a href="{{ route('categoria.show', 'moda') }}" class="category-card-link">
                   <div class="category-card">
                     <div class="row g-0 h-100">
                       <div class="col-4 icon-part">
@@ -396,7 +396,7 @@
                 </a>
               </div>
               <div class="col-4 col-lg-4 col-md-3">
-                <a href="{{ route('bebes') }}" class="category-card-link">
+                <a href="{{ route('categoria.show', 'bebes') }}" class="category-card-link">
                   <div class="category-card">
                     <div class="row g-0 h-100">
                       <div class="col-4 icon-part">
@@ -408,7 +408,7 @@
                 </a>
               </div>
               <div class="col-4 col-lg-4 col-md-3">
-                <a href="{{ route('brinquedos') }}" class="category-card-link">
+                <a href="{{ route('categoria.show', 'brinquedos') }}" class="category-card-link">
                   <div class="category-card">
                     <div class="row g-0 h-100">
                       <div class="col-4 icon-part">

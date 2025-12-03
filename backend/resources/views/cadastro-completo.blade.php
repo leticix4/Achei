@@ -501,7 +501,7 @@
 
                     if (senha && !senhaValida(senha)) {
                         passwordInput.setCustomValidity(
-                            "A senha deve ter pelo menos 8 caracteres, 1 letra maiúscula e 1 caractere especial."
+                            "A senha deve ter pelo menos 8 caracteres, 1 letra maiúscula, 1 número e 1 caractere especial."
                         );
                     } else if (conf && senha !== conf) {
                         confirmInput.setCustomValidity("As senhas não coincidem.");
@@ -545,20 +545,7 @@
             const senhaPJ = document.getElementById("senhaPJ");
             const confSenhaPJ = document.getElementById("confSenhaPJ");
             const cepPJ = document.getElementById("cepPJ");
-
-            // ==========================
-            //  PLACEHOLDERS
-            // ==========================
-            const emailPF = document.getElementById("emailCompleto");
-            const emailPJ = document.getElementById("emailPJ");
-            if (emailPF) emailPF.placeholder = "exemplo@email.com";
-            if (emailPJ) emailPJ.placeholder = "exemplo@email.com";
-
-            if (telPF && !telPF.value) telPF.value = "(31";
-            if (telPJ && !telPJ.value) telPJ.value = "(31";
-
-            if (cepPF && !cepPF.value) cepPF.placeholder = "39960-000";
-            if (cepPJ && !cepPJ.value) cepPJ.placeholder = "39960-000";
+           
 
             // ==========================
             //  APLICA REGRAS

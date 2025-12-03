@@ -1,8 +1,6 @@
 @extends('layouts.app')
 
 @push('styles')
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-    <link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.css" />
     <link rel="stylesheet" href="{{ asset('css/loja.css') }}">
 @endpush
 
@@ -52,16 +50,20 @@
             </div>
         </div>
     </section>
+
     <main class="container">
         <section class="store-main-content">
             <div class="row g-4 align-items-center">
                 <div class="col-md-7 store-info">
                     <h5><i class="bi bi-geo-alt-fill me-2"></i> Endereço:</h5>
                     <p>Av. Olindo de Miranda, 864<br>Centro<br>39900-000</p>
+
                     <hr class="my-4">
+
                     <h5><i class="bi bi-telephone-fill me-2"></i> Telefone:</h5>
                     <p>(33) 99900-0099</p>
                 </div>
+
                 <div class="col-md-5">
                     <div class="map-placeholder">
                         <div id="mapa-loja"></div>
@@ -70,31 +72,19 @@
             </div>
         </section>
 
-        <section class="avaliacoes py-5">
+        <section class="avaliacoes py-5 bg-body">
             <div class="container">
-                <h4 class="fw-bold mb-4 text-center">Avaliações da loja</h4>
+                <h4 class="fw-bold mb-4 text-center text-body">Avaliações da loja</h4>
                 <div class="row justify-content-center g-3">
-                    <div class="col-md-3">
-                        <div class="card p-3 shadow-sm">
-                            <div class="mb-2">★★★★★</div>
-                            <p>Ótima loja e um excelente atendimento! Além disso, eles respondem super rápido. </p>
-                            <small class="text-muted">Marcos Vinícius</small>
+                    @foreach ($avaliacoes as $avaliacao)
+                        <div class="col-md-3">
+                            <div class="card p-3 shadow-sm">
+                                <div class="mb-2">{!! str_repeat('★', $avaliacao->nota) !!}</div>
+                                <p>{!! $avaliacao->content !!}</p>
+                                <small class="text-muted">{!! $avaliacao->user->name !!}</small>
+                            </div>
                         </div>
-                    </div>
-                    <div class="col-md-3">
-                        <div class="card p-3 shadow-sm">
-                            <div class="mb-2">★★★★☆</div>
-                            <p>Gosto muito da loja. O único problema é achar vaga para estacionar próximo à entrada.</p>
-                            <small class="text-muted">Leonardo</small>
-                        </div>
-                    </div>
-                    <div class="col-md-3">
-                        <div class="card p-3 shadow-sm">
-                            <div class="mb-2">★★★★★</div>
-                            <p>Além do atendimento, amei! As atendentes são atenciosas e tiram todas as dúvidas.</p>
-                            <small class="text-muted">Letícia</small>
-                        </div>
-                    </div>
+                    @endforeach
                 </div>
             </div>
         </section>
@@ -102,114 +92,137 @@
 @endsection
 
 @push('scripts')
-    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-    <script src="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.min.js"></script>
-
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-
-            // --- DADOS DA LOJA ATUAL (exemplo) ---
-            // Em um site real, você carregaria esses dados dinamicamente
+        // callback chamado pelo script do Google Maps
+        window.initLojaMap = function() {
+            // Se quiser deixar dinâmico depois, é só trocar esses valores por dados do backend
             const loja = {
                 name: "Larana Supermercado",
                 address: "Av. Olindo de Miranda, 864 - Centro",
-                lat: -16.173570723698916, // Coordenada da loja
-                lng: -40.69246760175628 // Coordenada da loja
+                lat: -16.173570723698916,
+                lng: -40.69246760175628
             };
 
-            // --- VARIÁVEIS GLOBAIS PARA O MAPA ---
-            let map = null;
+            const mapElement = document.getElementById('mapa-loja');
+            if (!mapElement) return;
+
+            // MAPA
+            const map = new google.maps.Map(mapElement, {
+                center: {
+                    lat: loja.lat,
+                    lng: loja.lng
+                },
+                zoom: 15,
+                mapTypeControl: false,
+                streetViewControl: false,
+            });
+
             let userLocation = null;
-            let routingControl = null;
+            let userMarker = null;
+            const directionsService = new google.maps.DirectionsService();
+            const directionsRenderer = new google.maps.DirectionsRenderer({
+                map: map,
+                suppressMarkers: false
+            });
 
-            // --- INICIALIZAÇÃO DO MAPA ---
-            map = L.map('mapa-loja').setView([loja.lat, loja.lng], 14);
+            // MARCADOR DA LOJA
+            const infoHtml = `
+                <div style="max-width:220px">
+                    <strong>${loja.name}</strong><br>
+                    <small>${loja.address}</small><br><br>
+                    <button class="btn btn-primary btn-sm w-100 mb-1"
+                            onclick="window.getRouteFromLoja('car', ${loja.lat}, ${loja.lng})">
+                        <i class="bi bi-car-front-fill"></i> Rota de Carro
+                    </button>
+                    <button class="btn btn-info btn-sm w-100 text-white"
+                            onclick="window.getRouteFromLoja('walk', ${loja.lat}, ${loja.lng})">
+                        <i class="bi bi-person-walking"></i> Rota a Pé
+                    </button>
+                </div>
+            `;
 
-            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-            }).addTo(map);
+            const lojaMarker = new google.maps.Marker({
+                position: {
+                    lat: loja.lat,
+                    lng: loja.lng
+                },
+                map: map,
+                title: loja.name
+            });
 
+            const lojaInfo = new google.maps.InfoWindow({
+                content: infoHtml
+            });
+            lojaMarker.addListener('click', () => lojaInfo.open(map, lojaMarker));
+            lojaInfo.open(map, lojaMarker); // já abre ao carregar
 
-
-            // --- ADICIONA MARCADOR DA LOJA ---
-            const popupContent = `
-        <b>${loja.name}</b><br>
-        ${loja.address}<br><br>
-        <button class="btn btn-primary btn-sm w-100 mb-1" onclick="window.getRoute('car', ${loja.lat}, ${loja.lng})">
-            <i class="bi bi-car-front-fill"></i> Rota de Carro
-        </button>
-        <button class="btn btn-info btn-sm w-100 text-white" onclick="window.getRoute('walk', ${loja.lat}, ${loja.lng})">
-            <i class="bi bi-person-walking"></i> Rota a Pé
-        </button>
-    `;
-            // Adiciona o marcador da loja e já abre o popup
-            L.marker([loja.lat, loja.lng]).addTo(map).bindPopup(popupContent).openPopup();
-
-
-            // --- OBTÉM LOCALIZAÇÃO DO USUÁRIO ---
+            // GEOLOCALIZAÇÃO DO USUÁRIO
             if ('geolocation' in navigator) {
                 navigator.geolocation.getCurrentPosition(
                     (position) => {
-                        userLocation = L.latLng(position.coords.latitude, position.coords.longitude);
-                        L.circleMarker(userLocation, {
-                                radius: 8,
-                                color: 'blue',
-                                fillColor: '#3498db',
-                                fillOpacity: 0.8
-                            }).addTo(map)
-                            .bindPopup("<b>Você está aqui</b>");
+                        userLocation = {
+                            lat: position.coords.latitude,
+                            lng: position.coords.longitude
+                        };
+
+                        // marcador do usuário
+                        if (userMarker) userMarker.setMap(null);
+                        userMarker = new google.maps.Marker({
+                            position: userLocation,
+                            map: map,
+                            title: 'Você está aqui',
+                            icon: {
+                                path: google.maps.SymbolPath.CIRCLE,
+                                scale: 7,
+                                fillColor: '#007bff',
+                                fillOpacity: 1,
+                                strokeColor: '#ffffff',
+                                strokeWeight: 2
+                            }
+                        });
+
+                        // centraliza um pouco mais entre user e loja se quiser
+                        // por enquanto só dá um panc na loja mesmo
                     },
                     (error) => {
-                        console.error("Erro ao obter a localização: ", error);
+                        console.error('Erro ao obter localização: ', error);
                     }
                 );
             }
 
-            // --- FUNÇÃO DE ROTAS ---
-            window.getRoute = function(profile, productLat, productLng) {
+            // FUNÇÃO GLOBAL DE ROTA (CARRO / A PÉ)
+            window.getRouteFromLoja = function(profile, destLat, destLng) {
                 if (!userLocation) {
-                    alert("Sua localização ainda não foi determinada.");
+                    alert('Sua localização ainda não foi determinada.');
                     return;
                 }
 
-                if (routingControl) map.removeControl(routingControl);
+                const travelMode = profile === 'walk' ?
+                    google.maps.TravelMode.WALKING :
+                    google.maps.TravelMode.DRIVING;
 
-                let profileUrl = (profile === 'walk') ? 'foot' : 'car';
-
-                routingControl = L.Routing.control({
-                    waypoints: [userLocation, L.latLng(productLat, productLng)],
-                    router: new L.Routing.OSRMv1({
-                        serviceUrl: `https://routing.openstreetmap.de/routed-${profileUrl}/route/v1/`
-                    }),
-                    routeWhileDragging: false,
-                    addWaypoints: false,
-                    draggableWaypoints: false,
-                    showAlternatives: false,
-                    formatter: new L.Routing.FormatterPtBR()
-                }).addTo(map);
+                directionsService.route({
+                        origin: userLocation,
+                        destination: {
+                            lat: destLat,
+                            lng: destLng
+                        },
+                        travelMode: travelMode
+                    },
+                    (response, status) => {
+                        if (status === 'OK') {
+                            directionsRenderer.setDirections(response);
+                        } else {
+                            console.error('Erro ao calcular rota:', status);
+                            alert('Não foi possível calcular a rota.');
+                        }
+                    }
+                );
             };
-        });
-        L.Routing.FormatterPtBR = L.Routing.Formatter.extend({
-            formatInstruction: function(instr) {
-                const road = instr.road ? ` na ${instr.road}` : '';
-                const instrucoes = {
-                    'Head': `Siga${road}`,
-                    'Continue': `Continue${road}`,
-                    'Right': `Vire à direita${road}`,
-                    'Left': `Vire à esquerda${road}`,
-                    'Destination': 'Você chegou ao seu destino'
-                };
-                return instrucoes[instr.type] || '';
-            },
-            formatDistance: function(d) {
-                if (d < 1000) return Math.round(d) + ' m';
-                return (d / 1000).toFixed(1) + ' km';
-            },
-            formatTime: function(t) {
-                if (t > 3600) return Math.floor(t / 3600) + ' h ' + Math.floor((t % 3600) / 60) + ' min';
-                if (t > 60) return Math.floor(t / 60) + ' min';
-                return Math.round(t) + ' s';
-            }
-        });
+        };
     </script>
+
+    {{-- carrega o Google Maps e chama initLojaMap quando terminar --}}
+    <script async defer
+        src="https://maps.googleapis.com/maps/api/js?key={{ env('GOOGLE_MAPS_API_KEY') }}&callback=initLojaMap"></script>
 @endpush
