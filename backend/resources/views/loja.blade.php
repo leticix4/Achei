@@ -46,13 +46,23 @@
                 <div class="me-4">
                     <strong>Avaliação da Loja: 4.8</strong> <i class="bi bi-star-fill text-warning"></i>
                 </div>
-                <button class="btn btn-outline-secondary"><i class="bi bi-share-fill me-2"></i> Compartilhar</button>
+                <a 
+                href="https://wa.me/?text={{ urlencode('Confira essa Loja que encontrei!' . url()->current()) }}" 
+                target="_blank"
+                class="btn btn-outline-success"
+            >
+                <i class="bi bi-whatsapp me-2"></i> Compartilhar
+            </a>
             </div>
         </div>
     </section>
 
     <main class="container">
         <section class="store-main-content">
+                <a href="{{ route('busca') }}" class="btn-voltar" >
+                    <img src="{{ asset('icons/icon-voltar.png') }}" alt="Voltar" class="icon">
+                    Voltar
+                </a>
             <div class="row g-4 align-items-center">
                 <div class="col-md-7 store-info">
                     <h5><i class="bi bi-geo-alt-fill me-2"></i> Endereço:</h5>

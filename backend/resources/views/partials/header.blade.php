@@ -382,7 +382,7 @@
             const token = localStorage.getItem("access_token");
             if (!token) return;
 
-            const url = "http://localhost:8001/api/user";
+            const url = "http://localhost:8000/api/user";
             fetch(url, {
                     method: "GET",
                     headers: {
@@ -416,7 +416,7 @@
                 password: passwordInput.value
             }
 
-            const backURL = "http://localhost:8001/api/login";
+            const backURL = "http://localhost:8000/api/login";
 
             fetch(backURL, {
                     method: "POST",

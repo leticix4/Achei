@@ -258,13 +258,15 @@ Route::get('/categoria/{slug}', function ($slug) {
     ]);
 
 })->name('categoria.show');
-    
-Route::middleware('auth:sanctum')->group(function () {
-
-    // CADASTRO DE PRODUTO (lojista)
-    Route::get('/cadastro-produto', function () {
+  
+// CADASTRO DE PRODUTO (lojista)
+    Route::get('/cadastroproduto', function () {
         return view('cadastro-produto');
     })->name('cadastro-produto');   
+
+Route::middleware('auth:sanctum')->group(function () {
+
+
     });
     
     // LOJA

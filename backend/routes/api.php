@@ -23,8 +23,6 @@ Route::post('/stores', [StoreController::class, 'create']);
 Route::get('/stores', [StoreController::class, 'index']);
 Route::get('/stores/{id}', [StoreController::class, 'show']);
 Route::get('/stores/{store}/avaliacao', [StoreController::class, 'show']);
-
-
 Route::get('/products', [ProductController::class, 'index']);
 
 Route::post('/register', [AuthController::class, 'register']);
@@ -40,6 +38,9 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::put('/stores/{id}', [StoreController::class, 'update']);
     Route::delete('/stores/{id}', [StoreController::class, 'destroy']);
+    
+    Route::get('/unread-messages-count', [MessageController::class, 'getUnreadMessagesCount']);
+
 
     Route::group(['prefix' => 'products'], function () {
         Route::post('/', [ProductController::class, 'store']);

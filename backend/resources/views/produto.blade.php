@@ -184,14 +184,12 @@
             </svg>
         </div>
 
-        {{-- Janela do chat --}}
-        <div class="chat-window position-fixed bottom-0 end-0 m-3 shadow-lg rounded-3" id="chatWindow"
-            style="width: 350px; height: 450px; display: none; z-index: 1060;">
-            <div
-                class="chat-header bg-primary text-white rounded-top-3 p-3 d-flex justify-content-between align-items-center">
-                <span class="fw-bold">Chat com a Loja</span>
-                <button id="closeChat" class="btn-close btn-close-white">X</button>
-            </div>
+  <!-- chat -->
+  <div class="chat-window position-fixed bottom-0 end-0 m-3 shadow-lg rounded-3" id="chatWindow" style="width: 350px; height: 450px; display: none; z-index: 1060;">
+    <div class="chat-header bg-primary text-white rounded-top-3 p-3 d-flex justify-content-between align-items-center">
+      <span class="fw-bold">Chat com a Loja</span>
+      <button id="closeChat" class="btn-close btn-close-white">X</button>
+    </div>
 
             <div class="chat-body bg-body-tertiary flex-grow-1 p-3 overflow-auto" id="chatBody">
                 <div class="d-flex mb-2">
@@ -255,14 +253,14 @@
 
     {{-- JS do chat (seu código original) --}}
     <script>
-        const chatButton = document.getElementById('chatButton');
-        const chatWindow = document.getElementById('chatWindow');
-        const closeChat = document.getElementById('closeChat');
-        const sendMessage = document.getElementById('sendMessage');
-        const userMessage = document.getElementById('userMessage');
-        const chatBody = document.getElementById('chatBody');
-        const apiUrl = 'http://localhost:8001/api';
-        const productId = {{ $product->id ?? 1 }};
+    const chatButton = document.getElementById('chatButton');
+    const chatWindow = document.getElementById('chatWindow');
+    const closeChat = document.getElementById('closeChat');
+    const sendMessage = document.getElementById('sendMessage');
+    const userMessage = document.getElementById('userMessage');
+    const chatBody = document.getElementById('chatBody');
+    const apiUrl = 'http://localhost:8000/api';
+    const productId = 1;
 
         const fetchMessages = async () => {
             try {

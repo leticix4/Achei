@@ -71,4 +71,17 @@ class MessageController extends Controller
             'data' => MessageResource::make($message)
         ], 201);
     }
+
+    public function getUnreadMessagesCount(Request $request): JsonResponse
+    {
+        $user = $request->user();
+
+        $unreadCount = Message::where('user_id', $user->id)
+            ->where('is_store', true) 
+            ->whereNull('read_at') 
+            ->count();
+        return response()->json([
+            'unread_count' => $unreadCount,
+        ]);
+    }
 }
