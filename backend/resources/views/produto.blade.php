@@ -124,7 +124,7 @@
     const sendMessage = document.getElementById('sendMessage');
     const userMessage = document.getElementById('userMessage');
     const chatBody = document.getElementById('chatBody');
-    const apiUrl = 'http://localhost:8001/api';
+    const apiUrl = 'http://localhost:8000/api';
     const productId = 1;
 
     const fetchMessages = async () => {
