@@ -292,16 +292,35 @@
 
 @push('scripts')
     <script>
+        // Função para obter headers com autenticação
+        function getAuthHeaders(additionalHeaders = {}) {
+            const token = localStorage.getItem("access_token");
+            const headers = {
+                "Content-Type": "application/json",
+                ...additionalHeaders
+            };
+            if (token) {
+                headers["Authorization"] = `Bearer ${token}`;
+            }
+            return headers;
+        }
+
+        // Função para fazer fetch com autenticação
+        async function fetchWithAuth(url, options = {}) {
+            const headers = getAuthHeaders(options.headers);
+            return fetch(url, {
+                ...options,
+                headers
+            });
+        }
+
         async function fetchUser() {
             const token = localStorage.getItem("access_token");
             if (!token) return;
 
             const url = "http://localhost:8000/api/user";
-            fetch(url, {
-                    method: "GET",
-                    headers: {
-                        "Authorization": `Bearer ${token}`
-                    }
+            fetchWithAuth(url, {
+                    method: "GET"
                 }).then(res => res.json())
                 .then(data => {
                     const user = data.user
@@ -342,9 +361,9 @@
                 .then(({
                     data
                 }) => {
-                    if (!data.access_token) return;
+                    if (!data.token) return;
 
-                    localStorage.setItem("access_token", data.access_token);
+                    localStorage.setItem("access_token", data.token);
                     location.reload();
                 });
         })

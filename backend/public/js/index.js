@@ -2,27 +2,31 @@
 // 1. LÓGICA DE TEMA (Executa imediatamente para evitar piscar)
 // ================================================================== //
 function applyTheme(theme) {
-    if (theme === 'system') {
-        theme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    if (theme === "system") {
+        theme = window.matchMedia("(prefers-color-scheme: dark)").matches
+            ? "dark"
+            : "light";
     }
-    document.documentElement.setAttribute('data-bs-theme', theme);
-    localStorage.setItem('theme', theme);
-    
+    document.documentElement.setAttribute("data-bs-theme", theme);
+    localStorage.setItem("theme", theme);
+
     // Tenta atualizar o ícone caso o header já esteja carregado
-    const themeIcon = document.querySelector('#themeToggle i');
+    const themeIcon = document.querySelector("#themeToggle i");
     if (themeIcon) {
-        themeIcon.className = theme === 'dark' ? 'bi bi-moon' : 'bi bi-brightness-high';
+        themeIcon.className =
+            theme === "dark" ? "bi bi-moon" : "bi bi-brightness-high";
     }
 }
 // Aplica o tema salvo ao carregar
-applyTheme(localStorage.getItem('theme') || 'system');
-
+applyTheme(localStorage.getItem("theme") || "system");
 
 document.addEventListener("DOMContentLoaded", () => {
     // ================================================================== //
     // 2. INICIALIZAÇÃO DE TOOLTIPS
     // ================================================================== //
-    var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+    var tooltipTriggerList = [].slice.call(
+        document.querySelectorAll('[data-bs-toggle="tooltip"]')
+    );
     var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
         return new bootstrap.Tooltip(tooltipTriggerEl);
     });
@@ -30,44 +34,56 @@ document.addEventListener("DOMContentLoaded", () => {
     // ================================================================== //
     // 3. PAGINAÇÃO DE CATEGORIAS (COM CORREÇÃO DE ALTURA E ANIMAÇÃO)
     // ================================================================== //
-    const paginationContainer = document.querySelector('#categorias');
+    const paginationContainer = document.querySelector("#categorias");
 
     if (paginationContainer) {
-        const paginationLinks = paginationContainer.querySelectorAll('.pagination .page-link');
-        const categoryPages = paginationContainer.querySelectorAll('.category-page');
-        const pagesWrapper = paginationContainer.querySelector('.pages-wrapper');
+        const paginationLinks = paginationContainer.querySelectorAll(
+            ".pagination .page-link"
+        );
+        const categoryPages =
+            paginationContainer.querySelectorAll(".category-page");
+        const pagesWrapper =
+            paginationContainer.querySelector(".pages-wrapper");
 
         // Função para atualizar a altura do container (Corrige o footer no mobile)
         function updateContainerHeight() {
-            const activePage = paginationContainer.querySelector('.category-page.active');
+            const activePage = paginationContainer.querySelector(
+                ".category-page.active"
+            );
             if (activePage && pagesWrapper) {
                 const height = activePage.scrollHeight;
-                pagesWrapper.style.height = (height + 20) + 'px';
+                pagesWrapper.style.height = height + 20 + "px";
             }
         }
 
         // Atualiza ao carregar e ao redimensionar a tela
         setTimeout(updateContainerHeight, 500); // Pequeno delay para garantir carregamento
-        window.addEventListener('resize', updateContainerHeight);
+        window.addEventListener("resize", updateContainerHeight);
 
-        paginationLinks.forEach(link => {
-            link.addEventListener('click', function (event) {
+        paginationLinks.forEach((link) => {
+            link.addEventListener("click", function (event) {
                 event.preventDefault();
-                const pageToShow = this.getAttribute('data-page');
-                const targetPage = document.getElementById('page-' + pageToShow);
+                const pageToShow = this.getAttribute("data-page");
+                const targetPage = document.getElementById(
+                    "page-" + pageToShow
+                );
 
-                if (targetPage.classList.contains('active')) return;
+                if (targetPage.classList.contains("active")) return;
 
                 // Troca de classes para animação
-                categoryPages.forEach(page => page.classList.remove('active'));
-                if (targetPage) targetPage.classList.add('active');
+                categoryPages.forEach((page) =>
+                    page.classList.remove("active")
+                );
+                if (targetPage) targetPage.classList.add("active");
 
                 // Recalcula altura
                 updateContainerHeight();
 
                 // Atualiza botões da paginação
-                paginationLinks.forEach(item => item.parentElement.classList.remove('active'));
-                this.parentElement.classList.add('active');
+                paginationLinks.forEach((item) =>
+                    item.parentElement.classList.remove("active")
+                );
+                this.parentElement.classList.add("active");
             });
         });
     }
@@ -78,7 +94,6 @@ document.addEventListener("DOMContentLoaded", () => {
 // ================================================================== //
 // Isso faz com que botões do Header/Footer funcionem mesmo carregados depois
 document.addEventListener("click", function (event) {
-
     // --- BOTÃO "VER TODAS NOTIFICAÇÕES" ---
     if (event.target.closest("#btnVerTodas")) {
         // Fecha o dropdown
@@ -95,14 +110,12 @@ document.addEventListener("click", function (event) {
 
     // --- CONTADOR DE NOTIFICAÇÕES (Ao clicar em uma notificação) ---
     if (event.target.closest(".notif-item")) {
-        const notifBadge = document.getElementById("notifBadge");
-        if (notifBadge) {
-            let count = parseInt(notifBadge.textContent);
-            if (count > 0) {
-                count--;
-                notifBadge.textContent = count;
-                if (count === 0) notifBadge.style.display = "none";
-            }
+        // A lógica de marcar como lida agora é feita pelo NotificationManager
+        // Apenas fechar o dropdown se necessário
+        const dropdownEl = document.getElementById("notifDropdown");
+        if (dropdownEl) {
+            const dropdown = bootstrap.Dropdown.getInstance(dropdownEl);
+            if (dropdown) dropdown.hide();
         }
     }
 
@@ -141,8 +154,11 @@ document.addEventListener("click", function (event) {
         localStorage.setItem("tipoPessoa", "pf");
 
         // Limpa campos
-        nomeInput.value = ""; emailInput.value = ""; telefoneInput.value = ""; cpfInput.value = "";
-        
+        nomeInput.value = "";
+        emailInput.value = "";
+        telefoneInput.value = "";
+        cpfInput.value = "";
+
         window.location.href = "/cadastro-completo";
     }
 
@@ -162,7 +178,11 @@ document.addEventListener("click", function (event) {
         localStorage.setItem("tipoPessoa", "pj");
 
         // Limpa campos
-        emailInput.value = ""; cnpjInput.value = ""; fantasiaInput.value = ""; razaoInput.value = ""; ieInput.value = "";
+        emailInput.value = "";
+        cnpjInput.value = "";
+        fantasiaInput.value = "";
+        razaoInput.value = "";
+        ieInput.value = "";
 
         window.location.href = "/cadastro-completo";
     }

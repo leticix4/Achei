@@ -476,6 +476,28 @@
     </div>
 
     <script>
+        // Função para obter headers com autenticação
+        function getAuthHeaders(additionalHeaders = {}) {
+            const token = localStorage.getItem("access_token");
+            const headers = {
+                "Content-Type": "application/json",
+                ...additionalHeaders
+            };
+            if (token) {
+                headers["Authorization"] = `Bearer ${token}`;
+            }
+            return headers;
+        }
+
+        // Função para fazer fetch com autenticação
+        async function fetchWithAuth(url, options = {}) {
+            const headers = getAuthHeaders(options.headers);
+            return fetch(url, {
+                ...options,
+                headers
+            });
+        }
+
         const chatWindow = document.getElementById('chatWindow');
         const notificationAlert = document.getElementById('notificationAlert');
         const closeChatButton = document.getElementById('closeChat');
@@ -501,12 +523,8 @@
             }
 
             try {
-                const response = await fetch(`${apiUrl}/unread-messages-count`, {
-                    method: 'GET',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${token}`
-                    }
+                const response = await fetchWithAuth(`${apiUrl}/unread-messages-count`, {
+                    method: 'GET'
                 });
 
                 if (!response.ok) {

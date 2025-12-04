@@ -28,7 +28,6 @@
 </head>
 
 <body>
-
     @include('partials.header')
 
     <div class="container mt-3">

@@ -167,21 +167,21 @@
         const apiUrl = 'http://localhost:8000/api';
         const productId = 1;
 
-        const fetchMessages = async () => {
-            try {
-                const token = localStorage.getItem('access_token');
+    const fetchMessages = async () => {
+        try {
+            const token = localStorage.getItem('access_token');
 
-                const response = await fetch(`${apiUrl}/products/${productId}/messages`, {
-                    method: 'GET',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Accept': 'application/json',
-                        'Authorization': `Bearer ${token}`
-                    }
-                });
+            const response = await fetch(`${apiUrl}/products/${productId}/messages`, {
+                method: 'GET',
+                headers: {
+                  'Content-Type': 'application/json',
+                  'Accept': 'application/json',
+                  'Authorization': `Bearer ${token}`
+                }
+            });
+            const res = await response.json();
 
-                const res = await response.json();
-                const mensagens = res.data;
+            const mensagens = res.data
 
                 if (!mensagens || mensagens.length === 0) return;
 
@@ -194,27 +194,27 @@
             }
         }
 
-        const fetchSendMessage = async (content, userId) => {
-            try {
-                const token = localStorage.getItem('access_token');
+    const fetchSendMessage = async (content, userId) => {
+        try {
+            const token = localStorage.getItem('access_token');
 
-                await fetch(`${apiUrl}/products/${productId}/messages`, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Accept': 'application/json',
-                        'Authorization': `Bearer ${token}`
-                    },
-                    body: JSON.stringify({
-                        content: content,
-                        product_id: productId,
-                        user_id: userId
-                    })
-                });
-            } catch (error) {
-                console.error('Erro ao enviar mensagem:', error);
-            }
+            const response = await fetch(`${apiUrl}/products/${productId}/messages`, {
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json',
+                  'Accept': 'application/json',
+                  'Authorization': `Bearer ${token}`
+                },
+                body: JSON.stringify({
+                    content: content,
+                    product_id: productId,
+                    user_id: userId
+                })
+            });
+        } catch (error) {
+            console.error('Erro ao enviar mensagem:', error);
         }
+    }
 
         fetchMessages();
         setInterval(fetchMessages, 5000);

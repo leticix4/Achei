@@ -4,13 +4,15 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use App\Models\Message;
+use Illuminate\Http\Request;
 
 class SSEController extends Controller
 {
-    public function stream($productId)
+    public function stream(Request $request)
     {
-        set_time_limit(0);
+        $user = $request->user();
 
+        set_time_limit(0);
 
         header("Content-Type: text/event-stream");
         header("Cache-Control: no-cache");
@@ -21,36 +23,42 @@ class SSEController extends Controller
         header("Access-Control-Allow-Methods: GET, OPTIONS");
         header("Access-Control-Allow-Headers: Content-Type, Authorization");
 
-        $lastId = 0;
+        $lastNotificationId = 0;
 
-        return response()->stream(function () {
+        return response()->stream(function () use ($user, &$lastNotificationId) {
             while (true) {
-                // Mensagem enviada ao front
-                echo "data: " . json_encode("teste") . "\n\n";
+                // Check for new notifications
+                $newNotifications = $user->notifications()
+                    ->where('id', '>', $lastNotificationId)
+                    ->orderBy('id')
+                    ->get();
 
-                ob_flush();
-                flush();
+                if ($newNotifications->isNotEmpty()) {
+                    $lastNotificationId = $newNotifications->last()->id;
 
-                // Espera 1 segundo antes de enviar a próxima
-                sleep(1);
+                    echo "data: " . json_encode([
+                        'type' => 'notifications',
+                        'data' => $newNotifications->map(function ($notification) {
+                            return [
+                                'id' => $notification->id,
+                                'type' => $notification->type,
+                                'data' => $notification->data,
+                                'read_at' => $notification->read_at,
+                                'created_at' => $notification->created_at,
+                            ];
+                        })
+                    ]) . "\n\n";
 
-                //     if (true) {
+                    ob_flush();
+                    flush();
+                } else {
+                    // Ping to keep connection alive
+                    echo ": ping\n\n";
+                    ob_flush();
+                    flush();
+                }
 
-                //     // $lastId = $messages->last()->id; // 🔥 ESSENCIAL
-
-                //     echo "data: " . json_encode([
-                //         'messages' => 'teste'
-                //     ]) . "\n\n";
-
-                //     ob_flush();
-                //     flush();
-                // } else {
-                //     // 🔥 ping para manter a conexão aberta
-                //     echo ": ping\n\n";
-                //     ob_flush();
-                //     flush();
-                // }
-
+                sleep(2); // Check every 2 seconds
             }
         }, 200, [
             'Content-Type' => 'text/event-stream',

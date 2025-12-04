@@ -1,27 +1,40 @@
-@extends('layouts.app')
 
-@push('styles')
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@yield('title', 'Achei! Almenara')</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <link href="{{ asset('image/favicon.png') }}" rel="icon" type="image/png">
+
+    <link rel="stylesheet" href="{{ asset('css/global.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/navbar.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/carousel.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/cards.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/footer.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/mobile.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/voltar.css') }}">
     <link rel="stylesheet" href="{{ asset('css/loja.css') }}">
-@endpush
+    
 
-@section('title', 'Loja')
+    @stack('styles')
+</head>
+
+@section('title', $store->name)
 
 @section('content')
-
-    <section class="store-banner">
-        <div class="container position-relative h-100">
-            <div class="store-profile d-flex align-items-center">
-                <img src="{{ asset('banner/iconloja.png') }}" alt="Logo da Loja" class="store-logo me-3">
-                <h1 style="color: #dee2e6;" class="store-name">LARANA SUPERMERCADO</h1>
-            </div>
-        </div>
-    </section>
 
     <section class="store-nav-wrapper">
         <div class="container store-nav d-flex justify-content-between align-items-center">
             <ul class="nav nav-tabs">
                 <li class="nav-item">
-                    <a class="nav-link active" href="{{ route('loja') }}">Início</a>
+                    <a class="nav-link active" href="#">Início</a>
                 </li>
 
                 <li class="nav-item dropdown">
@@ -40,6 +53,7 @@
                         {{-- REMOVIDO: O item 'Excluir Produto' foi removido --}}
                     </ul>
                 </li>
+                @endif
 
                 {{-- REMOVIDO: O item 'Categorias' foi removido --}}
 
@@ -47,12 +61,21 @@
 
             <div class="d-flex align-items-center">
                 <div class="me-4">
-                    <strong>Avaliação da Loja: 4.8</strong> <i class="bi bi-star-fill text-warning"></i>
+                    <strong>Avaliação da Loja: {{ $avaliacoes->avg('nota') ?: 'N/A' }}</strong> <i class="bi bi-star-fill text-warning"></i>
                 </div>
                 <a href="https://wa.me/?text={{ urlencode('Confira essa Loja que encontrei!' . url()->current()) }}"
                     target="_blank" class="btn btn-outline-success">
                     <i class="bi bi-whatsapp me-2"></i> Compartilhar
                 </a>
+            </div>
+        </div>
+    </section>
+
+    <section class="store-banner" style="background-image: url({{ $store->image_url }});">
+        <div class="container position-relative h-100">
+            <div class="store-profile d-flex align-items-center">
+                <img src="{{ $store->image_url ?: asset('banner/iconloja.png') }}" alt="Logo da Loja" class="store-logo me-3">
+                <h1 style="color: #dee2e6;" class="store-name">{{ $store->name }}</h1>
             </div>
         </div>
     </section>
@@ -63,12 +86,17 @@
             <div class="row g-4 align-items-center">
                 <div class="col-md-7 store-info">
                     <h5><i class="bi bi-geo-alt-fill me-2"></i> Endereço:</h5>
-                    <p>Av. Olindo de Miranda, 864<br>Centro<br>39900-000</p>
+                    <p>
+                        {{ $store->address->street }}, {{ $store->address->number }}<br>
+                        {{ $store->address->neighborhood }}<br>
+                        {{ $store->address->city }} - {{ $store->address->state }}<br>
+                        {{ $store->address->zip_code }}
+                    </p>
 
                     <hr class="my-4">
 
                     <h5><i class="bi bi-telephone-fill me-2"></i> Telefone:</h5>
-                    <p>(33) 99900-0099</p>
+                    <p>{{ $store->phone }}</p>
                 </div>
 
                 <div class="col-md-5">
@@ -96,19 +124,28 @@
             </div>
         </section>
     </main>
-@endsection
-
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        AOS.init();
+    </script>
+    <script src="{{ asset('js/index.js') }}"></script>
 @push('scripts')
     {{-- (Scripts do Google Maps omitidos por brevidade, permanecem inalterados) --}}
+    <script>
+        // Pass store data to JS
+        window.lojaData = @json($store);
+        window.formattedAddress = "{{ $store->address->street }}, {{ $store->address->number }} - {{ $store->address->neighborhood }}";
+    </script>
     <script>
         // callback chamado pelo script do Google Maps
         window.initLojaMap = function() {
             // Se quiser deixar dinâmico depois, é só trocar esses valores por dados do backend
             const loja = {
-                name: "Larana Supermercado",
-                address: "Av. Olindo de Miranda, 864 - Centro",
-                lat: -16.173570723698916,
-                lng: -40.69246760175628
+                name: window.lojaData.name,
+                address: window.formattedAddress,
+                lat: window.lojaData.latitude,
+                lng: window.lojaData.longitude
             };
 
             const mapElement = document.getElementById('mapa-loja');
@@ -133,7 +170,6 @@
                 suppressMarkers: false
             });
 
-            // MARCADOR DA LOJA
             const infoHtml = `
                 <div style="max-width:220px">
                     <strong>${loja.name}</strong><br>
@@ -173,7 +209,6 @@
                             lng: position.coords.longitude
                         };
 
-                        // marcador do usuário
                         if (userMarker) userMarker.setMap(null);
                         userMarker = new google.maps.Marker({
                             position: userLocation,
@@ -189,8 +224,6 @@
                             }
                         });
 
-                        // centraliza um pouco mais entre user e loja se quiser
-                        // por enquanto só dá um panc na loja mesmo
                     },
                     (error) => {
                         console.error('Erro ao obter localização: ', error);
@@ -234,3 +267,5 @@
     <script async defer
         src="https://maps.googleapis.com/maps/api/js?key={{ env('GOOGLE_MAPS_API_KEY') }}&callback=initLojaMap"></script>
 @endpush
+
+@include('partials.footer')

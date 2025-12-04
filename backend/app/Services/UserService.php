@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Models\User;
 use App\Models\Address;
 use App\Enums\UserRoleEnum;
+use Illuminate\Http\Client\HttpClientException;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
 
@@ -25,12 +26,10 @@ class UserService
 
     public function getUserByCredentials(array $data): User
     {
-        $user = User::where('email', $data['email'])->firstOrFail();
+        $user = User::where('email', $data['email'])->first();
 
-        if (!$user || !Hash::check($data['password'], $user->password)) {
-            throw ValidationException::withMessages([
-                'email' => ['As credenciais fornecidas estão incorretas.'],
-            ]);
+        if (is_null($user) || !Hash::check($data['password'], $user->password)) {
+            throw new HttpClientException('Erro ao afetuar login');
         }
 
         return $user;
