@@ -2,76 +2,82 @@
 
 namespace Database\Seeders;
 
-use App\Models\Address;
-use App\Models\User;
+use Illuminate\Database\Seeder;
 use App\Models\Store;
 use App\Models\Product;
 
-use Illuminate\Database\Seeder;
-
 class DatabaseSeeder extends Seeder
 {
-    /**
-     * Seed the application's database.
-     */
     public function run(): void
     {
+        // Lista de Lojas com Endereços Reais de Almenara-MG
+        $lojasReais = [
+            [
+                'name' => 'Tech World Eletrônicos',
+                'category' => 'Eletrônicos',
+                'address' => 'Rua Tiradentes, 318 - Centro, Almenara - MG, 39900-000',
+            ],
+            [
+                'name' => 'Moda Fashion Center',
+                'category' => 'Roupas',
+                'address' => 'Rua Alvimar Lopes dos Santos, 18 - Centro, Almenara - MG, 39900-000',
+            ],
+            [
+                'name' => 'Supermercado do Bairro',
+                'category' => 'Mercado',
+                'address' => 'Av. Olindo de Miranda, 1010 - São Pedro, Almenara - MG, 39900-000',
+            ],
+            [
+                'name' => 'Livraria Cultura Viva',
+                'category' => 'Livros',
+                'address' => 'Rua Floriano Peixoto, 18 - Centro, Almenara - MG, 39900-000',
+            ],
+            [
+                'name' => 'Esportes Radicais',
+                'category' => 'Esporte',
+                'address' => 'Rua Araçuaí, 11 - Centro, Almenara - MG, 39900-000',
+            ],
+            [
+                'name' => 'Casa & Conforto',
+                'category' => 'Casa',
+                'address' => 'Rua Cândido Mares, 601 - Centro, Almenara - MG, 39900-000',
+            ],
+            [
+                'name' => 'Brinquedos Mágicos',
+                'category' => 'Brinquedos',
+                'address' => 'Rua Henrique Heitman, 211 - Centro, Almenara - MG, 39900-000',
+            ],
+            [
+                'name' => 'Sapataria Elegance',
+                'category' => 'Calçados',
+                'address' => 'Rua Capitão Marcelino, 148 - Centro, Almenara - MG, 39900-000',
+            ],
+            [
+                'name' => 'Pet Shop Amigo Fiel',
+                'category' => 'Animais',
+                'address' => 'Rua Benjamin Alves dos Santos, 553 - Cidade Verde, Almenara - MG, 39900-000',
+            ],
+            [
+                'name' => 'Gamer Zone',
+                'category' => 'Eletrônicos',
+                'address' => 'Rua Aleixo Paraguassu, 196 - Centro, Almenara - MG, 39900-000',
+            ]
+        ];
 
-        $address = Address::create([
-            'street' => 'Rua Exemplo',
-            'number' => '123',
-            'neighborhood' => 'Bairro Exemplo',
-            'city' => 'Cidade Exemplo',
-            'state' => 'EX',
-            'zip_code' => '12345-678',
-            'complement' => 'Apto 101',
-        ]);
+        foreach ($lojasReais as $dadosLoja) {
+            
+            // Cria a loja com os dados reais
+            $loja = Store::factory()->create([
+                'name' => $dadosLoja['name'],
+                'address' => $dadosLoja['address'], 
+                // Se você tiver colunas de latitude/longitude, podemos adicionar aqui também
+            ]);
 
-        $admin = User::create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
-            'password' => bcrypt('password'),
-            'cpf' => '119.166.123-02',
-            'birth_date' => '1990-01-01',
-            'phone' => '(11) 91234-5678',
-            'role' => 'admin',
-            'address_id' => $address->id,
-        ]);
-
-        $storeResponsible = User::create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
-            'password' => bcrypt('password'),
-            'cpf' => '119.166.123-02',
-            'birth_date' => '1990-01-01',
-            'phone' => '(11) 91234-5678',
-            'role' => 'admin',
-            'address_id' => $address->id,
-        ]);
-
-        $store = Store::create([
-            'name' => 'Empresa Teste'
-        ])
-
-
-
-        // $stores = Store::all();
-
-        // foreach ($stores as $store) {
-        //     for ($i = 1; $i <= 5; $i++) {
-        //         Product::create([
-        //             'store_id' => $store->id,
-        //             'name' => "Produto $i da {$store->name}",
-        //             'description' => "Descrição do produto $i da {$store->name}",
-        //             'image_url' => null,
-        //             'price' => rand(10, 100) + rand(0, 99) / 100,
-        //             'quantity_available' => rand(5, 50),
-        //             'brand' => "Marca $i",
-        //             'category' => "Categoria $i",
-        //             'sku' => strtoupper(uniqid("SKU{$i}_")),
-        //             'is_available' => true,
-        //         ]);
-        //     }
-        // }
+            // Cria produtos para essa loja usando a categoria correta
+            Product::factory(30)->create([
+                'store_id' => $loja->id,
+                'category' => $dadosLoja['category'],
+            ]);
+        }
     }
 }

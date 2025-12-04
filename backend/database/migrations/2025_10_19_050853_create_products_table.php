@@ -23,13 +23,13 @@ return new class extends Migration
             $table->timestamps();
 
             $table->index(['name', 'brand', 'category']);
-            $table->index(['price']);
+            $table->index(['price']); 
             $table->index(['is_available']);
             // $table->fullText(['name', 'description', 'brand']);
         });
     }
 
-    public function down()
+    public function down(): void
     {
         Schema::dropIfExists('products');
     }

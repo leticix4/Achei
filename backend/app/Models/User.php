@@ -7,6 +7,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use App\Models\ProductRating;
+use App\Models\Store;
 
 class User extends Authenticatable
 {
@@ -16,15 +17,10 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
-        'type',
+        'type',           // pf ou pj
         'cpf',
         'birth_date',
         'gender',
-        'cnpj',
-        'fantasy_name',
-        'state_registration',
-        'contact_name',
-        'contact_cpf',
         'phone',
         'phone_secondary',
         'zip_code',
@@ -35,7 +31,7 @@ class User extends Authenticatable
         'city',
         'state',
         'reference',
-        'role',
+        'role',           // user ou store
     ];
 
     protected $hidden = [
@@ -43,11 +39,6 @@ class User extends Authenticatable
         'remember_token',
     ];
 
-    /**
-     * Get the attributes that should be cast.
-     *
-     * @return array<string, string>
-     */
     protected function casts(): array
     {
         return [
@@ -56,8 +47,14 @@ class User extends Authenticatable
             'birth_date' => 'date',
         ];
     }
+
     public function productRatings()
     {
         return $this->hasMany(ProductRating::class);
+    }
+
+    public function store()
+    {
+        return $this->hasOne(Store::class);
     }
 }

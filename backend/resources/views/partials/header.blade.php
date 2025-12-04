@@ -17,9 +17,9 @@
         <!-- Barra de busca -->
         <div class="mx-auto search-bar d-none d-lg-block">
             <form class="input-group" action="{{ route('busca.lista') }}" method="GET">
-                <input type="text" name="q" class="form-control" placeholder="Buscar produtos"
-                    value="{{ request('q') }}">
-                <button class="btn btn-search" type="submit">
+                <input type="text" name="q" class="form-control bg-dark text-light border-secondary"
+                    placeholder="Buscar produtos" value="{{ request('q') }}">
+                <button class="btn btn-outline-light" type="submit">
                     <i class="bi bi-search"></i>
                 </button>
             </form>
@@ -52,7 +52,8 @@
                             <i class="bi bi-bell" style="font-size: 1.5rem; color: white;"></i>
                             <!-- Badge da quantidade -->
                             <span id="notifBadge"
-                                class="position-absolute top-0 start-100 translate-middle badge rounded-pill notif" style="display: none;">0</span>
+                                class="position-absolute top-0 start-100 translate-middle badge rounded-pill notif"
+                                style="display: none;">0</span>
                         </button>
                         <!-- Dropdown -->
                         <ul class="dropdown-menu dropdown-menu-end p-2 shadow" aria-labelledby="notifDropdown"
@@ -85,7 +86,8 @@
                         <div class="modal-content">
                             <div class="modal-header">
                                 <h5 class="modal-title" id="modalNotificacoesLabel">Todas as notificações</h5>
-                                <button type="button" class="btn btn-outline-secondary btn-sm me-2" id="markAllReadBtn">
+                                <button type="button" class="btn btn-outline-secondary btn-sm me-2"
+                                    id="markAllReadBtn">
                                     Marcar todas como lidas
                                 </button>
                             </div>
@@ -123,7 +125,12 @@
                             <i class="bi bi-person-circle me-2"></i> {{ Auth::user()->name }}
                         </button>
                         <ul class="dropdown-menu dropdown-menu-end">
-                            <li><a class="dropdown-item" href="#">Meu Perfil</a></li>
+                            <li>
+                                <a class="dropdown-item"
+                                    href="{{ auth()->user()->role === 'store' ? url('/loja') : route('perfil') }}">
+                                    Meu Perfil
+                                </a>
+                            </li>
                             <li>
                                 <hr class="dropdown-divider">
                             </li>
@@ -162,12 +169,12 @@
                                             <div class="mb-3">
                                                 <label class="form-label">Email</label>
                                                 <input type="email" name="email" class="form-control"
-                                                    placeholder="Digite seu email" required>
+                                                    placeholder="Digite seu email" value="empresa@email.com" required>
                                             </div>
                                             <div class="mb-3">
                                                 <label class="form-label">Senha</label>
-                                                <input type="password" name="password" class="form-control"
-                                                    placeholder="********" required>
+                                                <input type="password" name="password" value="123123123"
+                                                    class="form-control" placeholder="********" required>
                                             </div>
                                             <div class="d-flex justify-content-between mb-3">
                                                 <div>
@@ -181,90 +188,9 @@
                                             <button type="submit" class="btn btn-primary w-100 mb-2">Entrar</button>
                                             <p class="small text-center mt-3">
                                                 Não tem uma conta?
-                                                <a href="{{ route('cadastro-completo') }}" id="abrirCadastro">Criar
-                                                    conta</a>
+                                                <a href="{{ route('cadastro-completo') }}">Criar conta</a>
                                             </p>
                                         </form>
-                                        <!-- CADASTRO PF / PJ -->
-                                        <div id="cadastroForm" style="display: none;">
-                                            <h4 class="fw-bold text-center mb-4">Criar Conta</h4>
-                                            <!-- Abas -->
-                                            <ul class="nav nav-tabs mb-3" id="cadastroTabs">
-                                                <li class="nav-item">
-                                                    <a class="nav-link active" data-bs-toggle="tab"
-                                                        href="#cadastroPF">Cadastrar CPF</a>
-                                                </li>
-                                                <li class="nav-item">
-                                                    <a class="nav-link" data-bs-toggle="tab"
-                                                        href="#cadastroPJ">Cadastrar CNPJ</a>
-                                                </li>
-                                            </ul>
-                                            <div class="tab-content">
-                                                <!-- FORM PF -->
-                                                <div class="tab-pane fade show active" id="cadastroPF">
-                                                    <form id="formPF">
-                                                        <div class="mb-3">
-                                                            <label class="form-label">E-mail*</label>
-                                                            <input type="email" id="emailPF" class="form-control"
-                                                                required>
-                                                        </div>
-                                                        <div class="mb-3">
-                                                            <label class="form-label">CPF*</label>
-                                                            <input type="text" id="cpfPF" class="form-control"
-                                                                required>
-                                                        </div>
-                                                        <div class="mb-3">
-                                                            <label class="form-label">Nome completo*</label>
-                                                            <input type="text" id="nomePF" class="form-control"
-                                                                required>
-                                                        </div>
-                                                        <div class="mb-3">
-                                                            <label class="form-label">Telefone celular*</label>
-                                                            <input type="tel" id="telefonePF"
-                                                                class="form-control" required>
-                                                        </div>
-                                                        <button type="button" id="btnSalvarPF"
-                                                            class="btn btn-success w-100">Continuar</button>
-                                                    </form>
-                                                </div>
-                                                <!-- FORM PJ -->
-                                                <div class="tab-pane fade" id="cadastroPJ">
-                                                    <form id="formPJ">
-                                                        <div class="mb-3">
-                                                            <label class="form-label">E-mail*</label>
-                                                            <input type="email" id="emailPJ" class="form-control"
-                                                                required>
-                                                        </div>
-                                                        <div class="mb-3">
-                                                            <label class="form-label">CNPJ*</label>
-                                                            <input type="text" id="cnpjPJ" class="form-control"
-                                                                required>
-                                                        </div>
-                                                        <div class="mb-3">
-                                                            <label class="form-label">Nome fantasia*</label>
-                                                            <input type="text" id="fantasiaPJ"
-                                                                class="form-control" required>
-                                                        </div>
-                                                        <div class="mb-3">
-                                                            <label class="form-label">Razão social*</label>
-                                                            <input type="text" id="razaoPJ" class="form-control"
-                                                                required>
-                                                        </div>
-                                                        <div class="mb-3">
-                                                            <label class="form-label">Inscrição Estadual*</label>
-                                                            <input type="text" id="iePJ" class="form-control"
-                                                                required>
-                                                        </div>
-                                                        <button type="button" id="btnSalvarPJ"
-                                                            class="btn btn-success w-100">Continuar</button>
-                                                    </form>
-                                                </div>
-                                            </div>
-                                            <p class="small text-center mt-3">
-                                                Já tem uma conta?
-                                                <a href="#" id="abrirLogin">Voltar para login</a>
-                                            </p>
-                                        </div>
                                     </div>
                                     <!-- COLUNA DIREITA (LUPA) -->
                                     <div class="col-md-6 d-flex align-items-center justify-content-center bg-lupa">
@@ -373,7 +299,7 @@
                 this.eventSource = null;
                 this.notifications = [];
                 this.unreadCount = 0;
-                
+
                 this.init();
             }
 
@@ -406,10 +332,10 @@
                 try {
                     const response = await this.fetchWithAuth(`${this.apiUrl}/user/notifications`);
                     const data = await response.json();
-                    
+
                     this.notifications = data.data || [];
                     this.unreadCount = data.meta?.unread_count || 0;
-                    
+
                     this.updateUI();
                 } catch (error) {
                     console.error('Erro ao carregar notificações:', error);
@@ -424,9 +350,9 @@
                 try {
                     const response = await this.fetchWithAuth(`${this.apiUrl}/user/notifications`);
                     const data = await response.json();
-                    
+
                     document.getElementById('modalLoading').classList.add('d-none');
-                    
+
                     if (!data.data || data.data.length === 0) {
                         document.getElementById('modalEmpty').classList.remove('d-none');
                         return;
@@ -434,12 +360,12 @@
 
                     const container = document.createElement('ul');
                     container.className = 'list-group list-group-flush';
-                    
+
                     data.data.forEach(notification => {
                         const item = this.createNotificationItem(notification, true);
                         container.appendChild(item);
                     });
-                    
+
                     document.getElementById('modalNotifBody').appendChild(container);
                 } catch (error) {
                     console.error('Erro ao carregar todas as notificações:', error);
@@ -485,11 +411,11 @@
 
                 // Adicionar notificações (máximo 5 no dropdown)
                 const recentNotifications = this.notifications.slice(0, 5);
-                
+
                 recentNotifications.forEach((notification, index) => {
                     const item = this.createNotificationItem(notification, false);
                     menu.insertBefore(item, footer);
-                    
+
                     if (index < recentNotifications.length - 1) {
                         const divider = document.createElement('hr');
                         divider.className = 'dropdown-divider';
@@ -501,22 +427,22 @@
             createNotificationItem(notification, isModal = false) {
                 const item = document.createElement('li');
                 item.className = isModal ? 'list-group-item' : 'mb-2 notification-item';
-                
+
                 const link = document.createElement('a');
                 link.href = '#';
                 link.className = 'd-flex text-decoration-none notif-item';
                 link.dataset.notificationId = notification.id;
-                
+
                 if (!notification.read_at) {
                     link.classList.add('fw-bold');
                 }
 
                 const icon = document.createElement('i');
                 icon.className = `bi me-2 fs-5 ${this.getNotificationIcon(notification.type)}`;
-                
+
                 const content = document.createElement('div');
                 content.innerHTML = this.formatNotificationContent(notification);
-                
+
                 link.appendChild(icon);
                 link.appendChild(content);
                 item.appendChild(link);
@@ -546,7 +472,7 @@
             formatNotificationContent(notification) {
                 const data = notification.data;
                 let content = '';
-                
+
                 switch (notification.type) {
                     case 'new_message':
                         content = `<strong>Nova mensagem</strong><br>
@@ -563,7 +489,7 @@
                                   ${data.message || 'Nova notificação'}<br>
                                   <small class="text-muted">${this.formatDate(notification.created_at)}</small>`;
                 }
-                
+
                 return content;
             }
 
@@ -579,7 +505,7 @@
                 if (minutes < 60) return `${minutes}min atrás`;
                 if (hours < 24) return `${hours}h atrás`;
                 if (days < 7) return `${days}d atrás`;
-                
+
                 return date.toLocaleDateString('pt-BR');
             }
 
@@ -588,7 +514,7 @@
                     await this.fetchWithAuth(`${this.apiUrl}/user/notifications/mark-read`, {
                         method: 'POST'
                     });
-                    
+
                     // Atualizar localmente
                     const notification = this.notifications.find(n => n.id == notificationId);
                     if (notification) {
@@ -606,14 +532,14 @@
                     await this.fetchWithAuth(`${this.apiUrl}/user/notifications/mark-read`, {
                         method: 'POST'
                     });
-                    
+
                     // Marcar todas como lidas localmente
                     this.notifications.forEach(n => {
                         if (!n.read_at) n.read_at = new Date().toISOString();
                     });
                     this.unreadCount = 0;
                     this.updateUI();
-                    
+
                     // Recarregar modal
                     this.loadAllNotifications();
                 } catch (error) {
@@ -773,28 +699,29 @@
                     if (!data.token) return;
 
                     localStorage.setItem("access_token", data.token);
-                    
+
                     fetchWithAuth("http://localhost:8000/api/user", {
-                        method: "GET"
-                    }).then(res => res.json())
-                    .then(userData => {
-                        const isCustomer = userData.user.role === 'customer';
-                        localStorage.setItem("IS_CUSTOMER", isCustomer);
-                        document.cookie = `IS_CUSTOMER=${isCustomer}; path=/; max-age=86400`; // 24 horas
+                            method: "GET"
+                        }).then(res => res.json())
+                        .then(userData => {
+                            const isCustomer = userData.user.role === 'customer';
+                            localStorage.setItem("IS_CUSTOMER", isCustomer);
+                            document.cookie =
+                            `IS_CUSTOMER=${isCustomer}; path=/; max-age=86400`; // 24 horas
 
-                        document.cookie = `user_id=${userData.user.id}; path=/; max-age=86400`;
+                            document.cookie = `user_id=${userData.user.id}; path=/; max-age=86400`;
 
-                        // Redirecionar baseado no role
-                        if (isCustomer) {
-                            location.href = '/';
-                        } else {
-                            location.href = '/loja';
-                        }
-                    })
-                    .catch(err => {
-                        console.error("Erro ao buscar dados do usuário após login:", err);
-                        location.reload();
-                    });
+                            // Redirecionar baseado no role
+                            if (isCustomer) {
+                                location.href = '/';
+                            } else {
+                                location.href = '/loja';
+                            }
+                        })
+                        .catch(err => {
+                            console.error("Erro ao buscar dados do usuário após login:", err);
+                            location.reload();
+                        });
                 });
         })
 
