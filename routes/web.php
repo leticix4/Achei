@@ -262,6 +262,8 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::get('/products/{product}/messages', [MessageController::class, 'index']);
     Route::post('/products/{product}/messages', [MessageController::class, 'create']);
+    Route::get('/loja/chat/mensagens/{product}/{user}', [MessageController::class, 'storeMessages'])
+    ->name('loja.chat.mensagens');
 
     Route::group(['middleware' => function ($request, $next) {
 

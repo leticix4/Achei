@@ -17,6 +17,8 @@ return new class extends Migration
             $table->decimal('price', 10, 2);
             $table->integer('quantity_available')->default(0);
             $table->string('brand');
+            $table->string('usage');
+            $table->decimal('weight', 10, 2);
             $table->string('category');
             $table->string('sku')->unique()->nullable();
             $table->boolean('is_available')->default(true);

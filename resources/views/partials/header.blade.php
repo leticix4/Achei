@@ -130,7 +130,7 @@
                         <ul class="dropdown-menu dropdown-menu-end">
                             <li>
                                 <a class="dropdown-item"
-                                href="{{ auth()->user()->role === 'store' ? url('/loja') : route('perfil') }}">
+                                href="{{ auth()->user()->role === 'store' ? url('/loja') : '' }}">
                                     Meu Perfil
                                 </a>
                             </li>

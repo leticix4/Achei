@@ -20,7 +20,7 @@
         <div class="d-flex justify-content-between align-items-start mb-4">
             <div>
                 <h1 class="text-body mb-1">
-                    {{ $product->name ?? 'Arroz Camil' }}
+                    {{ $product->name ?? 'Nome do Produto' }}
                 </h1>
             </div>
 
@@ -78,31 +78,27 @@
                             <div
                                 class="list-group-item d-flex justify-content-between align-items-center bg-transparent border-bottom">
                                 <span class="fw-bold text-primary">Marca</span>
-                                <span class="text-body">{{ $product->brand ?? 'Camil' }}</span>
+                                <span class="text-body">{{ $product->brand ?? 'Marca' }}</span>
                             </div>
                             <div
                                 class="list-group-item d-flex justify-content-between align-items-center bg-transparent border-bottom">
                                 <span class="fw-bold text-primary">Modelo</span>
-                                <span class="text-body">{{ $product->sku ?? 'Camil' }}</span>
+                                <span class="text-body">{{ $product->sku ?? 'Modelo do Produto' }}</span>
                             </div>
                             <div
                                 class="list-group-item d-flex justify-content-between align-items-center bg-transparent border-bottom">
                                 <span class="fw-bold text-primary">Uso</span>
-                                <span class="text-body">Doméstico</span>
+                                <span class="text-body">{{ $product->usage ?? '...' }}</span>
                             </div>
                             <div
                                 class="list-group-item d-flex justify-content-between align-items-center bg-transparent border-bottom">
                                 <span class="fw-bold text-primary">Tipo</span>
-                                <span class="text-body">Supermercado</span>
+                                <span class="text-body">{{ $product->category}}</span>
                             </div>
                             <div
                                 class="list-group-item d-flex justify-content-between align-items-center bg-transparent border-bottom">
                                 <span class="fw-bold text-primary">Peso</span>
-                                <span class="text-body">5 kg</span>
-                            </div>
-                            <div class="list-group-item d-flex justify-content-between align-items-center bg-transparent">
-                                <span class="fw-bold text-primary">Número de pontos</span>
-                                <span class="text-body">10</span>
+                                <span class="text-body">{{ $product->weight }} kg</span>
                             </div>
                         </div>
                     </div>
@@ -113,9 +109,7 @@
             <h3 class="ms-3 mt-4 text-body">Descrição</h3>
             <p class="ms-3 text-body">
                 {{ $product->description ??
-                    'O arroz Camil é uma marca tradicional brasileira de arroz,
-                                    que pode ser encontrado em diversas versões, como branco, parboilizado,
-                                    integral e preto, sendo a fonte de energia para muitos brasileiros.' }}
+                    'Descriçao do Produto...' }}
             </p>
         </div>
 
@@ -187,7 +181,7 @@
 
                 chatBody.innerHTML = '';
                 for (const message of mensagens) {
-                    handleCreateMessageCard(message.user, message.content);
+                    handleCreateMessageCard(message.user, message.content, !message.is_store);
                 }
             } catch (error) {
                 console.error('Erro ao buscar mensagens:', error);
@@ -235,7 +229,7 @@
             messageContent.className = `rounded-3 p-2 ${isUser ? 'bg-success text-white' : 'bg-primary text-white'}`;
             messageContent.style.maxWidth = '80%';
 
-            messageContent.innerHTML = `<strong>${username}:</strong> ${message}`;
+            messageContent.innerHTML = `<strong>${isUser ? username : 'Loja'}:</strong> ${message}`;
             messageDiv.appendChild(messageContent);
             chatBody.appendChild(messageDiv);
             chatBody.scrollTop = chatBody.scrollHeight;

@@ -19,7 +19,7 @@
                 @endphp
 
                 <a href="{{ route('loja.produto.chat', $product->id) }}?user={{ $userId }}"
-                class="d-block p-3 text-decoration-none border-bottom text-body hover-bg">
+                   class="d-block p-3 text-decoration-none border-bottom text-body hover-bg">
                     <div class="fw-bold">{{ $cliente->name }}</div>
                     <small class="text-body-secondary">
                         {{ Str::limit($mensagens->last()->content, 40) }}
@@ -47,32 +47,16 @@
                 </div>
 
                 {{-- MENSAGENS --}}
-                <div class="flex-grow-1 p-3 overflow-auto bg-body">
-
+                <div id="chatMessages" class="flex-grow-1 p-3 overflow-auto bg-body">
                     @foreach ($mensagensAtivas as $msg)
-
-                        @if ($msg->is_store)
-                            {{-- MENSAGEM DA LOJA --}}
-                            <div class="d-flex justify-content-end mb-2">
-                                <div class="bg-primary text-white p-2 rounded-3" style="max-width: 75%;">
-                                    {{ $msg->content }}
-                                    <div class="small text-white-50 text-end">
-                                        {{ $msg->created_at->format('H:i') }}
-                                    </div>
+                        <div class="{{ $msg->is_store ? 'd-flex justify-content-end' : 'd-flex justify-content-start' }} mb-2">
+                            <div class="{{ $msg->is_store ? 'bg-primary text-white' : 'bg-body-tertiary text-dark' }} p-2 rounded-3" style="max-width: 75%;">
+                                {{ $msg->content }}
+                                <div class="small {{ $msg->is_store ? 'text-white-50 text-end' : 'text-body-secondary' }}">
+                                    {{ $msg->created_at->format('H:i') }}
                                 </div>
                             </div>
-                        @else
-                            {{-- MENSAGEM DO CLIENTE --}}
-                            <div class="d-flex justify-content-start mb-2">
-                                <div class="bg-body-tertiary p-2 rounded-3" style="max-width: 75%;">
-                                    {{ $msg->content }}
-                                    <div class="small text-body-secondary">
-                                        {{ $msg->created_at->format('H:i') }}
-                                    </div>
-                                </div>
-                            </div>
-                        @endif
-
+                        </div>
                     @endforeach
                 </div>
 
@@ -103,3 +87,49 @@
     </div>
 </div>
 @endsection
+
+@push('scripts')
+@if(request('user'))
+<script>
+    const productId = {{ $product->id }};
+    const userId = {{ request('user') }};
+    const chatMessages = document.getElementById('chatMessages');
+
+    async function atualizarMensagens() {
+        try {
+            const res = await fetch(`/loja/chat/mensagens/${productId}/${userId}`);
+            const mensagens = await res.json();
+
+            chatMessages.innerHTML = '';
+
+            mensagens.forEach(msg => {
+                const divWrapper = document.createElement('div');
+                divWrapper.className = msg.is_store ? 'd-flex justify-content-end mb-2' : 'd-flex justify-content-start mb-2';
+
+                const divMsg = document.createElement('div');
+                divMsg.className = msg.is_store ? 'bg-primary text-white p-2 rounded-3' : 'bg-body-tertiary p-2 rounded-3 text-dark';
+                divMsg.style.maxWidth = '75%';
+                divMsg.innerHTML = `
+                    ${msg.content}
+                    <div class="small ${msg.is_store ? 'text-white-50 text-end' : 'text-body-secondary'}">
+                        ${new Date(msg.created_at).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}
+                    </div>
+                `;
+
+                divWrapper.appendChild(divMsg);
+                chatMessages.appendChild(divWrapper);
+            });
+
+            // Scroll para o final
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+
+        } catch (err) {
+            console.error('Erro ao atualizar mensagens:', err);
+        }
+    }
+
+    // Atualiza a cada 2 segundos
+    setInterval(atualizarMensagens, 2000);
+</script>
+@endif
+@endpush

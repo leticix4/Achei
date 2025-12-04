@@ -95,8 +95,8 @@
                                     class="img-fluid">
                             </a>
 
-                            <div class="product-name mt-2">
-                                <a style="color: #003147;" href="{{ route('produto.show', $product->id ?? 1) }}">
+                            <div class="product-name text-ligh mt-2">
+                                <a  href="{{ route('produto.show', $product->id ?? 1) }}">
                                     {{ $product->name }}
                                 </a>
                             </div>

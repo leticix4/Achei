@@ -46,16 +46,14 @@ class MessageController extends Controller
         ], 201);
     }
 
-    public function storeMessages(Request $request, Product $product, User $user): JsonResponse
+    public function storeMessages(Product $product, $userId): JsonResponse
     {
-        $messages = Message::where('product_id', $product->id)
-            ->where('user_id', 1)
-            ->get();
+        $mensagens = Message::where('product_id', $product->id)
+        ->where('user_id', $userId)
+        ->orderBy('created_at')
+        ->get();
 
-        return ResponseService::success(
-            MessageResource::collection($messages),
-            'Mensagens recuperadas com sucesso'
-        );
+        return response()->json($mensagens);
     }
 
     public function enviarMensagemLoja(Request $request)

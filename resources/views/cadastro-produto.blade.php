@@ -19,26 +19,12 @@
             <div class="row g-4 align-items-center">
                 <div class="col-12 col-lg-5">
                     <label class="w-100" style="cursor: pointer;">
-                        <input id="imagem" type="file" name="image" class="d-none" accept="image/*"
+                        <input id="imagem" type="url" name="image" class="d-none" accept="image/*"
                             form="productForm">
-
-                        <div
-                            class="upload-area d-flex flex-column justify-content-center align-items-center text-center rounded-4 p-4 w-100">
-                            <i class="bi bi-cloud-upload fs-1 mb-3"></i>
-                            <p class="mb-0 small text-muted">
-                                Arraste sua imagem ou <br>
-                                clique aqui para selecionar
-                            </p>
-                            <p id="file-name" class="mt-2 text-success small"></p>
-
-                            <p class="mt-3 small text-muted" style="max-width: 260px;">
-                                💡 <strong>Dica:</strong> tire a foto do produto com boa iluminação.
-                            </p>
-                        </div>
                     </label>
                 </div>
 
-                <div class="col-12 col-lg-7">
+                <div class="center  section-title" style= "font-size: 16px">
                     <form id="productForm" action="{{ route('produto.store') }}" method="POST"
                         enctype="multipart/form-data">
                         @csrf
@@ -81,6 +67,13 @@
                                 <input type="text" class="form-control rounded-3" name="name"
                                     placeholder="Digite o nome do produto" required>
                             </div>
+                            
+                            <div class="col-6">
+                                <label class="form-label" >URL da Imagem *</label>
+                                    <input id="imagem" type="url" name="image_url" class="form-control rounded-3" 
+                                    form="productForm">
+                            </div>
+                             
 
                             <div class="col-6">
                                 <label class="form-label">Marca *</label>
