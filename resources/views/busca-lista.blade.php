@@ -90,13 +90,13 @@
                 @foreach ($products as $product)
                     <div class="col">
                         <div class="product-card h-100">
-                            <a href="{{ route('produto', $product->id ?? 1) }}">
+                            <a href="{{ route('produto.show', $product->id ?? 1) }}">
                                 <img src="{{ $product->image_url ?? asset('image/arroz.png') }}" alt="{{ $product->name }}"
                                     class="img-fluid">
                             </a>
 
                             <div class="product-name mt-2">
-                                <a style="color: #003147;" href="{{ route('produto', $product->id ?? 1) }}">
+                                <a style="color: #003147;" href="{{ route('produto.show', $product->id ?? 1) }}">
                                     {{ $product->name }}
                                 </a>
                             </div>
@@ -117,7 +117,7 @@
 
             {{-- PAGINAÇÃO --}}
             <div class="d-flex justify-content-center mt-4">
-                {{ $products->links() }}
+                {{ $products->links('pagination::bootstrap-5') }}
             </div>
         @endif
 

@@ -128,7 +128,12 @@
                             <i class="bi bi-person-circle me-2"></i> {{ Auth::user()->name }}
                         </button>
                         <ul class="dropdown-menu dropdown-menu-end">
-                            <li><a class="dropdown-item" href="#">Meu Perfil</a></li>
+                            <li>
+                                <a class="dropdown-item"
+                                href="{{ auth()->user()->role === 'store' ? url('/loja') : route('perfil') }}">
+                                    Meu Perfil
+                                </a>
+                            </li>
                             <li>
                                 <hr class="dropdown-divider">
                             </li>
@@ -167,11 +172,11 @@
                                             <div class="mb-3">
                                                 <label class="form-label">Email</label>
                                                 <input type="email" name="email" class="form-control"
-                                                    placeholder="Digite seu email" required>
+                                                    placeholder="Digite seu email" value="empresa@email.com" required>
                                             </div>
                                             <div class="mb-3">
                                                 <label class="form-label">Senha</label>
-                                                <input type="password" name="password" class="form-control"
+                                                <input type="password" name="password" value="123123123" class="form-control"
                                                     placeholder="********" required>
                                             </div>
                                             <div class="d-flex justify-content-between mb-3">
