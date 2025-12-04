@@ -17,6 +17,9 @@
     <main class="container mt-4">
 
         {{-- Título + preço --}}
+        <a class="btn btn-primary btn-sm" href="{{ route('loja.cliente', $product->user_id) }}">
+            <i class="bi bi-shop me-1"></i> Ver Loja
+        </a>
         <div class="d-flex justify-content-between align-items-start mb-4">
             <div>
                 <h1 class="text-body mb-1">

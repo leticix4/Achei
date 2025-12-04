@@ -14,4 +14,13 @@ class ResponseService
             'data' => $data
         ], $statusCode);
     }
+
+    public static function error($data = [], $message = 'Error', $statusCode = Response::HTTP_BAD_REQUEST)
+    {
+        return response()->json([
+            'success' => false,
+            'message' => $message,
+            'data' => $data
+        ], $statusCode);
+    }
 }

@@ -15,18 +15,17 @@ return new class extends Migration
             $table->id();
 
             $table->foreignId('user_id')
-                  ->constrained('users')
-                  ->onDelete('cascade');
-                  
-            $table->foreignId('store_id')
-                  ->constrained('users')
-                  ->onDelete('cascade');
+                ->constrained('users')
+                ->onDelete('cascade');
 
-            $table->unsignedTinyInteger('nota')->dafault(5);
+            $table->foreignId('store_id')
+                ->constrained('users')
+                ->onDelete('cascade');
+
+            $table->unsignedTinyInteger('nota')->default(5);
 
             $table->text('content');
             $table->timestamps();
-
         });
     }
 

@@ -4,8 +4,8 @@ use App\Http\Controllers\API\AvaliacaoController;
 use App\Http\Controllers\API\MessageController;
 use App\Http\Controllers\BuscaController;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\ProductRatingController;
 use App\Http\Controllers\API\ProductController;
+use App\Http\Controllers\WebStoreController;
 use App\Http\Controllers\ProdutoController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Auth\LoginController;
@@ -39,6 +39,8 @@ Route::get('/produto', function () {
 
 Route::get('/produto/{product}', [ProdutoController::class, 'show'])->name('produto.show');
 Route::get('/loja', [AvaliacaoController::class, 'index'])->name('loja');
+Route::get('/loja/{user}', [WebStoreController::class, 'show'])->name('loja.cliente');
+Route::get('/loja/{user}/produtos', [WebStoreController::class, 'storeProducts'])->name('loja.produtos');
 
 Route::get('/categoria/{slug}', function ($slug) {
     $dbCategorias = [
@@ -263,7 +265,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/products/{product}/messages', [MessageController::class, 'index']);
     Route::post('/products/{product}/messages', [MessageController::class, 'create']);
     Route::get('/loja/chat/mensagens/{product}/{user}', [MessageController::class, 'storeMessages'])
-    ->name('loja.chat.mensagens');
+        ->name('loja.chat.mensagens');
 
     Route::group(['middleware' => function ($request, $next) {
 
