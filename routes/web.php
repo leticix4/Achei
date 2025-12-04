@@ -42,6 +42,8 @@ Route::get('/loja', [AvaliacaoController::class, 'index'])->name('loja');
 Route::get('/loja/{user}', [WebStoreController::class, 'show'])->name('loja.cliente');
 Route::get('/loja/{user}/produtos', [WebStoreController::class, 'storeProducts'])->name('loja.produtos');
 
+Route::delete('/loja/produto/{product}', [ProdutoController::class, 'destroy'])->name('loja.produto.destroy');
+
 Route::get('/categoria/{slug}', function ($slug) {
     $dbCategorias = [
         'supermercado' => [

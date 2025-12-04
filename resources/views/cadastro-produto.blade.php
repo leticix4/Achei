@@ -67,13 +67,13 @@
                                 <input type="text" class="form-control rounded-3" name="name"
                                     placeholder="Digite o nome do produto" required>
                             </div>
-                            
+
                             <div class="col-6">
                                 <label class="form-label" >URL da Imagem *</label>
-                                    <input id="imagem" type="url" name="image_url" class="form-control rounded-3" 
+                                    <input id="imagem" type="url" name="image_url" class="form-control rounded-3"
                                     form="productForm">
                             </div>
-                             
+
 
                             <div class="col-6">
                                 <label class="form-label">Marca *</label>
@@ -139,7 +139,7 @@
 
                     if (response.ok) {
                         alert("Produto cadastrado com sucesso!");
-                        window.location.href = "{{ route('loja.produtos.lista') }}";
+                        window.location.href = "{{ route('loja.produtos') }}";
                     } else {
                         alert("Erro ao cadastrar produto: " + (result.message ?? 'Erro desconhecido'));
                         console.error(result);

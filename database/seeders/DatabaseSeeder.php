@@ -2,10 +2,11 @@
 
 namespace Database\Seeders;
 
+use App\Models\Avaliacao;
 use App\Models\User;
 use App\Models\Product;
-use App\Models\Avaliacao;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Hash;
 
 class DatabaseSeeder extends Seeder
 {
@@ -14,79 +15,62 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        $faker = \Faker\Factory::create('pt_BR');
+        // --------------------
+        // USUÁRIO
+        // --------------------
+        $usuario = User::create([
+            'name' => 'Usuário Teste',
+            'email' => 'user@email.com',
+            'password' => Hash::make('123123123'),
+            'type' => 'pf',
+            'cpf' => '12345678901',
+            'birth_date' => '1990-01-01',
+            'gender' => 'masculino',
+            'phone' => '11999990000',
+            'phone_secondary' => null,
+            'zip_code' => '01001000',
+            'address' => 'Rua Exemplo',
+            'number' => '100',
+            'complement' => 'Apto 10',
+            'district' => 'Centro',
+            'city' => 'São Paulo',
+            'state' => 'SP',
+            'reference' => 'Próximo à praça central',
+            'role' => 'user',
+            'email_verified_at' => now(),
+            'remember_token' => null,
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
 
         // --------------------
-        // USUÁRIOS
+        // LOJA
         // --------------------
-        $usuarios = [];
-        for ($i = 0; $i < 5; $i++) {
-            $usuarios[] = User::create([
-                'name' => $faker->name,
-                'email' => $faker->unique()->safeEmail,
-                'password' => bcrypt('123123123'),
-                'type' => 'pf',
-                'cpf' => $faker->numerify('###########'), // 11 dígitos
-                'birth_date' => $faker->date('Y-m-d', '2003-01-01'),
-                'gender' => $faker->randomElement(['masculino', 'feminino']),
-                'cnpj' => null,
-                'fantasy_name' => null,
-                'state_registration' => null,
-                'contact_name' => null,
-                'contact_cpf' => null,
-                'phone' => $faker->numerify('11#########'),
-                'phone_secondary' => $faker->numerify('11#########'),
-                'zip_code' => $faker->postcode,
-                'address' => $faker->streetName,
-                'number' => $faker->buildingNumber,
-                'complement' => $faker->secondaryAddress,
-                'district' => $faker->citySuffix,
-                'city' => $faker->city,
-                'state' => $faker->stateAbbr,
-                'reference' => $faker->sentence(3),
-                'role' => 'user',
-                'email_verified_at' => now(),
-                'remember_token' => null,
-                'created_at' => now(),
-                'updated_at' => now(),
-            ]);
-        }
-
-        // --------------------
-        // EMPRESAS / LOJAS
-        // --------------------
-        $empresas = [];
-        for ($i = 0; $i < 3; $i++) {
-            $empresas[] = User::create([
-                'name' => "Loja " . $faker->company,
-                'email' => $faker->unique()->companyEmail,
-                'password' => bcrypt('123123123'),
-                'type' => 'pj',
-                'cpf' => null,
-                'birth_date' => null,
-                'gender' => null,
-                'cnpj' => $faker->numerify('##############'), // 14 dígitos
-                'fantasy_name' => $faker->company,
-                'state_registration' => $faker->numerify('###########'),
-                'contact_name' => $faker->name,
-                'contact_cpf' => $faker->numerify('###########'),
-                'phone' => $faker->numerify('11#########'),
-                'phone_secondary' => $faker->numerify('11#########'),
-                'zip_code' => $faker->postcode,
-                'address' => $faker->streetName,
-                'number' => $faker->buildingNumber,
-                'complement' => $faker->secondaryAddress,
-                'district' => $faker->citySuffix,
-                'city' => $faker->city,
-                'state' => $faker->stateAbbr,
-                'reference' => $faker->sentence(3),
-                'role' => 'store',
-                'email_verified_at' => now(),
-                'remember_token' => null,
-                'created_at' => now(),
-                'updated_at' => now(),
-            ]);
-        }
+        $empresa = User::create([
+            'name' => 'Loja Teste',
+            'email' => 'empresa@email.com',
+            'password' => Hash::make('123123123'),
+            'type' => 'pj',
+            'cnpj' => '11222333000199',
+            'fantasy_name' => 'Loja Teste',
+            'state_registration' => '123456789',
+            'contact_name' => 'Maria Contato',
+            'contact_cpf' => '98765432100',
+            'phone' => '1133334444',
+            'phone_secondary' => null,
+            'zip_code' => '02020000',
+            'address' => 'Avenida Comercial',
+            'number' => '500',
+            'district' => 'Centro',
+            'city' => 'Osasco',
+            'state' => 'SP',
+            'reference' => 'Em frente ao shopping',
+            'role' => 'store',
+            'email_verified_at' => now(),
+            'remember_token' => null,
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
 
         // --------------------
         // PRODUTOS
@@ -95,43 +79,31 @@ class DatabaseSeeder extends Seeder
             'Smartphone Galaxy S23',
             'iPhone 15 Pro',
             'Smart TV 50"',
-            'Smart TV 65"',
             'Caixa de Som Bluetooth',
             'Fone de Ouvido Sem Fio',
-            'Headset Gamer',
-            'Power Bank 20000mAh',
-            'Câmera de Segurança Wi-Fi',
-            'Echo Dot Alexa',
-            'Notebook Dell i5',
-            'Notebook Gamer Ryzen 7',
-            'Mouse Gamer RGB',
-            'Teclado Mecânico',
-            'Monitor 27" Full HD',
-            'SSD 1TB NVMe',
-            'HD Externo 2TB',
-            'Placa de Vídeo RTX 4060',
-            'Fonte 750W Modular',
-            'Processador Ryzen 9'
+            'Headset Gamer'
         ];
 
         $categorias = ['Eletrônicos', 'Informática', 'Moda', 'Casa', 'Esporte', 'Automotivo'];
 
-        foreach ($empresas as $empresa) {
-            for ($i = 0; $i < 20; $i++) {
-                Product::create([
-                    'user_id' => $empresa->id,
-                    'name' => $faker->randomElement($nomesProdutos),
-                    'description' => $faker->paragraph(),
-                    'price' => $faker->randomFloat(2, 50, 5000),
-                    'quantity_available' => $faker->numberBetween(0, 100),
-                    'weight' => $faker->numberBetween(1, 5000),
-                    'brand' => $faker->company,
-                    'usage' => $faker->sentence(),
-                    'category' => $faker->randomElement($categorias),
-                    'sku' => strtoupper($faker->bothify('SKU-#####')),
-                    'is_available' => $faker->boolean(85),
-                ]);
-            }
+        $usos = ['Uso doméstico', 'Uso profissional', 'Uso escolar', 'Uso comercial'];
+
+        foreach ($nomesProdutos as $index => $nomeProduto) {
+            Product::create([
+                'user_id' => $empresa->id,
+                'name' => $nomeProduto,
+                'description' => 'Descrição detalhada do produto ' . ($index + 1),
+                'price' => 100 + $index * 50,
+                'quantity_available' => 10 + $index,
+                'weight' => 500 + $index * 100,
+                'brand' => 'Marca ' . ($index + 1),
+                'category' => $categorias[$index % count($categorias)],
+                'sku' => 'SKU-' . ($index + 1000),
+                'is_available' => true,
+                'usage' => $usos[$index % count($usos)],
+                'created_at' => now(),
+                'updated_at' => now(),
+            ]);
         }
 
         // --------------------
@@ -141,23 +113,18 @@ class DatabaseSeeder extends Seeder
             'Ótima loja, atendimento excelente e produtos de qualidade.',
             'Produto chegou rápido e em perfeito estado.',
             'Recomendo, experiência de compra muito boa.',
-            'Atendimento ruim, demorou para responder minhas dúvidas.',
-            'Produto diferente do anunciado, fiquei insatisfeito.',
             'Entrega dentro do prazo e muito bem embalado.',
-            'Excelente loja, preço justo e suporte eficiente.',
-            'Não gostei do produto, veio com defeito.',
-            'Loja confiável, voltarei a comprar com certeza.',
-            'Muito satisfeito, recomendo para todos os amigos.',
         ];
-        foreach ($usuarios as $usuario) {
-            foreach ($empresas as $empresa) {
-                Avaliacao::create([
-                    'user_id' => $usuario->id,
-                    'store_id' => $empresa->id,
-                    'nota' => $faker->numberBetween(3, 5),
-                    'content' => $faker->randomElement($comentarios),
-                ]);
-            }
+
+        foreach ($comentarios as $index => $comentario) {
+            Avaliacao::create([
+                'user_id' => $usuario->id,
+                'store_id' => $empresa->id,
+                'nota' => 3 + ($index % 3), // notas de 3 a 5
+                'content' => $comentario,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ]);
         }
     }
 }

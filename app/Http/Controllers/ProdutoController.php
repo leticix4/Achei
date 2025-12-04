@@ -31,4 +31,11 @@ class ProdutoController extends Controller
             'conversas' => $conversas
         ]);
     }
+
+    public function destroy(Product $product)
+    {
+        $product->delete();
+
+        return redirect()->back()->with('success', 'Produto excluído com sucesso.');
+    }
 }

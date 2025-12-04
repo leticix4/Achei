@@ -134,12 +134,9 @@
                                 <a href="/loja/produto/{{ $produto->id }}/chat" id="chatButton" class="btn btn-sm btn-success">
                                     <i class="bi bi-chat-dots"></i> Chat
                                 </a>
-                                {{-- Botão para a página de edição do produto --}}
-                                <a href="" class="btn btn-sm btn-primary me-2">
-                                    <i class="bi bi-pencil"></i> Editar
-                                </a>
+
                                 {{-- Botão para exclusão (usando formulário POST/DELETE) --}}
-                                <form  method="POST" class="d-inline">
+                                <form method="POST" action="{{ route('loja.produto.destroy', $produto->id) }}" class="d-inline">
                                     @csrf
                                     @method('DELETE')
                                     <button type="submit" class="btn btn-sm btn-danger"
