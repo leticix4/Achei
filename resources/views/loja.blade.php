@@ -131,8 +131,11 @@
 
                             {{-- BOTÕES DE AÇÃO --}}
                             <div class="col-12 col-md-3 text-md-end text-start mt-3 mt-md-0">
+                                <a href="/loja/produto/{{ $produto->id }}/chat" id="chatButton" class="btn btn-sm btn-success">
+                                    <i class="bi bi-chat-dots"></i> Chat
+                                </a>
                                 {{-- Botão para a página de edição do produto --}}
-                                <a href= class="btn btn-sm btn-primary me-2">
+                                <a href="" class="btn btn-sm btn-primary me-2">
                                     <i class="bi bi-pencil"></i> Editar
                                 </a>
                                 {{-- Botão para exclusão (usando formulário POST/DELETE) --}}

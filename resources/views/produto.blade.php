@@ -164,8 +164,8 @@
         const sendMessage = document.getElementById('sendMessage');
         const userMessage = document.getElementById('userMessage');
         const chatBody = document.getElementById('chatBody');
-        const apiUrl = 'http://localhost:8000/api';
-        const productId = 1;
+        const apiUrl = 'http://localhost:8000';
+        const productId = {{ $product->id }};
 
     const fetchMessages = async () => {
         try {
@@ -196,14 +196,12 @@
 
     const fetchSendMessage = async (content, userId) => {
         try {
-            const token = localStorage.getItem('access_token');
-
             const response = await fetch(`${apiUrl}/products/${productId}/messages`, {
                 method: 'POST',
                 headers: {
                   'Content-Type': 'application/json',
                   'Accept': 'application/json',
-                  'Authorization': `Bearer ${token}`
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
                 },
                 body: JSON.stringify({
                     content: content,

@@ -9,7 +9,6 @@ use App\Enums\UserRoleEnum;
 use App\Models\Message;
 use App\Models\Store;
 use App\Notifications\NewMessageNotification;
-use Illuminate\Support\Facades\DB;
 
 class MessageService
 {
@@ -25,8 +24,7 @@ class MessageService
         ]);
 
         // Notify the product owner
-        $product = $message->product;
-        $storeOwner = $product->store->user;
+        $storeOwner = User::where('id', $message->product->user_id)->first();
         $storeOwner->notify(new NewMessageNotification($message));
 
         return $message;

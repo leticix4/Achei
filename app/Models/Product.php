@@ -31,21 +31,21 @@ class Product extends Model
 
     public function store()
     {
-        return $this->belongsTo(Store::class);
+        return $this->belongsTo(User::class);
     }
 
     public function scopeAvailable($query)
     {
         return $query->where('is_available', true)
-                    ->where('quantity_available', '>', 0);
+            ->where('quantity_available', '>', 0);
     }
 
     public function scopeSearch($query, $searchTerm)
     {
-        return $query->where(function($q) use ($searchTerm) {
+        return $query->where(function ($q) use ($searchTerm) {
             $q->where('name', 'LIKE', "%{$searchTerm}%")
-              ->orWhere('description', 'LIKE', "%{$searchTerm}%")
-              ->orWhere('brand', 'LIKE', "%{$searchTerm}%");
+                ->orWhere('description', 'LIKE', "%{$searchTerm}%")
+                ->orWhere('brand', 'LIKE', "%{$searchTerm}%");
         });
     }
     public function ratings()
@@ -53,10 +53,10 @@ class Product extends Model
         return $this->hasMany(ProductRating::class);
     }
 
-        // média simples
+    // média simples
     public function getRatingAvgAttribute()
     {
-         return $this->ratings()->avg('stars') ?: 0;
+        return $this->ratings()->avg('stars') ?: 0;
     }
 
     // quantidade de avaliações
@@ -64,6 +64,4 @@ class Product extends Model
     {
         return $this->ratings()->count();
     }
-    
-    
 }

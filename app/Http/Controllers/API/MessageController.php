@@ -11,6 +11,7 @@ use App\Models\Product;
 use App\Models\User;
 use App\Services\MessageService;
 use App\Services\ResponseService;
+use Illuminate\Support\Facades\Auth;
 
 class MessageController extends Controller
 {
@@ -18,7 +19,7 @@ class MessageController extends Controller
 
     public function index(Request $request, Product $product): JsonResponse
     {
-        $user = $request->user();
+        $user = Auth::user();
         $messages = Message::where('product_id', $product->id)
             ->where('user_id', $user->id)
             ->get();
@@ -31,7 +32,7 @@ class MessageController extends Controller
 
     public function create(Request $request, Product $product): JsonResponse
     {
-        $user = $request->user();
+        $user = Auth::user();
 
         $data['product_id'] = $product->id;
         $data['user_id'] = $user->id;
@@ -48,7 +49,7 @@ class MessageController extends Controller
     public function storeMessages(Request $request, Product $product, User $user): JsonResponse
     {
         $messages = Message::where('product_id', $product->id)
-            ->where('user_id', $user->id)
+            ->where('user_id', 1)
             ->get();
 
         return ResponseService::success(
@@ -57,19 +58,16 @@ class MessageController extends Controller
         );
     }
 
-    public function createStoreResponse(Request $request, Product $product, User $user): JsonResponse
+    public function enviarMensagemLoja(Request $request)
     {
-        $data['product_id'] = $product->id;
-        $data['user_id'] = $user->id;
-        $data['content'] = $request->input('content');
-        $data['is_store'] = true;
+        Message::create([
+            'user_id' => $request->user_id,
+            'product_id' => $request->product_id,
+            'content' => $request->content,
+            'is_store' => true,
+        ]);
 
-        $message = $this->messageService->create($data);
-
-        return response()->json([
-            'success' => true,
-            'data' => MessageResource::make($message)
-        ], 201);
+        return back();
     }
 
     public function getUnreadMessagesCount(Request $request): JsonResponse
@@ -77,8 +75,8 @@ class MessageController extends Controller
         $user = $request->user();
 
         $unreadCount = Message::where('user_id', $user->id)
-            ->where('is_store', true) 
-            ->whereNull('read_at') 
+            ->where('is_store', true)
+            ->whereNull('read_at')
             ->count();
         return response()->json([
             'unread_count' => $unreadCount,

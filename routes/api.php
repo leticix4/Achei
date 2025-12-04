@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\API\AuthController;
+use App\Http\Controllers\API\AvaliacaoController;
 use App\Http\Controllers\API\StoreController;
 use App\Http\Controllers\API\ProductController;
 use App\Http\Controllers\API\SearchController;
@@ -26,9 +27,6 @@ Route::get('/products', [ProductController::class, 'index']);
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
 
-Route::get('/products/{id}/messages', [MessageController::class, 'index']);
-Route::post('/products/{id}/messages', [MessageController::class, 'create']);
-
 Route::middleware('auth:sanctum')->group(function () {
     Route::get('/user', [AuthController::class, 'user']);
     Route::get('/user/notifications', [AuthController::class, 'notifications']);
@@ -40,7 +38,7 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::put('/stores/{id}', [StoreController::class, 'update']);
     Route::delete('/stores/{id}', [StoreController::class, 'destroy']);
-    
+
     Route::get('/unread-messages-count', [MessageController::class, 'getUnreadMessagesCount']);
 
     Route::post('/stores/{store}/avaliacao', [AvaliacaoController::class, 'store']);
@@ -48,9 +46,6 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::group(['prefix' => 'products'], function () {
         Route::post('/', [ProductController::class, 'store']);
         Route::put('/{id}', [ProductController::class, 'update']);
-
-        Route::get('/{product}/messages', [MessageController::class, 'index']);
-        Route::post('/{product}/messages', [MessageController::class, 'create']);
 
         Route::get('/{product}/messages/store/{user}', [MessageController::class, 'storeMessages']);
         Route::post('/{product}/messages/store/{user}', [MessageController::class, 'create']);

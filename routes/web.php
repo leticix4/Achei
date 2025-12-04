@@ -1,10 +1,11 @@
 <?php
 
 use App\Http\Controllers\API\AvaliacaoController;
+use App\Http\Controllers\API\MessageController;
 use App\Http\Controllers\BuscaController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProductRatingController;
-use App\Http\Controllers\API\ProductController; 
+use App\Http\Controllers\API\ProductController;
 use App\Http\Controllers\ProdutoController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Auth\LoginController;
@@ -245,7 +246,7 @@ Route::get('/categoria/{slug}', function ($slug) {
     ];
 
     if (!array_key_exists($slug, $dbCategorias)) {
-        abort(404); 
+        abort(404);
     }
 
     $dados = $dbCategorias[$slug];
@@ -254,30 +255,36 @@ Route::get('/categoria/{slug}', function ($slug) {
         'titulo' => $dados['titulo'],
         'itens' => $dados['itens']
     ]);
-
 })->name('categoria.show');
- 
 
-Route::middleware('auth:sanctum')->group(function () { 
+
+Route::middleware('auth:sanctum')->group(function () {
+
+    Route::get('/products/{product}/messages', [MessageController::class, 'index']);
+    Route::post('/products/{product}/messages', [MessageController::class, 'create']);
 
     Route::group(['middleware' => function ($request, $next) {
-        
+
         if (!Auth::check() || Auth::user()->type !== 'pj') {
             abort(403, 'Acesso restrito a contas PJ (Lojistas).');
         }
 
         return $next($request);
-
     }], function () {
-        
+
+        Route::post('/loja/chat/enviar', [MessageController::class, 'enviarMensagemLoja'])
+            ->name('loja.chat.enviar');
+
         Route::get('/cadastroproduto', function () {
             return view('cadastro-produto');
-        })->name('cadastro-produto'); 
-        
+        })->name('cadastro-produto');
+
         Route::get('/loja/produtos', function () {
-            return view('lista-produtos'); 
+            return view('lista-produtos');
         })->name('loja.produtos.lista');
-        
+
+        Route::get('/loja/produto/{product}/chat', [ProdutoController::class, 'storeChat'])->name('loja.produto.chat');
+
         Route::post('/api/products', [ProductController::class, 'store'])->name('produto.store');
     });
 });
