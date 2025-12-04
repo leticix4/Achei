@@ -15,6 +15,10 @@ Route::get('/', function () {
     return view('index');
 })->name('home');
 
+/**
+ * LISTA DE RESULTADOS DA BUSCA (pessoa digitou "arroz" na barra)
+ * Usa a view de lista (ex: busca-lista.blade.php)
+ */
 Route::get('/busca', [BuscaController::class, 'lista'])->name('busca.lista');
 
 Route::get('/cadastro-completo', function () {
@@ -30,15 +34,28 @@ Route::get('/esqueci-senha', [PasswordResetController::class, 'showLinkRequestFo
 Route::post('/esqueci-senha', [PasswordResetController::class, 'sendResetLinkEmail'])->name('password.email');
 Route::get('/resetar-senha/{token}', [PasswordResetController::class, 'showResetForm'])->name('password.reset');
 Route::post('/resetar-senha', [PasswordResetController::class, 'reset'])->name('password.update');
+
+/**
+ * CADASTRO DE PRODUTO (LOJISTA)
+ */
 Route::get('/produto/cadastro', [ProdutoController::class, 'create'])->name('cadastro-produto');
 Route::post('/produto/store', [ProdutoController::class, 'store'])->name('produto.store');
-Route::get('/produto', function () {
-    return view('produto');
-})->name('produto');
 
-Route::get('/produto/{product}', [ProdutoController::class, 'show'])->name('produto.show');
+/**
+ * DETALHE DO PRODUTO + MAPA DAS LOJAS
+ * Ex: /produto/5
+ * Usa ProdutoController@show e a view "busca.blade.php" (que é a página do produto + mapa)
+ */
+Route::get('/produto/{product}', [ProdutoController::class, 'show'])->name('produto');
+
+/**
+ * PÁGINA DA LOJA (AVALIAÇÕES, ETC.)
+ */
 Route::get('/loja', [AvaliacaoController::class, 'index'])->name('loja');
 
+/**
+ * CATEGORIAS ESTÁTICAS
+ */
 Route::get('/categoria/{slug}', function ($slug) {
     $dbCategorias = [
         'supermercado' => [
@@ -258,6 +275,9 @@ Route::get('/categoria/{slug}', function ($slug) {
 })->name('categoria.show');
  
 
+/**
+ * ROTAS PROTEGIDAS (LOJISTA PJ)
+ */
 Route::middleware('auth:sanctum')->group(function () { 
 
     Route::group(['middleware' => function ($request, $next) {
